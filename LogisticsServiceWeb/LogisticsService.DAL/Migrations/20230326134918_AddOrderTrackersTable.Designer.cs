@@ -4,6 +4,7 @@ using LogisticsService.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogisticsService.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230326134918_AddOrderTrackersTable")]
+    partial class AddOrderTrackersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -452,46 +454,6 @@ namespace LogisticsService.DAL.Migrations
                     b.ToTable("SystemAdmins");
                 });
 
-            modelBuilder.Entity("LogisticsService.Core.DbModels.Transaction", b =>
-                {
-                    b.Property<int>("TransactionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"), 1L, 1);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("CommissionPercent")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("EarnedAmount")
-                        .HasColumnType("float");
-
-                    b.Property<int>("LogisticCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrivateCompanyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TransactionId");
-
-                    b.HasIndex("LogisticCompanyId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("PrivateCompanyId");
-
-                    b.ToTable("Transactions");
-                });
-
             modelBuilder.Entity("LogisticsService.Core.DbModels.CancelledOrder", b =>
                 {
                     b.HasOne("LogisticsService.Core.DbModels.Order", "Order")
@@ -594,7 +556,7 @@ namespace LogisticsService.DAL.Migrations
             modelBuilder.Entity("LogisticsService.Core.DbModels.SmartDevice", b =>
                 {
                     b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
-                        .WithMany("SmartDevices")
+                        .WithMany()
                         .HasForeignKey("LogisticCompanyId");
 
                     b.Navigation("LogisticCompany");
@@ -619,33 +581,6 @@ namespace LogisticsService.DAL.Migrations
                     b.Navigation("SubscriptionType");
                 });
 
-            modelBuilder.Entity("LogisticsService.Core.DbModels.Transaction", b =>
-                {
-                    b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
-                        .WithMany("Transactions")
-                        .HasForeignKey("LogisticCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogisticsService.Core.DbModels.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogisticsService.Core.DbModels.PrivateCompany", "PrivateCompany")
-                        .WithMany("Transactions")
-                        .HasForeignKey("PrivateCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LogisticCompany");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("PrivateCompany");
-                });
-
             modelBuilder.Entity("LogisticsService.Core.DbModels.LogisticCompaniesDriver", b =>
                 {
                     b.Navigation("Orders");
@@ -658,17 +593,11 @@ namespace LogisticsService.DAL.Migrations
                     b.Navigation("LogisticCompaniesDrivers");
 
                     b.Navigation("Orders");
-
-                    b.Navigation("SmartDevices");
-
-                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("LogisticsService.Core.DbModels.PrivateCompany", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

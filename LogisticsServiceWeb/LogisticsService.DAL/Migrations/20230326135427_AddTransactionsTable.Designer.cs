@@ -4,6 +4,7 @@ using LogisticsService.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogisticsService.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230326135427_AddTransactionsTable")]
+    partial class AddTransactionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -594,7 +596,7 @@ namespace LogisticsService.DAL.Migrations
             modelBuilder.Entity("LogisticsService.Core.DbModels.SmartDevice", b =>
                 {
                     b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
-                        .WithMany("SmartDevices")
+                        .WithMany()
                         .HasForeignKey("LogisticCompanyId");
 
                     b.Navigation("LogisticCompany");
@@ -658,8 +660,6 @@ namespace LogisticsService.DAL.Migrations
                     b.Navigation("LogisticCompaniesDrivers");
 
                     b.Navigation("Orders");
-
-                    b.Navigation("SmartDevices");
 
                     b.Navigation("Transactions");
                 });

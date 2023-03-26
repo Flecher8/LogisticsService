@@ -4,6 +4,7 @@ using LogisticsService.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogisticsService.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230326112338_AddCargosTable")]
+    partial class AddCargosTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,40 +23,6 @@ namespace LogisticsService.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.CancelledOrder", b =>
-                {
-                    b.Property<int>("CancelledOrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CancelledOrderId"), 1L, 1);
-
-                    b.Property<int>("CancelledBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CancelledById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CancelledOrderId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("CancelledOrders");
-                });
 
             modelBuilder.Entity("LogisticsService.Core.DbModels.Cargo", b =>
                 {
@@ -77,9 +45,6 @@ namespace LogisticsService.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Weight")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("CargoId");
@@ -185,100 +150,6 @@ namespace LogisticsService.DAL.Migrations
                     b.ToTable("LogisticCompanies");
                 });
 
-            modelBuilder.Entity("LogisticsService.Core.DbModels.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
-
-                    b.Property<int?>("CargoId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DeliveryDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeliveryEndAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeliveryStartAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EstimatedDeliveryDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("LogisticCompaniesDriverId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LogisticCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("int");
-
-                    b.Property<double>("PathLength")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("PrivateCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SensorId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDeliveryDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("CargoId");
-
-                    b.HasIndex("LogisticCompaniesDriverId");
-
-                    b.HasIndex("LogisticCompanyId");
-
-                    b.HasIndex("PrivateCompanyId");
-
-                    b.HasIndex("SensorId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.OrderTracker", b =>
-                {
-                    b.Property<int>("OrderTrackerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderTrackerId"), 1L, 1);
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderTrackerId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderTrackers");
-                });
-
             modelBuilder.Entity("LogisticsService.Core.DbModels.PrivateCompany", b =>
                 {
                     b.Property<int>("PrivateCompanyId")
@@ -292,7 +163,6 @@ namespace LogisticsService.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -413,8 +283,8 @@ namespace LogisticsService.DAL.Migrations
                     b.Property<int>("DurationInDays")
                         .HasColumnType("int");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("SubscriptionTypeName")
                         .IsRequired()
@@ -452,57 +322,6 @@ namespace LogisticsService.DAL.Migrations
                     b.ToTable("SystemAdmins");
                 });
 
-            modelBuilder.Entity("LogisticsService.Core.DbModels.Transaction", b =>
-                {
-                    b.Property<int>("TransactionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"), 1L, 1);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("CommissionPercent")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("EarnedAmount")
-                        .HasColumnType("float");
-
-                    b.Property<int>("LogisticCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrivateCompanyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TransactionId");
-
-                    b.HasIndex("LogisticCompanyId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("PrivateCompanyId");
-
-                    b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.CancelledOrder", b =>
-                {
-                    b.HasOne("LogisticsService.Core.DbModels.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("LogisticsService.Core.DbModels.LogisticCompaniesAdministrator", b =>
                 {
                     b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
@@ -523,50 +342,6 @@ namespace LogisticsService.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("LogisticCompany");
-                });
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.Order", b =>
-                {
-                    b.HasOne("LogisticsService.Core.DbModels.Cargo", "Cargo")
-                        .WithMany()
-                        .HasForeignKey("CargoId");
-
-                    b.HasOne("LogisticsService.Core.DbModels.LogisticCompaniesDriver", "LogisticCompaniesDriver")
-                        .WithMany("Orders")
-                        .HasForeignKey("LogisticCompaniesDriverId");
-
-                    b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
-                        .WithMany("Orders")
-                        .HasForeignKey("LogisticCompanyId");
-
-                    b.HasOne("LogisticsService.Core.DbModels.PrivateCompany", "PrivateCompany")
-                        .WithMany("Orders")
-                        .HasForeignKey("PrivateCompanyId");
-
-                    b.HasOne("LogisticsService.Core.DbModels.Sensor", "Sensor")
-                        .WithMany()
-                        .HasForeignKey("SensorId");
-
-                    b.Navigation("Cargo");
-
-                    b.Navigation("LogisticCompaniesDriver");
-
-                    b.Navigation("LogisticCompany");
-
-                    b.Navigation("PrivateCompany");
-
-                    b.Navigation("Sensor");
-                });
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.OrderTracker", b =>
-                {
-                    b.HasOne("LogisticsService.Core.DbModels.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LogisticsService.Core.DbModels.Rate", b =>
@@ -594,7 +369,7 @@ namespace LogisticsService.DAL.Migrations
             modelBuilder.Entity("LogisticsService.Core.DbModels.SmartDevice", b =>
                 {
                     b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
-                        .WithMany("SmartDevices")
+                        .WithMany()
                         .HasForeignKey("LogisticCompanyId");
 
                     b.Navigation("LogisticCompany");
@@ -619,56 +394,11 @@ namespace LogisticsService.DAL.Migrations
                     b.Navigation("SubscriptionType");
                 });
 
-            modelBuilder.Entity("LogisticsService.Core.DbModels.Transaction", b =>
-                {
-                    b.HasOne("LogisticsService.Core.DbModels.LogisticCompany", "LogisticCompany")
-                        .WithMany("Transactions")
-                        .HasForeignKey("LogisticCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogisticsService.Core.DbModels.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogisticsService.Core.DbModels.PrivateCompany", "PrivateCompany")
-                        .WithMany("Transactions")
-                        .HasForeignKey("PrivateCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LogisticCompany");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("PrivateCompany");
-                });
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.LogisticCompaniesDriver", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
             modelBuilder.Entity("LogisticsService.Core.DbModels.LogisticCompany", b =>
                 {
                     b.Navigation("LogisticCompaniesAdministrators");
 
                     b.Navigation("LogisticCompaniesDrivers");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("SmartDevices");
-
-                    b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("LogisticsService.Core.DbModels.PrivateCompany", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

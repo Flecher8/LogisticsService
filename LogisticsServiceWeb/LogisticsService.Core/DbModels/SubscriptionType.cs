@@ -11,6 +11,6 @@ namespace LogisticsService.Core.DbModels
         public int SubscriptionTypeId { get; set; }
         public string SubscriptionTypeName { get; set; } = null!;
         public int DurationInDays { get; set; }
-        public int Price { get; set;  }
+        public double Price { get; set;  }
     }
 }
