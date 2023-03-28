@@ -9,7 +9,9 @@ namespace LogisticsService.DAL.Interfaces
 {
     public interface IDataRepository<T>
     {
-        List<T> GetItems(Expression<Func<T, bool>> filter);
+        List<T> GetAllItems();
+
+        List<T> GetFilteredItems(Expression<Func<T, bool>> filter);
 
         T? GetItemById(int itemId);
 

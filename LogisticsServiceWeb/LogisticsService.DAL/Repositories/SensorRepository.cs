@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.SensorId == itemId);
         }
 
-        public List<Sensor> GetItems(Expression<Func<Sensor, bool>> filter)
+        public List<Sensor> GetFilteredItems(Expression<Func<Sensor, bool>> filter)
         {
             return context.Sensors
                 .Where(filter)
@@ -59,6 +59,11 @@ namespace LogisticsService.DAL.Repositories
                 context.Sensors.Remove(sensor);
                 context.SaveChanges();
             }
+        }
+
+        public List<Sensor> GetAllItems()
+        {
+            return context.Sensors.ToList();
         }
     }
 }

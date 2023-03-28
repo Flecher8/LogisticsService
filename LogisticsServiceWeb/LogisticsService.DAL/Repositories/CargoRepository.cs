@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.CargoId == itemId);
         }
 
-        public List<Cargo> GetItems(Expression<Func<Cargo, bool>> filter)
+        public List<Cargo> GetFilteredItems(Expression<Func<Cargo, bool>> filter)
         {
             return context.Cargos
                 .Where(filter)
@@ -62,6 +62,11 @@ namespace LogisticsService.DAL.Repositories
                 context.Cargos.Remove(cargo);
                 context.SaveChanges();
             }
+        }
+
+        public List<Cargo> GetAllItems()
+        {
+            return context.Cargos.ToList();
         }
     }
 }

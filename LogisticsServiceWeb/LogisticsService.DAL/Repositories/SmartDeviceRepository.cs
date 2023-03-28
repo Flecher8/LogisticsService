@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.SmartDeviceId == itemId);
         }
 
-        public List<SmartDevice> GetItems(Expression<Func<SmartDevice, bool>> filter)
+        public List<SmartDevice> GetFilteredItems(Expression<Func<SmartDevice, bool>> filter)
         {
             return context.SmartDevices
                 .Where(filter)
@@ -59,6 +59,11 @@ namespace LogisticsService.DAL.Repositories
                 context.SmartDevices.Remove(smartDevice);
                 context.SaveChanges();
             }
+        }
+
+        public List<SmartDevice> GetAllItems()
+        {
+            return context.SmartDevices.ToList();
         }
     }
 }

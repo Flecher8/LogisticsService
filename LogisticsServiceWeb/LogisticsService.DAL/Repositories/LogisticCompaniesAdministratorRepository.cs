@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.LogisticCompaniesAdministratorId == itemId);
         }
 
-        public List<LogisticCompaniesAdministrator> GetItems(Expression<Func<LogisticCompaniesAdministrator, bool>> filter)
+        public List<LogisticCompaniesAdministrator> GetFilteredItems(Expression<Func<LogisticCompaniesAdministrator, bool>> filter)
         {
             return context.LogisticCompaniesAdministrators
                 .Where(filter)
@@ -64,6 +64,11 @@ namespace LogisticsService.DAL.Repositories
                 context.LogisticCompaniesAdministrators.Remove(logisticCompaniesAdministrator);
                 context.SaveChanges();
             }
+        }
+
+        public List<LogisticCompaniesAdministrator> GetAllItems()
+        {
+            return context.LogisticCompaniesAdministrators.ToList();
         }
     }
 }

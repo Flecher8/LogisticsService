@@ -1,9 +1,13 @@
+using LogisticsService.Core.DbModels;
 using LogisticsService.DAL;
+using LogisticsService.DAL.Interfaces;
+using LogisticsService.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IDataRepository<SubscriptionType>, SubscriptionTypeRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

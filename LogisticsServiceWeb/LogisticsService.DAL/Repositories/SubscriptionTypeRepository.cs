@@ -25,7 +25,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.SubscriptionTypeId == itemId);
         }
 
-        public List<SubscriptionType> GetItems(Expression<Func<SubscriptionType, bool>> filter)
+        public List<SubscriptionType> GetFilteredItems(Expression<Func<SubscriptionType, bool>> filter)
         {
             return context.SubscriptionTypes
                 .Where(filter)
@@ -61,6 +61,11 @@ namespace LogisticsService.DAL.Repositories
                 context.SubscriptionTypes.Remove(subscriptionType);
                 context.SaveChanges();
             }
+        }
+
+        public List<SubscriptionType> GetAllItems()
+        {
+            return context.SubscriptionTypes.ToList();
         }
     }
 }

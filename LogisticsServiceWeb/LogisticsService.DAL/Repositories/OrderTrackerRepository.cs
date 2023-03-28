@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.OrderTrackerId == itemId);
         }
 
-        public List<OrderTracker> GetItems(Expression<Func<OrderTracker, bool>> filter)
+        public List<OrderTracker> GetFilteredItems(Expression<Func<OrderTracker, bool>> filter)
         {
             return context.OrderTrackers
                 .Where(filter)
@@ -61,6 +61,11 @@ namespace LogisticsService.DAL.Repositories
                 context.OrderTrackers.Remove(orderTracker);
                 context.SaveChanges();
             }
+        }
+
+        public List<OrderTracker> GetAllItems()
+        {
+            return context.OrderTrackers.ToList();
         }
     }
 }

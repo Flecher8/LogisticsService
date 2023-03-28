@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.LogisticCompaniesDriverId == itemId);
         }
 
-        public List<LogisticCompaniesDriver> GetItems(Expression<Func<LogisticCompaniesDriver, bool>> filter)
+        public List<LogisticCompaniesDriver> GetFilteredItems(Expression<Func<LogisticCompaniesDriver, bool>> filter)
         {
             return context.LogisticCompaniesDrivers
                 .Where(filter)
@@ -64,6 +64,11 @@ namespace LogisticsService.DAL.Repositories
                 context.LogisticCompaniesDrivers.Remove(logisticCompaniesDriver);
                 context.SaveChanges();
             }
+        }
+
+        public List<LogisticCompaniesDriver> GetAllItems()
+        {
+            return context.LogisticCompaniesDrivers.ToList();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.SystemAdminId == itemId);
         }
 
-        public List<SystemAdmin> GetItems(Expression<Func<SystemAdmin, bool>> filter)
+        public List<SystemAdmin> GetFilteredItems(Expression<Func<SystemAdmin, bool>> filter)
         {
             return context.SystemAdmins
                 .Where(filter)
@@ -61,6 +61,11 @@ namespace LogisticsService.DAL.Repositories
                 context.SystemAdmins.Remove(systemAdmin);
                 context.SaveChanges();
             }
+        }
+
+        public List<SystemAdmin> GetAllItems()
+        {
+            return context.SystemAdmins.ToList();
         }
     }
 }

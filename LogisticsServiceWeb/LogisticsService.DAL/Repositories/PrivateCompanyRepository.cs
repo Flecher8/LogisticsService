@@ -24,7 +24,7 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.PrivateCompanyId == itemId);
         }
 
-        public List<PrivateCompany> GetItems(Expression<Func<PrivateCompany, bool>> filter)
+        public List<PrivateCompany> GetFilteredItems(Expression<Func<PrivateCompany, bool>> filter)
         {
             return context.PrivateCompanies
                 .Where(filter)
@@ -61,6 +61,11 @@ namespace LogisticsService.DAL.Repositories
                 context.PrivateCompanies.Remove(privateCompany);
                 context.SaveChanges();
             }
+        }
+
+        public List<PrivateCompany> GetAllItems()
+        {
+            return context.PrivateCompanies.ToList();
         }
     }
 }
