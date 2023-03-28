@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LogisticsService.Core\LogisticsService.Core.csproj" />
+    <ProjectReference Include="..\LogisticsService.DAL\LogisticsService.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

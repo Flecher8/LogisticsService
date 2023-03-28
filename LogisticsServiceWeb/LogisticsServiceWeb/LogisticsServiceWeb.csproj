@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LogisticsService.BLL\LogisticsService.BLL.csproj" />
     <ProjectReference Include="..\LogisticsService.Core\LogisticsService.Core.csproj" />
     <ProjectReference Include="..\LogisticsService.DAL\LogisticsService.DAL.csproj" />
   </ItemGroup>

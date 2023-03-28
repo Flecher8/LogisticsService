@@ -64,17 +64,45 @@ namespace LogisticsService.BLL.Services
 
         public void CreateSubscriptionType(SubscriptionType subscriptionType)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _subscriptionTypeRepository.InsertItem(subscriptionType);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
         }
 
         public void UpdateSubscriptionType(SubscriptionType subscriptionType)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _subscriptionTypeRepository.UpdateItem(subscriptionType);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
         }
 
         public void DeleteSubscriptionType(int subscriptionId)
         {
-            throw new NotImplementedException();
+            if(!IsSubscriptionTypeIdCorrect(subscriptionId))
+            {
+                throw new ArgumentException("Incorrect subscription id");
+            }
+
+            // TODO if Active Subscriptions have such a SubscriptionType, dont delete, send BadRequest
+
+            try
+            {
+                _subscriptionTypeRepository.DeleteItem(subscriptionId);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
         }
     }
 }

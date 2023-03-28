@@ -45,7 +45,7 @@ namespace LogisticsService.DAL.Repositories
             {
                 dbRate.PriceForKmInDollar = item.PriceForKmInDollar;
                 dbRate.LogisticCompany = item.LogisticCompany;
-
+                
                 context.SaveChanges();
             }
         }
