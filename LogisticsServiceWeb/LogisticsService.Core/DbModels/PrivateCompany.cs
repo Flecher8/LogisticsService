@@ -10,7 +10,7 @@ namespace LogisticsService.Core.DbModels
     {
         public int PrivateCompanyId { get; set; }
         public string CompanyName { get; set; } = null!;
-        public string CompanyEmail { get; set; } = null!;
+        public string Email { get; set; } = null!;
         public string HashedPassword { get; set; } = null!;
         public string? Description { get; set; }
 

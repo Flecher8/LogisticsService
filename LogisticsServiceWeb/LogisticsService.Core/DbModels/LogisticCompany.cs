@@ -9,8 +9,8 @@ namespace LogisticsService.Core.DbModels
     public class LogisticCompany
     {
         public int LogisticCompanyId { get; set; }
-        public string LogisticCompanyName { get; set; } = null!;
-        public string LogisticCompanyEmail { get; set; } = null!;
+        public string CompanyName { get; set; } = null!;
+        public string Email { get; set; } = null!;
         public string HashedPassword { get; set; } = null!;
         public string? Description { get; set; }
         public List<SmartDevice>? SmartDevices { get; set; }

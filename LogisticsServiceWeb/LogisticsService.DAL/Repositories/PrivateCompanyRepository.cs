@@ -44,7 +44,7 @@ namespace LogisticsService.DAL.Repositories
             if (dbPrivateCompany is not null)
             {
                 dbPrivateCompany.CompanyName = item.CompanyName;
-                dbPrivateCompany.CompanyEmail = item.CompanyEmail;
+                dbPrivateCompany.Email = item.Email;
                 dbPrivateCompany.HashedPassword = item.HashedPassword;
                 dbPrivateCompany.Description = item.Description;
 

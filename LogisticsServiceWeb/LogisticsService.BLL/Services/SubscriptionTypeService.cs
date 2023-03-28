@@ -25,7 +25,7 @@ namespace LogisticsService.BLL.Services
 
         public SubscriptionType? GetSubscriptionTypeById(int subscriptionTypeId)
         {
-            if(!IsSubscriptionTypeIdCorrect(subscriptionTypeId))
+            if(!IsSubscriptionTypeIdValid(subscriptionTypeId))
             {
                 throw new ArgumentException("Incorrect subscription id");
             }
@@ -42,7 +42,7 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        private bool IsSubscriptionTypeIdCorrect(int subscriptionId)
+        private bool IsSubscriptionTypeIdValid(int subscriptionId)
         {
             return subscriptionId >= minSubscriptionTypeId ? true : false;
         }
@@ -88,7 +88,7 @@ namespace LogisticsService.BLL.Services
 
         public void DeleteSubscriptionType(int subscriptionId)
         {
-            if(!IsSubscriptionTypeIdCorrect(subscriptionId))
+            if(!IsSubscriptionTypeIdValid(subscriptionId))
             {
                 throw new ArgumentException("Incorrect subscription id");
             }
