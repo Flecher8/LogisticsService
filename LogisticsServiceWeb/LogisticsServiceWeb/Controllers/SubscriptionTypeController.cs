@@ -56,7 +56,7 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSubscriptionType(SubscriptionType subscriptionType)
+        public async Task<IActionResult> PostSubscriptionType(SubscriptionType subscriptionType)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateSubscriptionType(SubscriptionType subscriptionType)
+        public async Task<IActionResult> PutSubscriptionType(SubscriptionType subscriptionType)
         {
             try
             {
