@@ -29,6 +29,7 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _logisticCompanyRepository.InsertItem(logisticCompany);
+                // TODO When creating logistic company, you need to create a rate in for this company ( table Rate )
             }
             catch (Exception e)
             {

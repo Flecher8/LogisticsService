@@ -72,9 +72,36 @@ namespace LogisticsService.BLL.Services
             bool isRegisteredAsLogisticCompanyDriver = _logisticCompaniesDriverRepository.GetFilteredItems(s => s.Email == email).Any();
 
             return isRegisteredAsSystemAdmin || 
-                isRegisteredAsPrivateCompany || 
+                isRegisteredAsPrivateCompany ||
+                isRegisteredAsLogisticCompany ||
                 isRegisteredAsLogisticCompanyAdmin || 
                 isRegisteredAsLogisticCompanyDriver;
+        }
+
+        public string GetUserHashedPassword(string email, UserType userType)
+        {
+            string result = "";
+
+            switch(userType)
+            {
+                case UserType.SystemAdmin:
+                    result = _systemAdminRepository.GetFilteredItems(s => s.Email == email).FirstOrDefault().HashedPassword;
+                    return result is not null ? result : string.Empty;
+                case UserType.PrivateCompany:
+                    result = _privateCompanyRepository.GetFilteredItems(s => s.Email == email).FirstOrDefault().HashedPassword;
+                    return result is not null ? result : string.Empty;
+                case UserType.LogisticCompany:
+                    result = _logisticCompanyRepository.GetFilteredItems(s => s.Email == email).FirstOrDefault().HashedPassword;
+                    return result is not null ? result : string.Empty;
+                case UserType.LogisticCompanyAdministrator:
+                    result = _logisticCompaniesAdministratorRepository.GetFilteredItems(s => s.Email == email).FirstOrDefault().HashedPassword;
+                    return result is not null ? result : string.Empty;
+                case UserType.LogisticCompanyDriver:
+                    result = _logisticCompaniesDriverRepository.GetFilteredItems(s => s.Email == email).FirstOrDefault().HashedPassword;
+                    return result is not null ? result : string.Empty;
+                default:
+                    return string.Empty;
+            }
         }
 
     }

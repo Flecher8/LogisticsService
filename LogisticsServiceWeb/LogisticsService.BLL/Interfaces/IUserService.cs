@@ -14,6 +14,6 @@ namespace LogisticsService.BLL.Interfaces
 
         public UserType GetUserTypeByEmail(string email);
 
-        public void RegisterPrivateCompany(PrivateCompany privateCompany);
+        public string GetUserHashedPassword(string email, UserType userType);
     }
 }

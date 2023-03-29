@@ -37,11 +37,47 @@ namespace LogisticsService.BLL.Services
 
         public string Login(string email, string password)
         {
-            if(!_userService.IsEmailAlreadyRegistered(email))
+            if(!CanUserLogin(email))
+            {
+                return string.Empty;
+            }
+            
+            UserType userType = _userService.GetUserTypeByEmail(email);
+
+
+            string dbHashedPassword = string.Empty;
+
+            try
+            {
+                dbHashedPassword = _userService.GetUserHashedPassword(email, userType);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            
+
+            if (!_encryptionService.VerifyPassword(password, dbHashedPassword))
+            {
+                throw new ArgumentException("Password is not correct.");
+            }
+
+            string token = _tokenService.CreateToken(email, userType);
+
+            return token;
+
+        }
+
+
+
+        private bool CanUserLogin(string email)
+        {
+            if (!_userService.IsEmailAlreadyRegistered(email))
             {
                 throw new ArgumentException("User with this email does not exist.");
             }
 
+            return true;
         }
 
         public bool Registration(string email, string password, string companyName, string userType)
@@ -68,25 +104,25 @@ namespace LogisticsService.BLL.Services
 
             if(type == UserType.PrivateCompany)
             {
-                PrivateCompanyRegistration(email, password, companyName);
+                var privateCompany = CreatePrivateCompany(email, password, companyName);
+                PrivateCompanyRegistration(privateCompany);
                 return true;
             }
 
             if (type == UserType.LogisticCompany)
             {
-                LogisticCompanyRegistration(email, password, companyName);
+                var logisticCompany = CreateLogisticCompany(email, password, companyName);
+                LogisticCompanyRegistration(logisticCompany);
                 return true;
             }
 
             return false;
         }
 
-        private void PrivateCompanyRegistration(string email, string password, string companyName)
+
+
+        private void PrivateCompanyRegistration(PrivateCompany privateCompany)
         {
-            PrivateCompany privateCompany = new PrivateCompany();
-            privateCompany.CompanyName = companyName;
-            privateCompany.Email = email;
-            privateCompany.HashedPassword = _encryptionService.HashPassword(password);
             try
             {
                 _privateCompanyService.CreatePrivateCompany(privateCompany);
@@ -97,12 +133,27 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        private void LogisticCompanyRegistration(string email, string password, string companyName)
+        // TODO Move methods CreatePrivateCompany and CreateLogisticCompany in another class maybe...
+        private PrivateCompany CreatePrivateCompany(string email, string password, string companyName)
+        {
+            PrivateCompany privateCompany = new PrivateCompany();
+            privateCompany.CompanyName = companyName;
+            privateCompany.Email = email;
+            privateCompany.HashedPassword = _encryptionService.HashPassword(password);
+            return privateCompany;
+        }
+
+        private LogisticCompany CreateLogisticCompany(string email, string password, string companyName)
         {
             LogisticCompany logisticCompany = new LogisticCompany();
             logisticCompany.CompanyName = companyName;
             logisticCompany.Email = email;
             logisticCompany.HashedPassword = _encryptionService.HashPassword(password);
+            return logisticCompany;
+        }
+
+        private void LogisticCompanyRegistration(LogisticCompany logisticCompany)
+        {
             try
             {
                 _logisticCompanyService.CreateLogisticCompany(logisticCompany);
@@ -122,5 +173,6 @@ namespace LogisticsService.BLL.Services
         {
             return (UserType)Enum.Parse(typeof(UserType), userType);
         }
+
     }
 }

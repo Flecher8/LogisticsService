@@ -9,7 +9,7 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface IAuthenticationService
     {
-        public string Login(string email, string password, string userType);
+        public string Login(string email, string password);
 
         public bool Registration(string email, string password, string companyName, string userType);
     }

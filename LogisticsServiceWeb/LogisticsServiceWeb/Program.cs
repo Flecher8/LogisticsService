@@ -13,12 +13,32 @@ using Swashbuckle.AspNetCore.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Repositories
+builder.Services.AddScoped<IDataRepository<CancelledOrder>, CancelledOrderRepository>();
+builder.Services.AddScoped<IDataRepository<Cargo>, CargoRepository>();
+builder.Services.AddScoped<IDataRepository<LogisticCompaniesAdministrator>, LogisticCompaniesAdministratorRepository>();
+builder.Services.AddScoped<IDataRepository<LogisticCompaniesDriver>, LogisticCompaniesDriverRepository>();
+builder.Services.AddScoped<IDataRepository<LogisticCompany>, LogisticCompanyRepository>();
+builder.Services.AddScoped<IDataRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<IDataRepository<OrderTracker>, OrderTrackerRepository>();
+builder.Services.AddScoped<IDataRepository<PrivateCompany>, PrivateCompanyRepository>();
+builder.Services.AddScoped<IDataRepository<Rate>, RateRepository>();
+builder.Services.AddScoped<IDataRepository<Sensor>, SensorRepository>();
+builder.Services.AddScoped<IDataRepository<SmartDevice>, SmartDeviceRepository>();
+builder.Services.AddScoped<IDataRepository<Subscription>, SubscriptionRepository>();
 builder.Services.AddScoped<IDataRepository<SubscriptionType>, SubscriptionTypeRepository>();
+builder.Services.AddScoped<IDataRepository<SystemAdmin>, SystemAdminRepository>();
+builder.Services.AddScoped<IDataRepository<Transaction>, TransactionRepository>();
 
 // Services
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
+builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+
 
 
 builder.Services.AddControllers();
