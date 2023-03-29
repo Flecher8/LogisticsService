@@ -1,4 +1,5 @@
 ﻿using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace LogisticsService.BLL.Interfaces
 
         List<SystemAdmin> GetAllSystemAdmins();
 
-        void CreateSystemAdmin(SystemAdmin systemAdmin);
+        void CreateSystemAdmin(PersonDto person);
 
         void UpdateSystemAdmin(SystemAdmin systemAdmin);
 

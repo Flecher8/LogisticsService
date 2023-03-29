@@ -1,6 +1,7 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using LogisticsService.DAL.Repositories;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -34,20 +35,61 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
-        // TODO
+        
         public List<PrivateCompany> GetAllPrivateCompanies()
         {
-            throw new NotImplementedException();
+            var privateCompanies = new List<PrivateCompany>();
+            try
+            {
+                privateCompanies = _privateCompanyRepository.GetAllItems();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            return privateCompanies;
         }
-        // TODO
+
+        public PrivateCompany? GetLogisticCompanyByEmail(string email)
+        {
+            try
+            {
+                PrivateCompany? privateCompany = _privateCompanyRepository.GetFilteredItems(l => l.Email == email).FirstOrDefault();
+                return privateCompany;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
+        }
+
+        
         public PrivateCompany? GetPrivateCompanyById(int privateCompanyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                PrivateCompany? privateCompany = _privateCompanyRepository.GetItemById(privateCompanyId);
+                return privateCompany;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
         }
-        // TODO
+        
         public void UpdatePrivateCompany(PrivateCompany privateCompany)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _privateCompanyRepository.UpdateItem(privateCompany);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
         }
     }
 }

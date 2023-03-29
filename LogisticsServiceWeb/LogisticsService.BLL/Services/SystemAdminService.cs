@@ -1,5 +1,6 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
 using LogisticsService.DAL.Interfaces;
 using LogisticsService.DAL.Repositories;
 using Microsoft.Extensions.Logging;
@@ -29,13 +30,15 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public void CreateSystemAdmin(SystemAdmin systemAdmin)
+        public void CreateSystemAdmin(PersonDto person)
         {
-            if(_userService.IsEmailAlreadyRegistered(systemAdmin.Email))
-            {
-                throw new ArgumentException("User with such email already registered.");
-            }
+            SystemAdmin systemAdmin = new SystemAdmin();
+            systemAdmin.FistName = person.FirstName;
+            systemAdmin.LastName = person.LastName;
+            systemAdmin.Email = person.Email;
             systemAdmin.HashedPassword = _encryptionService.HashPassword(systemAdmin.HashedPassword);
+
+            IsSystemAdminValid(systemAdmin);
 
             try
             {
@@ -45,6 +48,15 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
+        }
+
+        private bool IsSystemAdminValid(SystemAdmin systemAdmin)
+        {
+            if (_userService.IsEmailAlreadyRegistered(systemAdmin.Email))
+            {
+                throw new ArgumentException("User with such email already registered.");
+            }
+            return true;
         }
 
         public void DeleteSystemAdmin(int systemAdminId)

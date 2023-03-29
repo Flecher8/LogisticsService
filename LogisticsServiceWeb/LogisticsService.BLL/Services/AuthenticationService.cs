@@ -34,7 +34,7 @@ namespace LogisticsService.BLL.Services
             _logisticCompanyService = logisticCompanyService;
             _logger = logger;
         }
-
+        // TODO Create UserDto class ( email, password, ...), instead of 2,3,4 parameters
         public string Login(string email, string password)
         {
             if(!CanUserLogin(email))
@@ -68,8 +68,6 @@ namespace LogisticsService.BLL.Services
 
         }
 
-
-
         private bool CanUserLogin(string email)
         {
             if (!_userService.IsEmailAlreadyRegistered(email))
@@ -80,6 +78,7 @@ namespace LogisticsService.BLL.Services
             return true;
         }
 
+        // TODO Create UserDto class ( email, password, ...), instead of 2,3,4 parameters
         public bool Registration(string email, string password, string companyName, string userType)
         {
             if(_userService.IsEmailAlreadyRegistered(email))
@@ -118,8 +117,6 @@ namespace LogisticsService.BLL.Services
 
             return false;
         }
-
-
 
         private void PrivateCompanyRegistration(PrivateCompany privateCompany)
         {
