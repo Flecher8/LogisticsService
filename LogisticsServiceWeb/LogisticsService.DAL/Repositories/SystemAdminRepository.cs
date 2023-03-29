@@ -43,7 +43,7 @@ namespace LogisticsService.DAL.Repositories
 
             if (dbSystemAdmin is not null)
             {
-                dbSystemAdmin.FistName = item.FistName;
+                dbSystemAdmin.FirstName = item.FirstName;
                 dbSystemAdmin.LastName = item.LastName;
                 dbSystemAdmin.Email = item.Email;
                 dbSystemAdmin.HashedPassword = item.HashedPassword;

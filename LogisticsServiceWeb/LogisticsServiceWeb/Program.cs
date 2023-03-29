@@ -32,6 +32,8 @@ builder.Services.AddScoped<IDataRepository<Transaction>, TransactionRepository>(
 // Services
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<ILogisticCompaniesAdministratorService, LogisticCompaniesAdministratorService>();
+builder.Services.AddScoped<ILogisticCompaniesDriverService, LogisticCompaniesDriverService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();

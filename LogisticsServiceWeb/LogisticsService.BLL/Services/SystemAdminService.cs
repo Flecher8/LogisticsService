@@ -33,7 +33,7 @@ namespace LogisticsService.BLL.Services
         public void CreateSystemAdmin(PersonDto person)
         {
             SystemAdmin systemAdmin = new SystemAdmin();
-            systemAdmin.FistName = person.FirstName;
+            systemAdmin.FirstName = person.FirstName;
             systemAdmin.LastName = person.LastName;
             systemAdmin.Email = person.Email;
             systemAdmin.HashedPassword = _encryptionService.HashPassword(systemAdmin.HashedPassword);
