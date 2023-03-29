@@ -14,13 +14,18 @@ namespace LogisticsService.BLL.Services
     public class LogisticCompanyService : ILogisticCompanyService
     {
         private readonly IDataRepository<LogisticCompany> _logisticCompanyRepository;
+        private readonly IRateService _rateService;
+
+        private int DefaultRate = 5;
 
         private readonly ILogger<LogisticCompanyService> _logger;
 
         public LogisticCompanyService(IDataRepository<LogisticCompany> logisticCompanyRepository,
+            IRateService rateService,
             ILogger<LogisticCompanyService> logger)
         {
             _logisticCompanyRepository = logisticCompanyRepository;
+            _rateService = rateService;
             _logger = logger;
         }
 
@@ -29,27 +34,72 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _logisticCompanyRepository.InsertItem(logisticCompany);
-                // TODO When creating logistic company, you need to create a rate in for this company ( table Rate )
+
+                Rate newRate = new Rate();
+                newRate.LogisticCompany = logisticCompany;
+                newRate.PriceForKmInDollar = DefaultRate;
+
+                _rateService.CreateRate(newRate);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
         }
-        // TODO
+
         public List<LogisticCompany> GetAllLogisticCompanies()
         {
-            throw new NotImplementedException();
+            var logisticCompanies = new List<LogisticCompany>();
+            try
+            {
+                logisticCompanies = _logisticCompanyRepository.GetAllItems();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            return logisticCompanies;
         }
-        // TODO
+        
         public LogisticCompany? GetLogisticCompanyById(int logisticCompanyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LogisticCompany? logisticCompany = _logisticCompanyRepository.GetItemById(logisticCompanyId);
+                return logisticCompany;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
         }
-        // TODO
+
         public void UpdateLogisticCompany(LogisticCompany logisticCompany)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _logisticCompanyRepository.UpdateItem(logisticCompany);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+        }
+
+        public LogisticCompany? GetLogisticCompanyByEmail(string email)
+        {
+            try
+            {
+                LogisticCompany? logisticCompany = _logisticCompanyRepository.GetFilteredItems(l => l.Email == email).FirstOrDefault();
+                return logisticCompany;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
         }
     }
 }

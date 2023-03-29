@@ -13,6 +13,8 @@ namespace LogisticsService.BLL.Interfaces
 
         List<LogisticCompany> GetAllLogisticCompanies();
 
+        LogisticCompany? GetLogisticCompanyByEmail(string email);
+
         void CreateLogisticCompany(LogisticCompany logisticCompany);
 
         void UpdateLogisticCompany(LogisticCompany logisticCompany);
