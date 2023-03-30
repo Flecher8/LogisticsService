@@ -38,11 +38,14 @@ builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
 builder.Services.AddScoped<IRateService, RateService>();
+builder.Services.AddScoped<ISensorService, SensorService>();
+// static SizeConversionService
 builder.Services.AddScoped<ISmartDeviceService, SmartDeviceService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
 builder.Services.AddScoped<ISystemAdminService, SystemAdminService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
+// static WeightConversionService
 
 
 

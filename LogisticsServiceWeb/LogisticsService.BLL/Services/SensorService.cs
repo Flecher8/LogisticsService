@@ -17,12 +17,13 @@ namespace LogisticsService.BLL.Services
     {
         private readonly IDataRepository<Sensor> _sensorRepository;
         private readonly ISmartDeviceService _smartDeviceService;
-        private readonly ILogger<SystemAdminService> _logger;
+
+        private readonly ILogger<SensorService> _logger;
 
         public SensorService(
             IDataRepository<Sensor> sensorRepository,
             ISmartDeviceService smartDeviceService,
-            ILogger<SystemAdminService> logger)
+            ILogger<SensorService> logger)
         {
             _sensorRepository = sensorRepository;
             _smartDeviceService = smartDeviceService;

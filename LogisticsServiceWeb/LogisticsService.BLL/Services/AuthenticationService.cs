@@ -93,12 +93,9 @@ namespace LogisticsService.BLL.Services
 
             UserType type = GetUserType(userType);
 
-            if(type.Equals(UserType.Guest) || 
-                type.Equals(UserType.SystemAdmin) || 
-                type.Equals(UserType.LogisticCompanyAdministrator) || 
-                type.Equals(UserType.LogisticCompanyDriver))
+            if(!IsUserTypeCanRegister(type))
             {
-                throw new ArgumentException("You do not have access to register this type of user.");
+                throw new ArgumentException("You do not have access to register this type of user");
             }
 
             if(type == UserType.PrivateCompany)
@@ -116,6 +113,18 @@ namespace LogisticsService.BLL.Services
             }
 
             return false;
+        }
+
+        private bool IsUserTypeCanRegister(UserType userType)
+        {
+            if (userType.Equals(UserType.Guest) ||
+                userType.Equals(UserType.SystemAdmin) ||
+                userType.Equals(UserType.LogisticCompanyAdministrator) ||
+                userType.Equals(UserType.LogisticCompanyDriver))
+            {
+                return false;
+            }
+            return true;
         }
 
         private void PrivateCompanyRegistration(PrivateCompany privateCompany)
