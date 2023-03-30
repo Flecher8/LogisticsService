@@ -1,6 +1,7 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.BLL.Services;
 using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -59,11 +60,11 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostSystemAdmin(SystemAdmin systemAdmin)
+        public async Task<IActionResult> PostSystemAdmin(PersonDto person)
         {
             try
             {
-                _systemAdminService.CreateSystemAdmin(systemAdmin);
+                _systemAdminService.CreateSystemAdmin(person);
                 return Ok();
             }
             catch (Exception e)

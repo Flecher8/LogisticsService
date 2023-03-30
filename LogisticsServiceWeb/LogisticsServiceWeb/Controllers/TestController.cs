@@ -1,4 +1,5 @@
-﻿using LogisticsService.Core.Enums;
+﻿using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ namespace LogisticsServiceWeb.Controllers
     public class TestController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetEnum(UserType userType)
+        public async Task<IActionResult> Get(SmartDevice smartDevice)
         {
-            return Ok(userType.ToString());
+            return Ok(smartDevice);
         }
     }
 }
