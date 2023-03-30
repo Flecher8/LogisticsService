@@ -25,6 +25,7 @@ namespace LogisticsService.DAL
         public DbSet<CancelledOrder> CancelledOrders { get; set; }
         public DbSet<OrderTracker> OrderTrackers { get; set; }
         public DbSet <Transaction> Transactions { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         
         public DbSet<SystemAdmin> SystemAdmins { get; set; }
 
