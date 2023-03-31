@@ -51,7 +51,7 @@ namespace LogisticsService.BLL.Services
             return privateCompanies;
         }
 
-        public PrivateCompany? GetLogisticCompanyByEmail(string email)
+        public PrivateCompany? GetPrivateCompanyByEmail(string email)
         {
             try
             {

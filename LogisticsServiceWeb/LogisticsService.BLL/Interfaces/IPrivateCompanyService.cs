@@ -11,7 +11,7 @@ namespace LogisticsService.BLL.Interfaces
     {
         PrivateCompany? GetPrivateCompanyById(int privateCompanyId);
 
-        PrivateCompany? GetLogisticCompanyByEmail(string email);
+        PrivateCompany? GetPrivateCompanyByEmail(string email);
 
         List<PrivateCompany> GetAllPrivateCompanies();
 
