@@ -51,9 +51,9 @@ namespace LogisticsService.BLL.Services
             order.StartDeliveryAddress = _addressService.GetAddressById(orderDto.StartDeliveryAddressId);
             order.EndDeliveryAddress = _addressService.GetAddressById(orderDto.EndDeliveryAddressId);
 
-            order.OrderStatus = OrderStatus.WaitingForAcceptance;
+            order.OrderStatus = OrderStatus.WaitingForAcceptanceByPrivateCompany;
 
-            order.CreationDateTime = DateTime.Now.ToUniversalTime();
+            order.CreationDateTime = DateTime.UtcNow;
             // TODO maybe make orderDto.TimeZoneId and create a class where system can calculate UTC time
             order.EstimatedDeliveryDateTime = orderDto.EstimatedDeliveryDateTime;
 

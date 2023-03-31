@@ -50,7 +50,13 @@ namespace LogisticsService.BLL.Services
 
         private bool IsSensorValid(SensorDto sensorDto)
         {
-            if(_smartDeviceService.GetSmartDeviceById(sensorDto.SmartDeviceId) == null)
+            IsSmartDeviceIdValid(sensorDto.SmartDeviceId);
+            return true;
+        }
+
+        private bool IsSmartDeviceIdValid(int smartDeviceId)
+        {
+            if (_smartDeviceService.GetSmartDeviceById(smartDeviceId) == null)
             {
                 throw new ArgumentOutOfRangeException("SmartDevice with such id does not exist");
             }
