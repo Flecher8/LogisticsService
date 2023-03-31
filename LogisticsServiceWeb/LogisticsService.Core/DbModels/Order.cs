@@ -29,8 +29,6 @@ namespace LogisticsService.Core.DbModels
 
         // Price saved in dollars
         public double Price { get; set; }
-        // PathLength in meters
-        public double PathLength { get; set; }
 
     }
 }

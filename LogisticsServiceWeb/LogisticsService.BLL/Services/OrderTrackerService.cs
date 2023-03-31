@@ -2,6 +2,7 @@
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using LogisticsService.DAL.Interfaces;
+using LogisticsService.DAL.Repositories;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,36 +15,128 @@ namespace LogisticsService.BLL.Services
     public class OrderTrackerService : IOrderTrackerService
     {
         private readonly IDataRepository<OrderTracker> _orderTrackerRepository;
-        private readonly ILogger<SystemAdminService> _logger;
+        private readonly IOrderService _orderService;
 
-        public void CreateOrderTracker(OrderTrackerDto orderTracker)
+        private readonly ILogger<OrderTrackerService> _logger;
+
+        public OrderTrackerService(
+            IDataRepository<OrderTracker> orderTrackerRepository, 
+            IOrderService orderService, 
+            ILogger<OrderTrackerService> logger)
         {
-            throw new NotImplementedException();
+            _orderTrackerRepository = orderTrackerRepository;
+            _orderService = orderService;
+            _logger = logger;
+        }
+
+        public void CreateOrderTracker(OrderTrackerDto orderTrackerDto)
+        {
+            
+            OrderTracker orderTracker = new OrderTracker();
+            orderTracker.Order = _orderService.GetOrderById(orderTrackerDto.OrderId);
+            orderTracker.Latitude = orderTrackerDto.Latitude;
+            orderTracker.Longitude = orderTrackerDto.Longitude;
+            orderTracker.DateTime = DateTime.Now.ToUniversalTime();
+
+            IsOrderTrackerValid(orderTracker);
+
+            try
+            {
+                _orderTrackerRepository.InsertItem(orderTracker);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+        }
+
+        private bool IsOrderTrackerValid(OrderTracker orderTracker)
+        {
+            if(orderTracker.Order == null)
+            {
+                throw new ArgumentNullException("Order is not valid");
+            }
+            return false;
         }
 
         public List<OrderTracker> GetAllOrderTrackers()
         {
-            throw new NotImplementedException();
+            var orderTrackers = new List<OrderTracker>();
+            try
+            {
+                orderTrackers = _orderTrackerRepository.GetAllItems();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            return orderTrackers;
         }
 
         public OrderTracker? GetCurrentOrderTrackerByOrderId(int orderId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                OrderTracker? orderTracker = _orderTrackerRepository
+                    .GetFilteredItems(o => o.Order.OrderId == orderId)
+                    .OrderBy(o => (DateTime.Now.ToUniversalTime() - o.DateTime).Duration())
+                    .ToList()
+                    .FirstOrDefault();
+                return orderTracker;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
         }
 
         public OrderTracker? GetOrderTrackerById(int orderTrackerId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                OrderTracker? orderTracker = _orderTrackerRepository.GetItemById(orderTrackerId);
+                return orderTracker;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
         }
 
         public List<OrderTracker> GetOrderTrackersByOrderId(int orderId)
         {
-            throw new NotImplementedException();
-        }
+            var orderTrackers = new List<OrderTracker>();
+            try
+            {
+                orderTrackers = _orderTrackerRepository
+                    .GetFilteredItems(o => o.Order.OrderId == orderId)
+                    .OrderBy(o => (DateTime.Now.ToUniversalTime() - o.DateTime).Duration())
+                    .Reverse()
+                    .ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
 
-        public void UpdateOrderTracker(OrderTrackerDto orderTracker)
+            return orderTrackers;
+        }
+        // TODO Maybe remove update because we will not use it
+        public void UpdateOrderTracker(OrderTracker orderTracker)
         {
-            throw new NotImplementedException();
+            IsOrderTrackerValid(orderTracker);
+
+            try
+            {
+                _orderTrackerRepository.UpdateItem(orderTracker);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
         }
     }
 }

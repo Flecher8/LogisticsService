@@ -30,13 +30,15 @@ builder.Services.AddScoped<IDataRepository<SystemAdmin>, SystemAdminRepository>(
 builder.Services.AddScoped<IDataRepository<Transaction>, TransactionRepository>();
 
 // Services
+builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<ILogisticCompaniesAdministratorService, LogisticCompaniesAdministratorService>();
 builder.Services.AddScoped<ILogisticCompaniesDriverService, LogisticCompaniesDriverService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
-builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>();
+builder.Services.AddScoped<IOrderService, OrderService>(); // TODO
+builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>(); // TODO
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
 builder.Services.AddScoped<IRateService, RateService>();
 builder.Services.AddScoped<ISensorService, SensorService>();

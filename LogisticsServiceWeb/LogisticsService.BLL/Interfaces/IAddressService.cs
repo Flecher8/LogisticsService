@@ -10,7 +10,7 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface IAddressService
     {
-        Address? GetAddressnById(int addressId);
+        Address? GetAddressById(int addressId);
 
         List<Address> GetAllAddress();
 

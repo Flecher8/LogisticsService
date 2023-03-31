@@ -47,7 +47,7 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        public Address? GetAddressnById(int addressId)
+        public Address? GetAddressById(int addressId)
         {
             try
             {

@@ -20,7 +20,7 @@ namespace LogisticsService.BLL.Interfaces
 
         List<Order> GetAllOrdersByLogisticCompaniesDriverId(int logisticCompaniesDriverId);
 
-        void CreateOrder(OrderDto order);
+        void CreateOrder(OrderDto orderDto);
 
         void UpdateOrder(Order order);
 

@@ -8,7 +8,8 @@ namespace LogisticsService.Core.Enums
 {
     public enum OrderStatus
     {
-        WaitingForAcceptance,
+        WaitingForAcceptanceByPrivateCompany,
+        WaitingForAcceptanceByLogisticCompany,
         OrderAccepted,
         PreparingForDispatch,
         InTransit,

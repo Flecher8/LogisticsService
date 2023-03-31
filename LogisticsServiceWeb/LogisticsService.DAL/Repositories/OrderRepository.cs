@@ -54,7 +54,6 @@ namespace LogisticsService.DAL.Repositories
                 dbOrder.StartDeliveryDateTime = item.StartDeliveryDateTime;
                 dbOrder.DeliveryDateTime = item.DeliveryDateTime;
                 dbOrder.Price = item.Price;
-                dbOrder.PathLength = item.PathLength;
                 dbOrder.StartDeliveryAddress = item.StartDeliveryAddress;
                 dbOrder.EndDeliveryAddress = item.EndDeliveryAddress;
 

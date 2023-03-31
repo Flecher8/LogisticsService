@@ -12,6 +12,5 @@ namespace LogisticsService.Core.Dtos
         public int OrderId { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public UserDataTime UserDataTime { get; set; } = null!;
     }
 }
