@@ -1,4 +1,6 @@
 ﻿using LogisticsService.BLL.Interfaces;
+using LogisticsService.BLL.Services.Converters;
+using LogisticsService.BLL.Services.Validators;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using LogisticsService.Core.Enums;
@@ -27,15 +29,18 @@ namespace LogisticsService.BLL.Services
 
         public void CreateCargo(CargoDto cargoDto)
         {
-            IsCargoValid(cargoDto);
+            CargoValidator cargoValidator = new CargoValidator();
+            cargoValidator.IsCargoValid(cargoDto);
+
+            CargoConverter cargoConverter = 
+                new CargoConverter(cargoDto.WeightMeasureUnit, cargoDto.SizeMeasureUnit);
 
             Cargo cargo = new Cargo();
-            cargo.Weight = ConvertCargoWeightToKg(cargoDto.Weight, GetCargoWeightType(cargoDto.WeightMeasureUnit));
-            cargo.Length = ConvertCargoSizeToCm(cargoDto.Length, GetCargoSizeType(cargoDto.SizeMeasureUnit));
-            cargo.Width = ConvertCargoSizeToCm(cargoDto.Width, GetCargoSizeType(cargoDto.SizeMeasureUnit));
-            cargo.Height = ConvertCargoSizeToCm(cargoDto.Height, GetCargoSizeType(cargoDto.SizeMeasureUnit));
+            cargo.Weight = cargoConverter.ConvertCargoWeightToKg(cargoDto.Weight);
+            cargo.Length = cargoConverter.ConvertCargoSizeToCm(cargoDto.Length);
+            cargo.Width = cargoConverter.ConvertCargoSizeToCm(cargoDto.Width);
+            cargo.Height = cargoConverter.ConvertCargoSizeToCm(cargoDto.Height);
             cargo.Description = cargoDto.Description;
-
 
             try
             {
@@ -46,91 +51,6 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
-
-        // TODO Move this methods to another class...
-        private bool IsCargoValid(CargoDto cargoDto)
-        {
-            if (!IsCargoSizesValid(cargoDto))
-            {
-                throw new ArgumentOutOfRangeException("Size values are not correct");
-            }
-            if (!IsCargoSizeTypeValid(cargoDto.SizeMeasureUnit))
-            {
-                throw new ArgumentOutOfRangeException("Cargo size measure unit is not valid");
-            }
-
-            if (!IsCargoWeightTypeValid(cargoDto.WeightMeasureUnit))
-            {
-                throw new ArgumentOutOfRangeException("Cargo weight measure unit is not valid");
-            }
-            
-            return true;
-        }
-
-        private bool IsCargoSizesValid(CargoDto cargoDto)
-        {
-            if (cargoDto.Weight <= 0 ||
-                cargoDto.Length <= 0 ||
-                cargoDto.Width <= 0 ||
-                cargoDto.Height <= 0)
-            {
-                return false;
-            }
-            return true;
-        }
-
-
-        private bool IsCargoSizeTypeValid(string cargoSizeType)
-        {
-            return Enum.IsDefined(typeof(CargoSizeType), cargoSizeType);
-        }
-
-        private CargoSizeType GetCargoSizeType(string cargoSizeType)
-        {
-            return (CargoSizeType)Enum.Parse(typeof(CargoSizeType), cargoSizeType);
-        }
-
-
-        private bool IsCargoWeightTypeValid(string cargoWeightType)
-        {
-            return Enum.IsDefined(typeof(CargoWeightType), cargoWeightType);
-        }
-
-        private CargoWeightType GetCargoWeightType(string cargoWeightType)
-        {
-            return (CargoWeightType)Enum.Parse(typeof(CargoWeightType), cargoWeightType);
-        }
-
-
-        private double ConvertCargoSizeToCm(double value, CargoSizeType cargoSizeType)
-        {
-            return cargoSizeType.Equals(CargoSizeType.cm) ? value : 
-                SizeConversionService.InchesToCentimeters(value);
-        }
-
-        private double ConvertCargoSizeToInch(double value, CargoSizeType cargoSizeType)
-        {
-            return cargoSizeType.Equals(CargoSizeType.inch) ? value :
-                SizeConversionService.CentimetersToInches(value);
-        }
-
-
-        private double ConvertCargoWeightToKg(double value, CargoWeightType cargoWeightType)
-        {
-            return cargoWeightType.Equals(CargoWeightType.kg) ? value :
-                WeightConverterService.PoundsToKilograms(value);
-        }
-
-        private double ConvertCargoWeightToLb(double value, CargoWeightType cargoWeightType)
-        {
-            return cargoWeightType.Equals(CargoWeightType.lb) ? value :
-                WeightConverterService.KilogramsToPounds(value);
-        }
-
-
-
-
-
 
         public void DeleteCargo(int cargoId)
         {
@@ -146,7 +66,9 @@ namespace LogisticsService.BLL.Services
 
         public CargoDto? GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg")
         {
-            IsCargoTypesValid(cargoSizeType, cargoWeightType);
+            CargoValidator cargoValidator = new CargoValidator();
+            cargoValidator.IsCargoTypesValid(cargoSizeType, cargoWeightType);
+
             try
             {
                 Cargo? cargo = _cargoRepository.GetItemById(cargoId);
@@ -166,8 +88,9 @@ namespace LogisticsService.BLL.Services
 
         private CargoDto CreateCargoDtoFromCargo(Cargo cargo, string cargoSizeType, string cargoWeightType)
         {
-            CargoSizeType sizeType = GetCargoSizeType(cargoSizeType);
-            CargoWeightType weightType = GetCargoWeightType(cargoWeightType);
+            CargoConverter cargoConverter = new CargoConverter(cargoWeightType, cargoSizeType);
+            CargoSizeType sizeType = cargoConverter.GetCargoSizeType();
+            CargoWeightType weightType = cargoConverter.GetCargoWeightType();
 
             CargoDto cargoDto = new CargoDto();
             cargoDto.CargoId = cargo.CargoId;
@@ -200,25 +123,10 @@ namespace LogisticsService.BLL.Services
             return cargoDto;
         }
 
-
-        private bool IsCargoTypesValid(string cargoSizeType, string cargoWeightType)
-        {
-            if (!IsCargoSizeTypeValid(cargoSizeType))
-            {
-                throw new ArgumentOutOfRangeException("Cargo size measure unit is not valid");
-            }
-            if (!IsCargoWeightTypeValid(cargoWeightType))
-            {
-                throw new ArgumentOutOfRangeException("Cargo weight measure unit is not valid");
-            }
-            return true;
-        }
-
-
-
         public List<CargoDto> GetAllCargos(string cargoSizeType = "cm", string cargoWeightType = "kg")
         {
-            IsCargoTypesValid(cargoSizeType, cargoWeightType);
+            CargoValidator cargoValidator = new CargoValidator();
+            cargoValidator.IsCargoTypesValid(cargoSizeType, cargoWeightType);
 
             var cargos = new List<Cargo>();
             try
@@ -237,22 +145,26 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
 
-            return cargos;
+            return new List<CargoDto>();
         }
 
         public void UpdateCargo(CargoDto cargoDto)
         {
+            CargoValidator cargoValidator = new CargoValidator();
+            cargoValidator.IsCargoValid(cargoDto);
+
+            CargoConverter cargoConverter =
+                new CargoConverter(cargoDto.WeightMeasureUnit, cargoDto.SizeMeasureUnit);
+
+            Cargo cargo = new Cargo();
+            cargo.Weight = cargoConverter.ConvertCargoWeightToKg(cargoDto.Weight);
+            cargo.Length = cargoConverter.ConvertCargoSizeToCm(cargoDto.Length);
+            cargo.Width = cargoConverter.ConvertCargoSizeToCm(cargoDto.Width);
+            cargo.Height = cargoConverter.ConvertCargoSizeToCm(cargoDto.Height);
+            cargo.Description = cargoDto.Description;
+
             try
             {
-                IsCargoValid(cargoDto);
-
-                Cargo cargo = new Cargo();
-                cargo.CargoId = cargoDto.CargoId;
-                cargo.Weight = ConvertCargoWeightToKg(cargoDto.Weight, GetCargoWeightType(cargoDto.WeightMeasureUnit));
-                cargo.Length = ConvertCargoSizeToCm(cargoDto.Length, GetCargoSizeType(cargoDto.SizeMeasureUnit));
-                cargo.Width = ConvertCargoSizeToCm(cargoDto.Width, GetCargoSizeType(cargoDto.SizeMeasureUnit));
-                cargo.Height = ConvertCargoSizeToCm(cargoDto.Height, GetCargoSizeType(cargoDto.SizeMeasureUnit));
-                cargo.Description = cargoDto.Description;
                 _cargoRepository.UpdateItem(cargo);
             }
             catch (Exception e)

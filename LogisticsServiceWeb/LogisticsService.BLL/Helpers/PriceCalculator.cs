@@ -10,6 +10,7 @@ namespace LogisticsService.Core.Helpers
     {
         private double PriceForMeasure;
         private double PathLengthInMeasure;
+
         public PriceCalculator(double priceForMeasure, double pathLengthInMeasure)
         {
             PriceForMeasure = priceForMeasure;

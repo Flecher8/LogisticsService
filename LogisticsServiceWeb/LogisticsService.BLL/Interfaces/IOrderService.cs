@@ -25,5 +25,7 @@ namespace LogisticsService.BLL.Interfaces
         void UpdateOrder(Order order);
 
         void DeleteOrder(int orderId);
+
+        void UpdateOrderStatus(int orderId, string status);
     }
 }

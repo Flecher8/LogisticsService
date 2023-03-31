@@ -139,6 +139,18 @@ namespace LogisticsService.BLL.Services
             }
         }
 
+        private void LogisticCompanyRegistration(LogisticCompany logisticCompany)
+        {
+            try
+            {
+                _logisticCompanyService.CreateLogisticCompany(logisticCompany);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+        }
+
         // TODO Move methods CreatePrivateCompany and CreateLogisticCompany in another class maybe...
         private PrivateCompany CreatePrivateCompany(string email, string password, string companyName)
         {
@@ -156,18 +168,6 @@ namespace LogisticsService.BLL.Services
             logisticCompany.Email = email;
             logisticCompany.HashedPassword = _encryptionService.HashPassword(password);
             return logisticCompany;
-        }
-
-        private void LogisticCompanyRegistration(LogisticCompany logisticCompany)
-        {
-            try
-            {
-                _logisticCompanyService.CreateLogisticCompany(logisticCompany);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
         }
 
         private bool IsUserTypeValid(string userType)

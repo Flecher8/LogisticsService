@@ -51,7 +51,7 @@ namespace LogisticsService.BLL.Services
             order.StartDeliveryAddress = _addressService.GetAddressById(orderDto.StartDeliveryAddressId);
             order.EndDeliveryAddress = _addressService.GetAddressById(orderDto.EndDeliveryAddressId);
 
-            order.OrderStatus = OrderStatus.WaitingForAcceptanceByPrivateCompany;
+            order.OrderStatus = OrderStatus.WaitingForAcceptanceByLogisticCompany;
 
             order.CreationDateTime = DateTime.UtcNow;
             // TODO maybe make orderDto.TimeZoneId and create a class where system can calculate UTC time
@@ -236,6 +236,11 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
+        }
+
+        public void UpdateOrderStatus(int orderId, string status)
+        {
+            throw new NotImplementedException();
         }
     }
 }
