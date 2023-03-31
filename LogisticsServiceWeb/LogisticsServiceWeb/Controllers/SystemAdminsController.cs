@@ -12,13 +12,13 @@ namespace LogisticsServiceWeb.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "SystemAdmin")]
-    public class SystemAdminController : ControllerBase
+    public class SystemAdminsController : ControllerBase
     {
         private readonly ISystemAdminService _systemAdminService;
 
-        private readonly ILogger<SubscriptionTypeController> _logger;
+        private readonly ILogger<SubscriptionTypesController> _logger;
 
-        public SystemAdminController(ISystemAdminService systemAdminService, ILogger<SubscriptionTypeController> logger)
+        public SystemAdminsController(ISystemAdminService systemAdminService, ILogger<SubscriptionTypesController> logger)
         {
             _systemAdminService = systemAdminService;
             _logger = logger;

@@ -40,9 +40,9 @@ namespace LogisticsService.BLL.Services
             logisticCompaniesAdministrator.FirstName = person.FirstName;
             logisticCompaniesAdministrator.LastName = person.LastName;
             logisticCompaniesAdministrator.Email = person.Email;
+            logisticCompaniesAdministrator.CreationDate = DateTime.UtcNow;
             logisticCompaniesAdministrator.HashedPassword = _encryptionService.HashPassword(logisticCompaniesAdministrator.HashedPassword);
-            logisticCompaniesAdministrator.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.CompanyId);
-            //TODO CreateDateTime
+            logisticCompaniesAdministrator.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
 
             IsLogisticCompaniesAdministratorValid(logisticCompaniesAdministrator);
 
@@ -125,6 +125,7 @@ namespace LogisticsService.BLL.Services
 
         public void UpdateLogisticCompaniesAdministrator(LogisticCompaniesAdministrator logisticCompaniesAdministrator)
         {
+            IsLogisticCompaniesAdministratorValid(logisticCompaniesAdministrator);
             try
             {
                 _logisticCompaniesAdministratorRepository.UpdateItem(logisticCompaniesAdministrator);

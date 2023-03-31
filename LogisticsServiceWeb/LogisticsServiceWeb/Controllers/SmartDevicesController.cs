@@ -9,13 +9,13 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SmartDeviceController : ControllerBase
+    public class SmartDevicesController : ControllerBase
     {
         private readonly ISmartDeviceService _smartDeviceService;
 
-        private readonly ILogger<SubscriptionTypeController> _logger;
+        private readonly ILogger<SubscriptionTypesController> _logger;
 
-        public SmartDeviceController(ISmartDeviceService smartDeviceService, ILogger<SubscriptionTypeController> logger)
+        public SmartDevicesController(ISmartDeviceService smartDeviceService, ILogger<SubscriptionTypesController> logger)
         {
             _smartDeviceService = smartDeviceService;
             _logger = logger;

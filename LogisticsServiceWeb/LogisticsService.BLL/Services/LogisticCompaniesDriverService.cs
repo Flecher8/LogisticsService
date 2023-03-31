@@ -42,7 +42,7 @@ namespace LogisticsService.BLL.Services
             logisticCompaniesDriver.LastName = person.LastName;
             logisticCompaniesDriver.Email = person.Email;
             logisticCompaniesDriver.HashedPassword = _encryptionService.HashPassword(logisticCompaniesDriver.HashedPassword);
-            logisticCompaniesDriver.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.CompanyId);
+            logisticCompaniesDriver.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
 
             IsLogisticCompaniesDriverValid(logisticCompaniesDriver);
 

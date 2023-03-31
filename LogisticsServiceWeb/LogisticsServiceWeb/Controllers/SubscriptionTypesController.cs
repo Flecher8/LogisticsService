@@ -7,14 +7,14 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubscriptionTypeController : ControllerBase
+    public class SubscriptionTypesController : ControllerBase
     {
         private readonly ISubscriptionTypeService _subscriptionTypeService;
 
-        private readonly ILogger<SubscriptionTypeController> _logger;
+        private readonly ILogger<SubscriptionTypesController> _logger;
         
-        public SubscriptionTypeController(ISubscriptionTypeService subscriptionTypeService, 
-            ILogger<SubscriptionTypeController> logger)
+        public SubscriptionTypesController(ISubscriptionTypeService subscriptionTypeService, 
+            ILogger<SubscriptionTypesController> logger)
         {
             _subscriptionTypeService = subscriptionTypeService;
             _logger = logger;

@@ -1,34 +1,36 @@
 ﻿using LogisticsService.BLL.Interfaces;
+using LogisticsService.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class LogisticCompanyController : ControllerBase
+    public class PrivateCompaniesController : ControllerBase
     {
-        public readonly ILogisticCompanyService _logisticCompanyService;
+        public readonly IPrivateCompanyService _privateCompanyService;
 
-        public readonly ILogger<LogisticCompanyController> _logger;
+        public readonly ILogger<LogisticCompaniesController> _logger;
 
-        public LogisticCompanyController(
-            ILogisticCompanyService logisticCompanyService, 
-            ILogger<LogisticCompanyController> logger)
+        public PrivateCompaniesController(
+            IPrivateCompanyService privateCompanyService, 
+            ILogger<LogisticCompaniesController> logger)
         {
-            _logisticCompanyService = logisticCompanyService;
+            _privateCompanyService = privateCompanyService;
             _logger = logger;
         }
 
         [HttpGet]
         [Authorize(Roles = "SystemAdmin")]
-        public async Task<IActionResult> GetAllLogisticCompanies()
+        public async Task<IActionResult> GetAllPrivateCompanies()
         {
             try
             {
-                var result = _logisticCompanyService.GetAllLogisticCompanies();
+                var result = _privateCompanyService.GetAllPrivateCompanies();
                 return Ok(result);
             }
             catch (Exception e)
@@ -38,12 +40,12 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpGet("id/{logisticCompanyId}")]
-        public async Task<IActionResult> GetLogisticCompanyById(int logisticCompanyId)
+        [HttpGet("id/{privateCompanyId}")]
+        public async Task<IActionResult> GetPrivateCompanyById(int privateCompanyId)
         {
             try
             {
-                var result = _logisticCompanyService.GetLogisticCompanyById(logisticCompanyId);
+                var result = _privateCompanyService.GetPrivateCompanyById(privateCompanyId);
                 return Ok(result);
             }
             catch (Exception e)
@@ -53,12 +55,12 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpGet("email/{logisticCompanyEmail}")]
-        public async Task<IActionResult> GetLogisticCompaniesByEmail(string logisticCompanyEmail)
+        [HttpGet("email/{privateCompanyEmail}")]
+        public async Task<IActionResult> GetPrivateCompaniesByEmail(string privateCompanyEmail)
         {
             try
             {
-                var result = _logisticCompanyService.GetLogisticCompanyByEmail(logisticCompanyEmail);
+                var result = _privateCompanyService.GetPrivateCompanyByEmail(privateCompanyEmail);
                 return Ok(result);
             }
             catch (Exception e)

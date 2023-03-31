@@ -13,6 +13,6 @@ namespace LogisticsService.Core.Dtos
         public DateTime? CreationDate { get; set; }
         public string Email { get; set; } = null!;
         public string HashedPassword { get; set; } = null!;
-        public int CompanyId { get; set; }
+        public int LogisticCompanyId { get; set; }
     }
 }
