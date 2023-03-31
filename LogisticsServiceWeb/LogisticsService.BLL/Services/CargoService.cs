@@ -100,9 +100,9 @@ namespace LogisticsService.BLL.Services
 
             if (!sizeType.Equals(CargoSizeType.cm))
             {
-                cargoDto.Length = SizeConversionService.CentimetersToInches(cargo.Length);
-                cargoDto.Width = SizeConversionService.CentimetersToInches(cargo.Width);
-                cargoDto.Height = SizeConversionService.CentimetersToInches(cargo.Height);
+                cargoDto.Length = SizeConversion.CentimetersToInches(cargo.Length);
+                cargoDto.Width = SizeConversion.CentimetersToInches(cargo.Width);
+                cargoDto.Height = SizeConversion.CentimetersToInches(cargo.Height);
             }
             else
             {
@@ -113,7 +113,7 @@ namespace LogisticsService.BLL.Services
 
             if (!weightType.Equals(CargoWeightType.kg))
             {
-                cargoDto.Weight = WeightConverterService.KilogramsToPounds(cargo.Weight);
+                cargoDto.Weight = WeightConverter.KilogramsToPounds(cargo.Weight);
             }
             else
             {

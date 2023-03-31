@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogisticsService.BLL.Services
+namespace LogisticsService.BLL.Services.Converters
 {
-    public static class WeightConverterService
+    public static class WeightConverter
     {
         private const double PoundsToKilogramsFactor = 0.45359237;
         private const double KilogramsToPoundsFactor = 2.20462;

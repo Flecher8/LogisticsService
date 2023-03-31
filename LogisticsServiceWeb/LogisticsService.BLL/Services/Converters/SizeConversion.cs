@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogisticsService.BLL.Services
+namespace LogisticsService.BLL.Services.Converters
 {
-    public static class SizeConversionService
+    public static class SizeConversion
     {
         private const double InchesToCentimetersRatio = 2.54;
 

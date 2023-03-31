@@ -13,6 +13,7 @@ using Swashbuckle.AspNetCore.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Repositories
+builder.Services.AddScoped<IDataRepository<Address>, AddressRepository>();
 builder.Services.AddScoped<IDataRepository<CancelledOrder>, CancelledOrderRepository>();
 builder.Services.AddScoped<IDataRepository<Cargo>, CargoRepository>();
 builder.Services.AddScoped<IDataRepository<LogisticCompaniesAdministrator>, LogisticCompaniesAdministratorRepository>();
@@ -42,13 +43,12 @@ builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>(); // TODO
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
 builder.Services.AddScoped<IRateService, RateService>();
 builder.Services.AddScoped<ISensorService, SensorService>();
-// static SizeConversionService
 builder.Services.AddScoped<ISmartDeviceService, SmartDeviceService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
 builder.Services.AddScoped<ISystemAdminService, SystemAdminService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IUserService, UserService>();
-// static WeightConversionService
 
 
 

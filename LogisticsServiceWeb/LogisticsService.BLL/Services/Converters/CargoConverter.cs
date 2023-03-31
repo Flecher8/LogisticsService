@@ -32,28 +32,28 @@ namespace LogisticsService.BLL.Services.Converters
         {
             return GetCargoSizeType()
                 .Equals(CargoSizeType.cm) ? value :
-                SizeConversionService.InchesToCentimeters(value);
+                SizeConversion.InchesToCentimeters(value);
         }
 
         public double ConvertCargoSizeToInch(double value)
         {
             return GetCargoSizeType()
                 .Equals(CargoSizeType.inch) ? value :
-                SizeConversionService.CentimetersToInches(value);
+                SizeConversion.CentimetersToInches(value);
         }
 
         public double ConvertCargoWeightToKg(double value)
         {
             return GetCargoWeightType()
                 .Equals(CargoWeightType.kg) ? value :
-                WeightConverterService.PoundsToKilograms(value);
+                WeightConverter.PoundsToKilograms(value);
         }
 
         public double ConvertCargoWeightToLb(double value)
         {
             return GetCargoWeightType()
                 .Equals(CargoWeightType.lb) ? value :
-                WeightConverterService.KilogramsToPounds(value);
+                WeightConverter.KilogramsToPounds(value);
         }
     }
 }
