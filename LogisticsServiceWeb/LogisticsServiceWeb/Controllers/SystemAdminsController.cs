@@ -16,9 +16,9 @@ namespace LogisticsServiceWeb.Controllers
     {
         private readonly ISystemAdminService _systemAdminService;
 
-        private readonly ILogger<SubscriptionTypesController> _logger;
+        private readonly ILogger<SystemAdminsController> _logger;
 
-        public SystemAdminsController(ISystemAdminService systemAdminService, ILogger<SubscriptionTypesController> logger)
+        public SystemAdminsController(ISystemAdminService systemAdminService, ILogger<SystemAdminsController> logger)
         {
             _systemAdminService = systemAdminService;
             _logger = logger;

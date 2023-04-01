@@ -4,32 +4,29 @@ using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SmartDevicesController : ControllerBase
+    public class SensorsController : ControllerBase
     {
-        private readonly ISmartDeviceService _smartDeviceService;
+        private readonly ISensorService _sensoreService;
 
-        private readonly ILogger<SmartDevicesController> _logger;
+        private readonly ILogger<SensorsController> _logger;
 
-        public SmartDevicesController(
-            ISmartDeviceService smartDeviceService, 
-            ILogger<SmartDevicesController> logger)
+        public SensorsController(ISensorService sensoreService, ILogger<SensorsController> logger)
         {
-            _smartDeviceService = smartDeviceService;
+            _sensoreService = sensoreService;
             _logger = logger;
         }
 
-        [HttpGet("id/{smartDeviceId}")]
-        public async Task<IActionResult> GetSmartDeviceById(int smartDeviceId)
+        [HttpGet("id/{sensorId}")]
+        public async Task<IActionResult> GetSensorById(int sensorId)
         {
             try
             {
-                var result = _smartDeviceService.GetSmartDeviceById(smartDeviceId);
+                var result = _sensoreService.GetSensorById(sensorId);
                 return Ok(result);
             }
             catch (Exception e)
@@ -40,11 +37,11 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSmartDevices()
+        public async Task<IActionResult> GetAllSensors()
         {
             try
             {
-                var result = _smartDeviceService.GetAllSmartDevices();
+                var result = _sensoreService.GetAllSensors();
                 return Ok(result);
             }
             catch (Exception e)
@@ -54,13 +51,12 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpGet("logisticCompanyId/{logisticCompanyId}")]
-        public async Task<IActionResult> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)
+        [HttpGet("smartDeviceId/{smartDeviceId}")]
+        public async Task<IActionResult> GetSensorsBySmartDeviceId(int smartDeviceId)
         {
             try
             {
-                var result = _smartDeviceService
-                    .GetSmartDevicesByLogisticCompanyId(logisticCompanyId);
+                var result = _sensoreService.GetAllSensorsBySmartDeviceId(smartDeviceId);
                 return Ok(result);
             }
             catch (Exception e)
@@ -71,12 +67,12 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostSmartDevice(SmartDeviceDto smartDevice)
+        public async Task<IActionResult> PostSensor(SensorDto sensorDto)
         {
             try
             {
-                _smartDeviceService.CreateSmartDevice(smartDevice);
-                return Ok(smartDevice);
+                _sensoreService.CreateSensor(sensorDto);
+                return Ok();
             }
             catch (Exception e)
             {
@@ -86,12 +82,12 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutSmartDevice(SmartDevice smartDevice)
+        public async Task<IActionResult> PutSensor(Sensor sensor)
         {
             try
             {
-                _smartDeviceService.UpdateSmartDevice(smartDevice);
-                return Ok(smartDevice);
+                _sensoreService.UpdateSensor(sensor);
+                return Ok(sensor);
             }
             catch (Exception e)
             {
@@ -100,12 +96,12 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpDelete("id/{smartDeviceId}")]
-        public async Task<IActionResult> DeleteSmartDevice(int smartDeviceId)
+        [HttpDelete("id/{sensorId}")]
+        public async Task<IActionResult> DeleteSensor(int sensorId)
         {
             try
             {
-                _smartDeviceService.DeleteSmartDevice(smartDeviceId);
+                _sensoreService.DeleteSensor(sensorId);
                 return Ok();
             }
             catch (Exception e)
