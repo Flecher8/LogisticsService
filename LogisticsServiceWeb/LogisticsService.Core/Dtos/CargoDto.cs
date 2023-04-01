@@ -9,6 +9,7 @@ namespace LogisticsService.Core.Dtos
     public class CargoDto
     {
         public int CargoId { get; set; }
+        public string? Name { get; set; } = string.Empty;
         public double Weight { get; set; }
         public double Length { get; set; }
         public double Width { get; set; }

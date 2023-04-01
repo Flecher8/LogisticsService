@@ -36,6 +36,7 @@ namespace LogisticsService.BLL.Services
                 new CargoConverter(cargoDto.WeightMeasureUnit, cargoDto.SizeMeasureUnit);
 
             Cargo cargo = new Cargo();
+            cargo.Name = cargoDto.Name;
             cargo.Weight = cargoConverter.ConvertCargoWeightToKg(cargoDto.Weight);
             cargo.Length = cargoConverter.ConvertCargoSizeToCm(cargoDto.Length);
             cargo.Width = cargoConverter.ConvertCargoSizeToCm(cargoDto.Width);
@@ -93,6 +94,7 @@ namespace LogisticsService.BLL.Services
             CargoWeightType weightType = cargoConverter.GetCargoWeightType();
 
             CargoDto cargoDto = new CargoDto();
+            cargoDto.Name = cargo.Name;
             cargoDto.CargoId = cargo.CargoId;
             cargoDto.Description = cargo.Description;
             cargoDto.WeightMeasureUnit = weightType.ToString();
@@ -157,6 +159,8 @@ namespace LogisticsService.BLL.Services
                 new CargoConverter(cargoDto.WeightMeasureUnit, cargoDto.SizeMeasureUnit);
 
             Cargo cargo = new Cargo();
+            cargo.CargoId = cargoDto.CargoId;
+            cargo.Name = cargoDto.Name;
             cargo.Weight = cargoConverter.ConvertCargoWeightToKg(cargoDto.Weight);
             cargo.Length = cargoConverter.ConvertCargoSizeToCm(cargoDto.Length);
             cargo.Width = cargoConverter.ConvertCargoSizeToCm(cargoDto.Width);
