@@ -109,5 +109,21 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
+
+        public List<SmartDevice> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)
+        {
+            var smartDevices = new List<SmartDevice>();
+            try
+            {
+                smartDevices = _smartDeviceRepository
+                    .GetFilteredItems(s => s.LogisticCompany.LogisticCompanyId == logisticCompanyId);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            return smartDevices;
+        }
     }
 }
