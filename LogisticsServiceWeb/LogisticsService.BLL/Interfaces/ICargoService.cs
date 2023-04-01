@@ -14,9 +14,9 @@ namespace LogisticsService.BLL.Interfaces
 
         List<CargoDto> GetAllCargos(string cargoSizeType, string cargoWeightType);
 
-        void CreateCargo(CargoDto cargo);
+        Cargo CreateCargo(CargoDto cargo);
 
-        void UpdateCargo(CargoDto cargoDto);
+        Cargo UpdateCargo(CargoDto cargoDto);
 
         void DeleteCargo(int cargoId);
     }

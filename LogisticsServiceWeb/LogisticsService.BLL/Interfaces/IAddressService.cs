@@ -12,7 +12,7 @@ namespace LogisticsService.BLL.Interfaces
     {
         Address? GetAddressById(int addressId);
 
-        List<Address> GetAllAddress();
+        List<Address> GetAllAddresses();
 
         void CreateAddress(Address address);
 

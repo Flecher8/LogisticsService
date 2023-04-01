@@ -61,7 +61,7 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public List<Address> GetAllAddress()
+        public List<Address> GetAllAddresses()
         {
             var addresses = new List<Address>();
             try

@@ -9,26 +9,27 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CargosController : ControllerBase
+    public class AddressesController : ControllerBase
     {
-        private readonly ICargoService _cargoService;
+        private readonly IAddressService _addressService;
 
-        private readonly ILogger<CargosController> _logger;
+        private readonly ILogger<AddressesController> _logger;
 
-        public CargosController(
-            ICargoService cargoService, 
-            ILogger<CargosController> logger)
+        public AddressesController(
+            IAddressService addressService, 
+            ILogger<AddressesController> logger)
         {
-            _cargoService = cargoService;
+            _addressService = addressService;
             _logger = logger;
         }
 
-        [HttpGet("id/{cargoId}")]
-        public async Task<IActionResult> GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg")
+
+        [HttpGet("id/{addressId}")]
+        public async Task<IActionResult> GetAddressById(int addressId)
         {
             try
             {
-                var result = _cargoService.GetCargoById(cargoId, cargoSizeType, cargoWeightType);
+                var result = _addressService.GetAddressById(addressId);
                 return Ok(result);
             }
             catch (Exception e)
@@ -39,11 +40,11 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCargos(string cargoSizeType = "cm", string cargoWeightType = "kg")
+        public async Task<IActionResult> GetAllAddresses()
         {
             try
             {
-                var result = _cargoService.GetAllCargos(cargoSizeType, cargoWeightType);
+                var result = _addressService.GetAllAddresses();
                 return Ok(result);
             }
             catch (Exception e)
@@ -54,12 +55,12 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostCargo(CargoDto cargoDto)
+        public async Task<IActionResult> PostAddress(Address address)
         {
             try
             {
-                var result = _cargoService.CreateCargo(cargoDto);
-                return Ok(result);
+                _addressService.CreateAddress(address);
+                return Ok(address);
             }
             catch (Exception e)
             {
@@ -69,12 +70,12 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutCargo(CargoDto cargoDto)
+        public async Task<IActionResult> PutAddress(Address address)
         {
             try
             {
-                var result = _cargoService.UpdateCargo(cargoDto);
-                return Ok(result);
+                _addressService.UpdateAddress(address);
+                return Ok(address);
             }
             catch (Exception e)
             {
@@ -83,12 +84,12 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpDelete("id/{cargoId}")]
-        public async Task<IActionResult> DeleteCargo(int cargoId)
+        [HttpDelete("id/{addressId}")]
+        public async Task<IActionResult> DeleteAddress(int addressId)
         {
             try
             {
-                _cargoService.DeleteCargo(cargoId);
+                _addressService.DeleteAddress(addressId);
                 return Ok();
             }
             catch (Exception e)
@@ -97,5 +98,6 @@ namespace LogisticsServiceWeb.Controllers
                 return BadRequest(e.Message);
             }
         }
+
     }
 }

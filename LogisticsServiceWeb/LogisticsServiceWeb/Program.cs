@@ -35,6 +35,7 @@ builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<IGoogleMapsApiGeocodeService, GoogleMapsApiGeocodeService>();
 builder.Services.AddScoped<ILogisticCompaniesAdministratorService, LogisticCompaniesAdministratorService>();
 builder.Services.AddScoped<ILogisticCompaniesDriverService, LogisticCompaniesDriverService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();

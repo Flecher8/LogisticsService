@@ -1,4 +1,5 @@
-﻿using LogisticsService.Core.DbModels;
+﻿using LogisticsService.BLL.Interfaces;
+using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,22 @@ namespace LogisticsServiceWeb.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> Get(SmartDevice smartDevice)
+        public readonly IGoogleMapsApiGeocodeService _googleMapsApiGeocodeService;
+
+        public readonly ILogger<TestController> _logger;
+
+        public TestController(
+            IGoogleMapsApiGeocodeService googleMapsApiGeocodeService, 
+            ILogger<TestController> logger)
         {
-            return Ok(smartDevice);
+            _googleMapsApiGeocodeService = googleMapsApiGeocodeService;
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok();
         }
     }
 }

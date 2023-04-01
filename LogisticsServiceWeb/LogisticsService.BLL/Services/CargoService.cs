@@ -27,7 +27,7 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public void CreateCargo(CargoDto cargoDto)
+        public Cargo CreateCargo(CargoDto cargoDto)
         {
             CargoValidator cargoValidator = new CargoValidator();
             cargoValidator.IsCargoValid(cargoDto);
@@ -51,6 +51,7 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
+            return cargo;
         }
 
         public void DeleteCargo(int cargoId)
@@ -150,7 +151,7 @@ namespace LogisticsService.BLL.Services
             return new List<CargoDto>();
         }
 
-        public void UpdateCargo(CargoDto cargoDto)
+        public Cargo UpdateCargo(CargoDto cargoDto)
         {
             CargoValidator cargoValidator = new CargoValidator();
             cargoValidator.IsCargoValid(cargoDto);
@@ -170,11 +171,13 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _cargoRepository.UpdateItem(cargo);
+                
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return cargo;
         }
     }
 }
