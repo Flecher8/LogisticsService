@@ -33,22 +33,38 @@ builder.Services.AddScoped<IDataRepository<Transaction>, TransactionRepository>(
 // Services
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
 builder.Services.AddScoped<ICargoService, CargoService>();
+
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+
+builder.Services.AddScoped<IFormatterService, FormatterService>();
+
 builder.Services.AddScoped<IGoogleMapsApiGeocodeService, GoogleMapsApiGeocodeService>();
+builder.Services.AddScoped<IGoogleMapsApiDirectionsService, GoogleMapsApiDirectionsService>();
+
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+
 builder.Services.AddScoped<ILogisticCompaniesAdministratorService, LogisticCompaniesAdministratorService>();
 builder.Services.AddScoped<ILogisticCompaniesDriverService, LogisticCompaniesDriverService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
+
 builder.Services.AddScoped<IOrderService, OrderService>(); // TODO
 builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>(); // TODO
+
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
+
 builder.Services.AddScoped<IRateService, RateService>();
+
 builder.Services.AddScoped<ISensorService, SensorService>();
+
 builder.Services.AddScoped<ISmartDeviceService, SmartDeviceService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
 builder.Services.AddScoped<ISystemAdminService, SystemAdminService>();
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+
 builder.Services.AddScoped<IUserService, UserService>();
 
 

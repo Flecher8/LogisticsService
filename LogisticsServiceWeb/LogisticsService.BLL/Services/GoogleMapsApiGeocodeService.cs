@@ -10,6 +10,8 @@ namespace LogisticsService.BLL.Services
     public class GoogleMapsApiGeocodeService : IGoogleMapsApiGeocodeService
     {
         private readonly IConfiguration _configuration;
+        private readonly ILanguageService _languageService;
+        private readonly IFormatterService _formatterService;
         private readonly ILogger<GoogleMapsApiGeocodeService> _logger;
 
         private const string googleMapsApiGeocodeUrl = "https://maps.googleapis.com/maps/api/geocode/";
@@ -18,10 +20,14 @@ namespace LogisticsService.BLL.Services
 
         public GoogleMapsApiGeocodeService(
             IConfiguration configuration, 
-            ILogger<GoogleMapsApiGeocodeService> logger)
+            ILogger<GoogleMapsApiGeocodeService> logger,
+            ILanguageService languageService,
+            IFormatterService formatterService)
         {
             _configuration = configuration;
             _logger = logger;
+            _languageService = languageService;
+            _formatterService = formatterService;
         }
 
         public async Task<string> GetAddressAsync(Address address, string language = "en")
@@ -48,28 +54,12 @@ namespace LogisticsService.BLL.Services
             return _configuration.GetSection("GoogleMapsApi:Key").Value;
         }
 
-        private string GetLanguageType(string language)
-        {
-            const string english = "en";
-            const string ukrainian = "uk";
-            if (language == english || language == ukrainian)
-            {
-                return language;
-            }
-            return english;
-        }
-
-        private string FormateDouble(double num)
-        {
-            return num.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
-        }
-
         private string CreateUrl(double latitude, double longitude, string language = "en")
         {
             string apiKey = GetGoogleMapsApiKey();
-            string langType = GetLanguageType(language);
-            string latitudeFormatted = FormateDouble(latitude);
-            string longitudeFormatted = FormateDouble(longitude);
+            string langType = _languageService.GetLanguageType(language);
+            string latitudeFormatted = _formatterService.FormateNumberToInvariantCulture(latitude);
+            string longitudeFormatted = _formatterService.FormateNumberToInvariantCulture(longitude);
 
             string url =
                 googleMapsApiGeocodeUrl +

@@ -2,6 +2,8 @@
 {
     public class GoogleMapsDirectionsResponse
     {
-        public GoogleMapsDirectionsRoute[] Routes { get; set; }
+        public List<GeocodedWaypoint> GeocodedWaypoints { get; set; }
+        public List<Route> Routes { get; set; }
+        public string Status { get; set; }
     }
 }
