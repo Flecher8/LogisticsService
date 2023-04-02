@@ -41,7 +41,7 @@ namespace LogisticsService.BLL.Services
             logisticCompaniesAdministrator.LastName = person.LastName;
             logisticCompaniesAdministrator.Email = person.Email;
             logisticCompaniesAdministrator.CreationDate = DateTime.UtcNow;
-            logisticCompaniesAdministrator.HashedPassword = _encryptionService.HashPassword(logisticCompaniesAdministrator.HashedPassword);
+            logisticCompaniesAdministrator.HashedPassword = _encryptionService.HashPassword(person.Password);
             logisticCompaniesAdministrator.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
 
             IsLogisticCompaniesAdministratorValid(logisticCompaniesAdministrator);

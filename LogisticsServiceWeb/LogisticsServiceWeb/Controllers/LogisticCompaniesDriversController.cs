@@ -88,23 +88,23 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> PutLogisticCompaniesDriver(
-            LogisticCompaniesDriver logisticCompaniesDriver)
-        {
-            try
-            {
-                _logisticCompaniesDriverService
-                    .UpdateLogisticCompaniesDriver(logisticCompaniesDriver);
+        //[HttpPut]
+        //public async Task<IActionResult> PutLogisticCompaniesDriver(
+        //    LogisticCompaniesDriver logisticCompaniesDriver)
+        //{
+        //    try
+        //    {
+        //        _logisticCompaniesDriverService
+        //            .UpdateLogisticCompaniesDriver(logisticCompaniesDriver);
 
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest(e.Message);
-            }
-        }
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _logger.LogError(e.Message);
+        //        return BadRequest(e.Message);
+        //    }
+        //}
 
         [HttpDelete("id/{logisticCompaniesDriverId}")]
         public async Task<IActionResult> DeleteLogisticCompaniesDriver(

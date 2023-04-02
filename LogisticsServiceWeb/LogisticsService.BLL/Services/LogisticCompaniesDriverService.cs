@@ -41,7 +41,7 @@ namespace LogisticsService.BLL.Services
             logisticCompaniesDriver.FirstName = person.FirstName;
             logisticCompaniesDriver.LastName = person.LastName;
             logisticCompaniesDriver.Email = person.Email;
-            logisticCompaniesDriver.HashedPassword = _encryptionService.HashPassword(logisticCompaniesDriver.HashedPassword);
+            logisticCompaniesDriver.HashedPassword = _encryptionService.HashPassword(person.Password);
             logisticCompaniesDriver.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
 
             IsLogisticCompaniesDriverValid(logisticCompaniesDriver);
