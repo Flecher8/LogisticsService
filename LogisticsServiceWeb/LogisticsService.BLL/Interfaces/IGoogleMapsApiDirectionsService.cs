@@ -10,6 +10,6 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface IGoogleMapsApiDirectionsService
     {
-        public Task<DirectionInfo> GetGoogleMapsDirectionInfo(GoogleMapsApiDirectionsParam googleMapsApiDirectionsParam);
+        Task<DirectionInfo> GetGoogleMapsDirectionInfo(GoogleMapsApiDirectionsParam googleMapsApiDirectionsParam);
     }
 }

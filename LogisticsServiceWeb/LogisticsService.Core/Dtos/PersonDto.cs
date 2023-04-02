@@ -8,11 +8,10 @@ namespace LogisticsService.Core.Dtos
 {
     public class PersonDto
     {
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public DateTime? CreationDate { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = null!;
-        public string HashedPassword { get; set; } = null!;
+        public string Password { get; set; } = null!;
         public int LogisticCompanyId { get; set; }
     }
 }

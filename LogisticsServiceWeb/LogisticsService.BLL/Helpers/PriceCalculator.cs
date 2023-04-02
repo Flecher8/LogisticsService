@@ -19,7 +19,7 @@ namespace LogisticsService.Core.Helpers
 
         public double Compute()
         {
-            return PriceForMeasure * PathLengthInMeasure;
+            return Math.Ceiling(PriceForMeasure * PathLengthInMeasure);
         }
     }
 }

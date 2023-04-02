@@ -9,6 +9,6 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface IGoogleMapsApiGeocodeService
     {
-        public Task<string> GetAddressAsync(Address address, string language);
+        Task<string> GetAddressAsync(Address address, string language);
     }
 }
