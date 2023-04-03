@@ -16,9 +16,9 @@ namespace LogisticsService.BLL.Interfaces
 
         List<LogisticCompaniesDriver> GetAllLogisticCompaniesDriversByLogisticCompanyId(int logisticCompanyId);
 
-        void CreateLogisticCompaniesDriver(PersonDto person);
+        LogisticCompaniesDriver CreateLogisticCompaniesDriver(PersonDto person);
 
-        void UpdateLogisticCompaniesDriver(LogisticCompaniesDriver logisticCompaniesDriver);
+        LogisticCompaniesDriver UpdateLogisticCompaniesDriver(PersonDto person);
 
         void DeleteLogisticCompaniesDriver(int logisticCompaniesDriverId);
     }

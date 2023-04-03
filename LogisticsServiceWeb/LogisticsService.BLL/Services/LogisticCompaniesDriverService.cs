@@ -35,12 +35,13 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public void CreateLogisticCompaniesDriver(PersonDto person)
+        public LogisticCompaniesDriver CreateLogisticCompaniesDriver(PersonDto person)
         {
             LogisticCompaniesDriver logisticCompaniesDriver = new LogisticCompaniesDriver();
             logisticCompaniesDriver.FirstName = person.FirstName;
             logisticCompaniesDriver.LastName = person.LastName;
             logisticCompaniesDriver.Email = person.Email;
+            logisticCompaniesDriver.CreationDate = DateTime.UtcNow;
             logisticCompaniesDriver.HashedPassword = _encryptionService.HashPassword(person.Password);
             logisticCompaniesDriver.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
 
@@ -49,11 +50,13 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _logisticCompaniesDriverRepository.InsertItem(logisticCompaniesDriver);
+                return logisticCompaniesDriver;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
 
         private bool IsLogisticCompaniesDriverValid(LogisticCompaniesDriver logisticCompaniesDriver)
@@ -125,16 +128,36 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public void UpdateLogisticCompaniesDriver(LogisticCompaniesDriver logisticCompaniesDriver)
+        public LogisticCompaniesDriver UpdateLogisticCompaniesDriver(PersonDto person)
         {
+            LogisticCompaniesDriver logisticCompaniesDriver = new LogisticCompaniesDriver();
+            logisticCompaniesDriver.LogisticCompaniesDriverId = person.Id;
+            logisticCompaniesDriver.FirstName = person.FirstName;
+            logisticCompaniesDriver.LastName = person.LastName;
+            logisticCompaniesDriver.Email = person.Email;
+            logisticCompaniesDriver.HashedPassword = _encryptionService.HashPassword(person.Password);
+            logisticCompaniesDriver.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
+
+            LogisticCompaniesDriver dbLogisticCompaniesDriver =
+                GetLogisticCompaniesDriverById(logisticCompaniesDriver.LogisticCompaniesDriverId);
+
+            if (dbLogisticCompaniesDriver != null && dbLogisticCompaniesDriver.Email != person.Email)
+            {
+                throw new ArgumentException
+                    ("Email changed, you can't change email. " +
+                    "You need to delete driver to change email");
+            }
+
             try
             {
                 _logisticCompaniesDriverRepository.UpdateItem(logisticCompaniesDriver);
+                return logisticCompaniesDriver;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
     }
 }

@@ -40,7 +40,6 @@ namespace LogisticsService.BLL.Services
             logisticCompaniesAdministrator.FirstName = person.FirstName;
             logisticCompaniesAdministrator.LastName = person.LastName;
             logisticCompaniesAdministrator.Email = person.Email;
-            logisticCompaniesAdministrator.CreationDate = DateTime.UtcNow;
             logisticCompaniesAdministrator.HashedPassword = _encryptionService.HashPassword(person.Password);
             logisticCompaniesAdministrator.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(person.LogisticCompanyId);
 
@@ -137,7 +136,7 @@ namespace LogisticsService.BLL.Services
             LogisticCompaniesAdministrator dbLogisticCompaniesAdministrator = 
                 GetLogisticCompaniesAdministratorById(logisticCompaniesAdministrator.LogisticCompaniesAdministratorId);
 
-            if(dbLogisticCompaniesAdministrator.Email != person.Email)
+            if(dbLogisticCompaniesAdministrator != null && dbLogisticCompaniesAdministrator.Email != person.Email)
             {
                 throw new ArgumentException
                     ("Email changed, you can't change email. " +
