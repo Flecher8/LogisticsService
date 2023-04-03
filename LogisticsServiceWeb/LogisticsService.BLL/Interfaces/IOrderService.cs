@@ -20,12 +20,12 @@ namespace LogisticsService.BLL.Interfaces
 
         List<Order> GetAllOrdersByLogisticCompaniesDriverId(int logisticCompaniesDriverId);
 
-        void CreateOrder(OrderDto orderDto);
+        Task<Order> CreateOrder(OrderDto orderDto);
 
-        void UpdateOrder(Order order);
+        Order UpdateOrder(OrderDto orderDto);
 
         void DeleteOrder(int orderId);
 
-        void UpdateOrderStatus(int orderId, string status);
+        void UpdateOrderStatus(int orderId);
     }
 }

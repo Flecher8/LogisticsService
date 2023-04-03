@@ -10,7 +10,7 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface ICargoService
     {
-        CargoDto? GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg");
+        Cargo? GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg");
 
         List<CargoDto> GetAllCargos(string cargoSizeType, string cargoWeightType);
 

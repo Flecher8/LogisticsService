@@ -29,7 +29,7 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public void CreateSmartDevice(SmartDeviceDto smartDeviceDto)
+        public SmartDevice CreateSmartDevice(SmartDeviceDto smartDeviceDto)
         {
             SmartDevice smartDevice = new SmartDevice();
             smartDevice.NumberOfSensors = smartDeviceDto.NumberOfSensors;
@@ -41,11 +41,13 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _smartDeviceRepository.InsertItem(smartDevice);
+                return smartDevice;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
 
         private bool IsSmartDeviceValid(SmartDevice smartDevice)
@@ -98,16 +100,26 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public void UpdateSmartDevice(SmartDevice smartDevice)
+        public SmartDevice UpdateSmartDevice(SmartDeviceDto smartDeviceDto)
         {
+            SmartDevice smartDevice = new SmartDevice();
+            smartDevice.SmartDeviceId = smartDeviceDto.SmartDeviceId;
+            smartDevice.NumberOfSensors = smartDeviceDto.NumberOfSensors;
+            smartDevice.LogisticCompany = _logisticCompanyService
+                .GetLogisticCompanyById(smartDeviceDto.LogisticCompanyId);
+
+            IsSmartDeviceValid(smartDevice);
+
             try
             {
                 _smartDeviceRepository.UpdateItem(smartDevice);
+                return smartDevice;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
 
         public List<SmartDevice> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)

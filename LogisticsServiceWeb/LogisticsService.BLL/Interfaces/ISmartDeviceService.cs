@@ -16,9 +16,9 @@ namespace LogisticsService.BLL.Interfaces
 
         List<SmartDevice> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId);
 
-        void CreateSmartDevice(SmartDeviceDto smartDevice);
+        SmartDevice CreateSmartDevice(SmartDeviceDto smartDevice);
 
-        void UpdateSmartDevice(SmartDevice smartDevice);
+        SmartDevice UpdateSmartDevice(SmartDeviceDto smartDeviceDto);
 
         void DeleteSmartDevice(int smartDeviceId);
     }

@@ -1,7 +1,9 @@
-﻿using LogisticsService.BLL.Interfaces;
+﻿using LogisticsService.BLL.Helpers.GoogleMapsApi;
+using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using LogisticsService.Core.Enums;
+using LogisticsService.Core.Helpers;
 using LogisticsService.DAL.Interfaces;
 using LogisticsService.DAL.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -19,35 +21,51 @@ namespace LogisticsService.BLL.Services
         private readonly IDataRepository<Order> _orderRepository;
         private readonly IPrivateCompanyService _privateCompanyService;
         private readonly ILogisticCompanyService _logisticCompanyService;
+        private readonly ILogisticCompaniesDriverService _logisticCompaniesDriverService;
         private readonly ICargoService _cargoService;
         private readonly IAddressService _addressService;
+        private readonly IRateService _rateService;
+        private readonly ISensorService _sensorService;
+
+        private readonly IGoogleMapsApiDirectionsService _googleMapsApiDirectionsService;
+
+
         private readonly ILogger<OrderService> _logger;
 
         public OrderService(
             IDataRepository<Order> orderRepository,
             IPrivateCompanyService privateCompanyService,
             ILogisticCompanyService logisticCompanyService,
+            ILogisticCompaniesDriverService logisticCompaniesDriverService,
             ICargoService cargoService,
             IAddressService addressService,
+            IRateService rateService,
+            ISensorService sensorService,
+            IGoogleMapsApiDirectionsService googleMapsApiDirectionsService,
             ILogger<OrderService> logger
             )
         {
             _orderRepository = orderRepository;
             _privateCompanyService = privateCompanyService;
             _logisticCompanyService = logisticCompanyService;
+            _logisticCompaniesDriverService = logisticCompaniesDriverService;
             _cargoService = cargoService;
             _addressService = addressService;
+            _rateService = rateService;
+            _sensorService = sensorService;
+            _googleMapsApiDirectionsService = googleMapsApiDirectionsService;
             _logger = logger;
         }
 
-        public void CreateOrder(OrderDto orderDto)
+        public async Task<Order> CreateOrder(OrderDto orderDto)
         {
             IsOrderValid(orderDto);
 
             Order order = new Order();
             order.PrivateCompany = _privateCompanyService.GetPrivateCompanyById(orderDto.PrivateCompanyId);
             order.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(orderDto.LogisticCompanyId);
-            order.Cargo = GetCargo(orderDto);
+            //order.Cargo = GetCargo(orderDto);
+            order.Cargo = _cargoService.GetCargoById(orderDto.CargoId);
             order.StartDeliveryAddress = _addressService.GetAddressById(orderDto.StartDeliveryAddressId);
             order.EndDeliveryAddress = _addressService.GetAddressById(orderDto.EndDeliveryAddressId);
 
@@ -57,19 +75,18 @@ namespace LogisticsService.BLL.Services
             // TODO maybe make orderDto.TimeZoneId and create a class where system can calculate UTC time
             order.EstimatedDeliveryDateTime = orderDto.EstimatedDeliveryDateTime;
 
-            // TODO order.Price = 
-            // TODO make Service with GoogleMapsApi to calculate pathKength and using pathLength you can use
-            // PriceCalculator to write order.Price
-
+            order.Price = await GetOrderPrice(order);
 
             try
             {
                 _orderRepository.InsertItem(order);
+                return order;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null; 
         }
 
         private bool IsOrderValid(OrderDto orderDto)
@@ -122,23 +139,49 @@ namespace LogisticsService.BLL.Services
             return true;
         }
 
-        private Cargo GetCargo(OrderDto orderDto)
-        {
-            CargoDto cargoDto = _cargoService.GetCargoById(orderDto.CargoId);
-            Cargo newCargo = new Cargo();
-            newCargo.CargoId = cargoDto.CargoId;
-            newCargo.Weight = cargoDto.Weight;
-            newCargo.Length = cargoDto.Length;
-            newCargo.Width = cargoDto.Width;
-            newCargo.Height = cargoDto.Height;
-            newCargo.Description = cargoDto.Description;
-            return newCargo;
-        }
+        //private Cargo GetCargo(OrderDto orderDto)
+        //{
+        //    CargoDto cargoDto = _cargoService.GetCargoById(orderDto.CargoId);
+        //    Cargo newCargo = new Cargo();
+        //    newCargo.CargoId = cargoDto.CargoId;
+        //    newCargo.Weight = cargoDto.Weight;
+        //    newCargo.Length = cargoDto.Length;
+        //    newCargo.Width = cargoDto.Width;
+        //    newCargo.Height = cargoDto.Height;
+        //    newCargo.Description = cargoDto.Description;
+        //    return newCargo;
+        //}
 
+        private async Task<double> GetOrderPrice(Order order)
+        {
+            const int numOfMetersInKm = 1000;
+            GoogleMapsApiDirectionsParam directionsParam = new GoogleMapsApiDirectionsParam();
+            directionsParam.StartAddress = order.StartDeliveryAddress;
+            directionsParam.EndAddress = order.EndDeliveryAddress;
+
+            DirectionInfo directionInfo = 
+                await _googleMapsApiDirectionsService
+                .GetGoogleMapsDirectionInfo(directionsParam);
+
+            Rate rate = _rateService.GetRateByLogisticCompanyId(order.LogisticCompany.LogisticCompanyId);
+            
+            double price = new PriceCalculator(
+                rate.PriceForKmInDollar,
+                directionInfo.DistanceInMeters / numOfMetersInKm)
+                .Compute();
+
+            return price;
+
+        }
 
 
         public void DeleteOrder(int orderId)
         {
+            Order order = GetOrderById(orderId);
+            if(order == null || ((int)order.OrderStatus > (int)OrderStatus.WaitingForPaymentByPrivateCompany))
+            {
+                throw new ArgumentException("This order can't be deleted");
+            }
             try
             {
                 _orderRepository.DeleteItem(orderId);
@@ -226,8 +269,37 @@ namespace LogisticsService.BLL.Services
             return null; ;
         }
 
-        public void UpdateOrder(Order order)
+        public Order UpdateOrder(OrderDto orderDto)
         {
+            Order order = GetOrderById(orderDto.OrderId);
+            order.LogisticCompaniesDriver = _logisticCompaniesDriverService
+                .GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId);
+            order.Sensor = _sensorService.GetSensorById(orderDto.SensorId);
+            order.StartDeliveryDateTime = orderDto.StartDeliveryDateTime;
+            order.DeliveryDateTime = orderDto.DeliveryDateTime;
+
+            try
+            {
+                _orderRepository.UpdateItem(order);
+                return order;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
+        }
+
+        public void UpdateOrderStatus(int orderId)
+        {
+            Order order = GetOrderById(orderId);
+            if (order.OrderStatus == OrderStatus.Cancelled || order.OrderStatus == OrderStatus.Delivered)
+            {
+                return;
+            }
+
+            order.OrderStatus = (OrderStatus)((int)order.OrderStatus + 1);
+
             try
             {
                 _orderRepository.UpdateItem(order);
@@ -236,11 +308,6 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
-        }
-        // TODO
-        public void UpdateOrderStatus(int orderId, string status)
-        {
-            throw new NotImplementedException();
         }
     }
 }

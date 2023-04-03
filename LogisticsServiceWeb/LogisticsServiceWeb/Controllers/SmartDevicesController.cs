@@ -75,8 +75,8 @@ namespace LogisticsServiceWeb.Controllers
         {
             try
             {
-                _smartDeviceService.CreateSmartDevice(smartDevice);
-                return Ok(smartDevice);
+                var result = _smartDeviceService.CreateSmartDevice(smartDevice);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -86,12 +86,12 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutSmartDevice(SmartDevice smartDevice)
+        public async Task<IActionResult> PutSmartDevice(SmartDeviceDto smartDevice)
         {
             try
             {
-                _smartDeviceService.UpdateSmartDevice(smartDevice);
-                return Ok(smartDevice);
+                var result = _smartDeviceService.UpdateSmartDevice(smartDevice);
+                return Ok(result);
             }
             catch (Exception e)
             {
