@@ -76,10 +76,10 @@ namespace LogisticsServiceWeb.Controllers
         {
             try
             {
-                _logisticCompaniesAdministratorService
+                var result = _logisticCompaniesAdministratorService
                     .CreateLogisticCompaniesAdministrator(person);
                 
-                return Ok();
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -88,23 +88,23 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> PutLogisticCompaniesAdministrator(
-        //    LogisticCompaniesAdministrator logisticCompaniesAdministrator)
-        //{
-        //    try
-        //    {
-        //        _logisticCompaniesAdministratorService
-        //            .UpdateLogisticCompaniesAdministrator(logisticCompaniesAdministrator);
+        [HttpPut]
+        public async Task<IActionResult> PutLogisticCompaniesAdministrator(
+            PersonDto logisticCompaniesAdministrator)
+        {
+            try
+            {
+                var result = _logisticCompaniesAdministratorService
+                    .UpdateLogisticCompaniesAdministrator(logisticCompaniesAdministrator);
 
-        //        return Ok();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _logger.LogError(e.Message);
-        //        return BadRequest(e.Message);
-        //    }
-        //}
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpDelete("id/{logisticCompaniesAdministratorId}")]
         public async Task<IActionResult> DeleteLogisticCompaniesAdministrator(

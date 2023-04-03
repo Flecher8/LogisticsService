@@ -16,9 +16,9 @@ namespace LogisticsService.BLL.Interfaces
 
         List<LogisticCompaniesAdministrator> GetAllLogisticCompaniesAdministratorsByLogisticCompanyId(int logisticCompanyId);
 
-        void CreateLogisticCompaniesAdministrator(PersonDto person);
+        LogisticCompaniesAdministrator CreateLogisticCompaniesAdministrator(PersonDto person);
 
-        void UpdateLogisticCompaniesAdministrator(LogisticCompaniesAdministrator logisticCompaniesAdministrator);
+        LogisticCompaniesAdministrator UpdateLogisticCompaniesAdministrator(PersonDto person);
 
         void DeleteLogisticCompaniesAdministrator(int logisticCompaniesAdministratorId);
     }

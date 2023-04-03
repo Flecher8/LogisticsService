@@ -94,18 +94,20 @@ namespace LogisticsService.BLL.Services
 
         public List<LogisticCompaniesDriver> GetAllLogisticCompaniesDriversByLogisticCompanyId(int logisticCompanyId)
         {
-            var logisticCompaniesDriver = new List<LogisticCompaniesDriver>();
+            var logisticCompaniesDrivers = new List<LogisticCompaniesDriver>();
+           
             try
             {
-                logisticCompaniesDriver = _logisticCompaniesDriverRepository
+                logisticCompaniesDrivers = _logisticCompaniesDriverRepository
                     .GetFilteredItems(l => l.LogisticCompany.LogisticCompanyId == logisticCompanyId);
+                
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
 
-            return logisticCompaniesDriver;
+            return logisticCompaniesDrivers;
         }
 
         public LogisticCompaniesDriver? GetLogisticCompaniesDriverById(int logisticCompaniesDriverId)

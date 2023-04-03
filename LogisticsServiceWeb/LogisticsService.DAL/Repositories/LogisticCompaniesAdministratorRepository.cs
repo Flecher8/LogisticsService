@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace LogisticsService.DAL.Repositories
             return context.LogisticCompaniesAdministrators
                 .Where(filter)
                 .ToList();
+            //  .Include(l => l.LogisticCompany)
         }
 
         public void InsertItem(LogisticCompaniesAdministrator item)
@@ -47,9 +49,7 @@ namespace LogisticsService.DAL.Repositories
             {
                 dbLogisticCompaniesAdministrator.FirstName = item.FirstName;
                 dbLogisticCompaniesAdministrator.LastName = item.LastName;
-                dbLogisticCompaniesAdministrator.Email = item.Email;
                 dbLogisticCompaniesAdministrator.HashedPassword = item.HashedPassword;
-                dbLogisticCompaniesAdministrator.LogisticCompany = item.LogisticCompany;
 
                 context.SaveChanges();
             }

@@ -45,10 +45,8 @@ namespace LogisticsService.DAL.Repositories
 
             if (dbLogisticCompaniesDriver is not null)
             {
-                dbLogisticCompaniesDriver.LogisticCompany = item.LogisticCompany;
                 dbLogisticCompaniesDriver.FirstName = item.FirstName;
                 dbLogisticCompaniesDriver.LastName = item.LastName;
-                dbLogisticCompaniesDriver.Email = item.Email;
                 dbLogisticCompaniesDriver.HashedPassword = item.HashedPassword;
 
                 context.SaveChanges();

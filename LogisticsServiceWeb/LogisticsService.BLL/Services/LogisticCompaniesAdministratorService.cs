@@ -34,7 +34,7 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public void CreateLogisticCompaniesAdministrator(PersonDto person)
+        public LogisticCompaniesAdministrator CreateLogisticCompaniesAdministrator(PersonDto person)
         {
             LogisticCompaniesAdministrator logisticCompaniesAdministrator = new LogisticCompaniesAdministrator();
             logisticCompaniesAdministrator.FirstName = person.FirstName;
@@ -49,11 +49,13 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _logisticCompaniesAdministratorRepository.InsertItem(logisticCompaniesAdministrator);
+                return logisticCompaniesAdministrator;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
 
         private bool IsLogisticCompaniesAdministratorValid(LogisticCompaniesAdministrator logisticCompaniesAdministrator)
@@ -94,10 +96,10 @@ namespace LogisticsService.BLL.Services
 
         public List<LogisticCompaniesAdministrator> GetAllLogisticCompaniesAdministratorsByLogisticCompanyId(int logisticCompanyId)
         {
-            var logisticCompaniesAdministrator = new List<LogisticCompaniesAdministrator>();
+            var logisticCompaniesAdministrators = new List<LogisticCompaniesAdministrator>();
             try
             {
-                logisticCompaniesAdministrator = _logisticCompaniesAdministratorRepository
+                logisticCompaniesAdministrators = _logisticCompaniesAdministratorRepository
                     .GetFilteredItems(l => l.LogisticCompany.LogisticCompanyId == logisticCompanyId);
             }
             catch (Exception e)
@@ -105,7 +107,7 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
 
-            return logisticCompaniesAdministrator;
+            return logisticCompaniesAdministrators;
         }
 
         public LogisticCompaniesAdministrator? GetLogisticCompaniesAdministratorById(int logisticCompaniesAdministratorId)
@@ -123,17 +125,36 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public void UpdateLogisticCompaniesAdministrator(LogisticCompaniesAdministrator logisticCompaniesAdministrator)
+        public LogisticCompaniesAdministrator UpdateLogisticCompaniesAdministrator(PersonDto person)
         {
-            IsLogisticCompaniesAdministratorValid(logisticCompaniesAdministrator);
+            LogisticCompaniesAdministrator logisticCompaniesAdministrator = new LogisticCompaniesAdministrator();
+            logisticCompaniesAdministrator.LogisticCompaniesAdministratorId = person.Id;
+            logisticCompaniesAdministrator.FirstName = person.FirstName;
+            logisticCompaniesAdministrator.LastName = person.LastName;
+            logisticCompaniesAdministrator.Email = person.Email;
+            logisticCompaniesAdministrator.HashedPassword = _encryptionService.HashPassword(person.Password);
+
+            LogisticCompaniesAdministrator dbLogisticCompaniesAdministrator = 
+                GetLogisticCompaniesAdministratorById(logisticCompaniesAdministrator.LogisticCompaniesAdministratorId);
+
+            if(dbLogisticCompaniesAdministrator.Email != person.Email)
+            {
+                throw new ArgumentException
+                    ("Email changed, you can't change email. " +
+                    "You need to delete admin to change email");
+            }
+
+            
             try
             {
                 _logisticCompaniesAdministratorRepository.UpdateItem(logisticCompaniesAdministrator);
+                return logisticCompaniesAdministrator;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
     }
 }
