@@ -10,8 +10,6 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface IOrderTrackerService
     {
-        OrderTracker? GetOrderTrackerById(int orderTrackerId);
-
         OrderTracker? GetCurrentOrderTrackerByOrderId(int orderId);
 
         List<OrderTracker> GetOrderTrackersByOrderId(int orderId);

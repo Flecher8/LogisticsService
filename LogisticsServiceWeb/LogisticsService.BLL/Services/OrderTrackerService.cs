@@ -36,7 +36,7 @@ namespace LogisticsService.BLL.Services
             orderTracker.Order = _orderService.GetOrderById(orderTrackerDto.OrderId);
             orderTracker.Latitude = orderTrackerDto.Latitude;
             orderTracker.Longitude = orderTrackerDto.Longitude;
-            orderTracker.DateTime = DateTime.Now.ToUniversalTime();
+            orderTracker.DateTime = DateTime.UtcNow;
 
             IsOrderTrackerValid(orderTracker);
 
@@ -83,20 +83,6 @@ namespace LogisticsService.BLL.Services
                     .OrderBy(o => (DateTime.Now.ToUniversalTime() - o.DateTime).Duration())
                     .ToList()
                     .FirstOrDefault();
-                return orderTracker;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
-            return null;
-        }
-
-        public OrderTracker? GetOrderTrackerById(int orderTrackerId)
-        {
-            try
-            {
-                OrderTracker? orderTracker = _orderTrackerRepository.GetItemById(orderTrackerId);
                 return orderTracker;
             }
             catch (Exception e)
