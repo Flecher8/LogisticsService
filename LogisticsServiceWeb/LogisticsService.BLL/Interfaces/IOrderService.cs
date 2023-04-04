@@ -27,5 +27,7 @@ namespace LogisticsService.BLL.Interfaces
         void DeleteOrder(int orderId);
 
         void UpdateOrderStatus(int orderId);
+
+        public void MakeOrderStatusCancelled(int orderId);
     }
 }

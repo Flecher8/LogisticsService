@@ -30,7 +30,7 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public void CreateCancelledOrder(CancelledOrderDto cancelledOrderDto)
+        public CancelledOrder? CreateCancelledOrder(CancelledOrderDto cancelledOrderDto)
         {
             IsCancelledOrderValid(cancelledOrderDto);
 
@@ -45,11 +45,14 @@ namespace LogisticsService.BLL.Services
             try
             {
                 _cancelledOrderRepository.InsertItem(cancelledOrder);
+                _orderService.MakeOrderStatusCancelled(cancelledOrder.Order.OrderId);
+                return cancelledOrder;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+            return null;
         }
 
         private bool IsCancelledOrderValid(CancelledOrderDto cancelledOrderDto)
@@ -84,19 +87,6 @@ namespace LogisticsService.BLL.Services
             return (OrderCancellationAuthority)Enum.Parse(typeof(OrderCancellationAuthority), cancelledBy);
         }
 
-
-        public void DeleteCancelledOrder(int cancelledOrderId)
-        {
-            try
-            {
-                _cancelledOrderRepository.DeleteItem(cancelledOrderId);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
-        }
-
         public List<CancelledOrder> GetAllCancelledOrders()
         {
             var cancelledOrders = new List<CancelledOrder>();
@@ -126,16 +116,13 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public void UpdateCancelledOrder(CancelledOrder cancelledOrder)
+        public CancelledOrder? GetCancelledOrderByOrderId(int orderId)
         {
-            try
-            {
-                _cancelledOrderRepository.UpdateItem(cancelledOrder);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
+            CancelledOrder? cancelledOrder = _cancelledOrderRepository
+                .GetFilteredItems(c => c.Order.OrderId == orderId)
+                .FirstOrDefault();
+
+            return cancelledOrder;
         }
     }
 }

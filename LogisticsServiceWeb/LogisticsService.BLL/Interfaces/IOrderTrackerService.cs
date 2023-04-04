@@ -19,7 +19,5 @@ namespace LogisticsService.BLL.Interfaces
         List<OrderTracker> GetAllOrderTrackers();
 
         void CreateOrderTracker(OrderTrackerDto orderTrackerDto);
-
-        void UpdateOrderTracker(OrderTracker orderTracker);
     }
 }

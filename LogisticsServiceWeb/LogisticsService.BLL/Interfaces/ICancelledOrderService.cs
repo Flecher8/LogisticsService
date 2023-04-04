@@ -12,12 +12,11 @@ namespace LogisticsService.BLL.Interfaces
     {
         CancelledOrder? GetCancelledOrderById(int cancelledOrderId);
 
+        CancelledOrder? GetCancelledOrderByOrderId(int orderId);
+
         List<CancelledOrder> GetAllCancelledOrders();
 
-        void CreateCancelledOrder(CancelledOrderDto cancelledOrderDto);
+        CancelledOrder? CreateCancelledOrder(CancelledOrderDto cancelledOrderDto);
 
-        void UpdateCancelledOrder(CancelledOrder cancelledOrder);
-
-        void DeleteCancelledOrder(int cancelledOrderId);
     }
 }

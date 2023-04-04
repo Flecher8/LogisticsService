@@ -35,6 +35,7 @@ builder.Services.AddScoped<IDataRepository<Transaction>, TransactionRepository>(
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
+builder.Services.AddScoped<ICancelledOrderService, CancelledOrderService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();

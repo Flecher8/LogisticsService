@@ -278,16 +278,9 @@ namespace LogisticsService.BLL.Services
             order.StartDeliveryDateTime = orderDto.StartDeliveryDateTime;
             order.DeliveryDateTime = orderDto.DeliveryDateTime;
 
-            try
-            {
-                _orderRepository.UpdateItem(order);
-                return order;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
-            return null;
+            UpdateOrder(order);
+            
+            return order;
         }
 
         public void UpdateOrderStatus(int orderId)
@@ -300,6 +293,19 @@ namespace LogisticsService.BLL.Services
 
             order.OrderStatus = (OrderStatus)((int)order.OrderStatus + 1);
 
+            UpdateOrder(order);
+        }
+
+        public void MakeOrderStatusCancelled(int orderId)
+        {
+            Order? order = GetOrderById(orderId);
+            order.OrderStatus = OrderStatus.Cancelled;
+
+            UpdateOrder(order);
+        }
+
+        private void UpdateOrder(Order order)
+        {
             try
             {
                 _orderRepository.UpdateItem(order);

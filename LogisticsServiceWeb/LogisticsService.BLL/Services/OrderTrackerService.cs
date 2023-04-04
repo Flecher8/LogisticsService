@@ -124,19 +124,5 @@ namespace LogisticsService.BLL.Services
 
             return orderTrackers;
         }
-        // TODO Maybe remove update because we will not use it
-        public void UpdateOrderTracker(OrderTracker orderTracker)
-        {
-            IsOrderTrackerValid(orderTracker);
-
-            try
-            {
-                _orderTrackerRepository.UpdateItem(orderTracker);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-            }
-        }
     }
 }
