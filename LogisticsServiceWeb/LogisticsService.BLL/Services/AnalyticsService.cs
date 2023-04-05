@@ -21,14 +21,39 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public double GetAverageDeliveryPathLengthByLogisticCompany(int logisticCompanyId, string metric)
+        public double GetAverageDeliveryPathLengthByLogisticCompany(int logisticCompanyId, string metric = "km")
         {
-            throw new NotImplementedException();
+            List<Order> orders = _orderService.GetAllOrdersByLogisticCompanyId(logisticCompanyId);
+            return CalculateAverageDeliveryPathLength(orders, metric);
         }
 
-        public double GetAverageDeliveryPathLengthByPrivateCompany(int privateCompanyId, string metric)
+        public double GetAverageDeliveryPathLengthByPrivateCompany(int privateCompanyId, string metric = "km")
         {
-            throw new NotImplementedException();
+            List<Order> orders = _orderService.GetAllOrdersByPrivateCompanyId(privateCompanyId);
+            return CalculateAverageDeliveryPathLength(orders, metric);
+        }
+
+        private double CalculateAverageDeliveryPathLength(List<Order> orders, string metric = "km")
+        {
+            var averagePathLength = orders
+                .AsParallel()
+                .Where(order => order.OrderStatus == OrderStatus.Delivered)
+                .Average(order => order.PathLength);
+
+            switch (metric)
+            {
+                case "km":
+                    averagePathLength /= 1000;
+                    break;
+                case "mi":
+                    double milesInMeter = 0.000621371;
+                    averagePathLength *= milesInMeter;
+                    break;
+                default:
+                    throw new ArgumentException("Неверное значение параметра metric");
+            }
+
+            return averagePathLength;
         }
 
         public TimeSpan GetAverageDeliveryTimeByLogisticCompany(int logisticCompanyId)
@@ -48,14 +73,16 @@ namespace LogisticsService.BLL.Services
             int count = orders.Count;
             TimeSpan totalDeliveryTime = TimeSpan.Zero;
 
-            foreach (Order order in orders)
-            {
-                DateTime startDateTime = (DateTime)order.StartDeliveryDateTime;
-                DateTime EndDateTime = (DateTime)order.DeliveryDateTime;
-
-                TimeSpan deliveryTime = EndDateTime.Subtract(startDateTime);
-                totalDeliveryTime = totalDeliveryTime.Add(deliveryTime);
-            }
+            totalDeliveryTime = orders
+                .AsParallel()
+                .Select(order =>
+                {
+                    DateTime startDateTime = (DateTime)order.StartDeliveryDateTime;
+                    DateTime EndDateTime = (DateTime)order.DeliveryDateTime;
+                    TimeSpan deliveryTime = EndDateTime.Subtract(startDateTime);
+                    return deliveryTime;
+                })
+                .Aggregate(totalDeliveryTime, (sum, deliveryTime) => sum.Add(deliveryTime));
 
             TimeSpan averageDeliveryTime = TimeSpan.FromSeconds(totalDeliveryTime.TotalSeconds / count);
             return averageDeliveryTime;
@@ -81,11 +108,8 @@ namespace LogisticsService.BLL.Services
                 return 0;
             }
 
-            double totalPrice = 0;
-            foreach (Order order in orders)
-            {
-                totalPrice += order.Price;
-            }
+            double totalPrice = orders.AsParallel().Sum(order => order.Price);
+
             double averagePrice = totalPrice / orders.Count;
 
             return averagePrice;

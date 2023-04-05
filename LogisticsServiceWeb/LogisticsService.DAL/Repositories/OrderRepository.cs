@@ -65,6 +65,7 @@ namespace LogisticsService.DAL.Repositories
                 dbOrder.Price = item.Price;
                 dbOrder.StartDeliveryAddress = item.StartDeliveryAddress;
                 dbOrder.EndDeliveryAddress = item.EndDeliveryAddress;
+                dbOrder.PathLength = item.PathLength;
 
                 context.SaveChanges();
             }

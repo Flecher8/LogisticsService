@@ -74,8 +74,11 @@ namespace LogisticsService.BLL.Services
             // TODO maybe make orderDto.TimeZoneId and create a class where system can calculate UTC time
             order.EstimatedDeliveryDateTime = orderDto.EstimatedDeliveryDateTime;
 
-            order.Price = await GetOrderPrice(order);
+            DirectionInfo directionInfo = await GetDirectionInfo(order);
 
+            order.Price = await GetOrderPrice(order, directionInfo);
+            order.PathLength = directionInfo.DistanceInMeters;
+            
             try
             {
                 _orderRepository.InsertItem(order);
@@ -139,17 +142,9 @@ namespace LogisticsService.BLL.Services
             return true;
         }
 
-        private async Task<double> GetOrderPrice(Order order)
+        private async Task<double> GetOrderPrice(Order order, DirectionInfo directionInfo)
         {
             const int numOfMetersInKm = 1000;
-            GoogleMapsApiDirectionsParam directionsParam = new GoogleMapsApiDirectionsParam();
-            directionsParam.StartAddress = order.StartDeliveryAddress;
-            directionsParam.EndAddress = order.EndDeliveryAddress;
-
-            DirectionInfo directionInfo = 
-                await _googleMapsApiDirectionsService
-                .GetGoogleMapsDirectionInfo(directionsParam);
-
             Rate rate = _rateService.GetRateByLogisticCompanyId(order.LogisticCompany.LogisticCompanyId);
             
             double price = new PriceCalculator(
@@ -158,7 +153,18 @@ namespace LogisticsService.BLL.Services
                 .Compute();
 
             return price;
+        }
 
+        private async Task<DirectionInfo> GetDirectionInfo(Order order)
+        {
+            GoogleMapsApiDirectionsParam directionsParam = new GoogleMapsApiDirectionsParam();
+            directionsParam.StartAddress = order.StartDeliveryAddress;
+            directionsParam.EndAddress = order.EndDeliveryAddress;
+
+            DirectionInfo directionInfo =
+                await _googleMapsApiDirectionsService
+                .GetGoogleMapsDirectionInfo(directionsParam);
+            return directionInfo;
         }
 
 
