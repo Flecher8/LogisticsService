@@ -258,16 +258,25 @@ namespace LogisticsService.BLL.Services
 
         public Order UpdateOrder(OrderDto orderDto)
         {
-            Order order = GetOrderById(orderDto.OrderId);
-            order.LogisticCompaniesDriver = _logisticCompaniesDriverService
-                .GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId);
-            order.Sensor = _sensorService.GetSensorById(orderDto.SensorId);
-            order.StartDeliveryDateTime = orderDto.StartDeliveryDateTime;
-            order.DeliveryDateTime = orderDto.DeliveryDateTime;
+            try
+            {
+                Order order = GetOrderById(orderDto.OrderId);
+                order.LogisticCompaniesDriver = _logisticCompaniesDriverService
+                    .GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId);
+                order.Sensor = _sensorService.GetSensorById(orderDto.SensorId);
+                order.StartDeliveryDateTime = orderDto.StartDeliveryDateTime;
+                order.DeliveryDateTime = orderDto.DeliveryDateTime;
 
-            UpdateOrder(order);
-            
-            return order;
+                UpdateOrder(order);
+
+                return order;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
         }
 
         public void UpdateOrderStatus(int orderId)
