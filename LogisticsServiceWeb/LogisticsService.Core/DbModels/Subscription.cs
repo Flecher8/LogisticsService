@@ -14,6 +14,5 @@ namespace LogisticsService.Core.DbModels
         public DateTime EndDateTime { get; set; }
         public LogisticCompany LogisticCompany { get; set; } = null!;
         public SubscriptionType SubscriptionType { get; set; } = null!;
-        public SubscriptionStatus SubscriptionStatus { get; set; }
     }
 }

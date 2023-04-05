@@ -45,9 +45,7 @@ namespace LogisticsService.DAL.Repositories
             {
                 dbSubscription.StartDateTime = item.StartDateTime;
                 dbSubscription.EndDateTime = item.EndDateTime;
-                dbSubscription.LogisticCompany = item.LogisticCompany;
                 dbSubscription.SubscriptionType = item.SubscriptionType;
-                dbSubscription.SubscriptionStatus = item.SubscriptionStatus;
 
                 context.SaveChanges();
             }
