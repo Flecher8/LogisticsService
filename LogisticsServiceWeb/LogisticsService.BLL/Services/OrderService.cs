@@ -64,7 +64,6 @@ namespace LogisticsService.BLL.Services
             Order order = new Order();
             order.PrivateCompany = _privateCompanyService.GetPrivateCompanyById(orderDto.PrivateCompanyId);
             order.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(orderDto.LogisticCompanyId);
-            //order.Cargo = GetCargo(orderDto);
             order.Cargo = _cargoService.GetCargoById(orderDto.CargoId);
             order.StartDeliveryAddress = _addressService.GetAddressById(orderDto.StartDeliveryAddressId);
             order.EndDeliveryAddress = _addressService.GetAddressById(orderDto.EndDeliveryAddressId);
@@ -122,7 +121,8 @@ namespace LogisticsService.BLL.Services
         private bool IsOrderCargoIdValid(int cargoId)
         {
             if (cargoId <= 0 ||
-                _cargoService.GetCargoById(cargoId) == null)
+                _cargoService.GetCargoById(cargoId) == null ||
+                _orderRepository.GetFilteredItems(o => o.Cargo.CargoId == cargoId).Count != 0)
             {
                 throw new ArgumentOutOfRangeException("CargoId is not valid");
             }
@@ -138,19 +138,6 @@ namespace LogisticsService.BLL.Services
             }
             return true;
         }
-
-        //private Cargo GetCargo(OrderDto orderDto)
-        //{
-        //    CargoDto cargoDto = _cargoService.GetCargoById(orderDto.CargoId);
-        //    Cargo newCargo = new Cargo();
-        //    newCargo.CargoId = cargoDto.CargoId;
-        //    newCargo.Weight = cargoDto.Weight;
-        //    newCargo.Length = cargoDto.Length;
-        //    newCargo.Width = cargoDto.Width;
-        //    newCargo.Height = cargoDto.Height;
-        //    newCargo.Description = cargoDto.Description;
-        //    return newCargo;
-        //}
 
         private async Task<double> GetOrderPrice(Order order)
         {
@@ -266,7 +253,7 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
-            return null; ;
+            return null; 
         }
 
         public Order UpdateOrder(OrderDto orderDto)
@@ -286,7 +273,9 @@ namespace LogisticsService.BLL.Services
         public void UpdateOrderStatus(int orderId)
         {
             Order order = GetOrderById(orderId);
-            if (order.OrderStatus == OrderStatus.Cancelled || order.OrderStatus == OrderStatus.Delivered)
+            if (order.OrderStatus == OrderStatus.Cancelled || 
+                order.OrderStatus == OrderStatus.Delivered || 
+                order.OrderStatus == OrderStatus.WaitingForPaymentByPrivateCompany)
             {
                 return;
             }
@@ -314,6 +303,15 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
+        }
+
+        public void UpdateOrderStatusPaid(int orderId)
+        {
+            Order order = GetOrderById(orderId);
+
+            order.OrderStatus = OrderStatus.OrderAccepted;
+
+            UpdateOrder(order);
         }
     }
 }

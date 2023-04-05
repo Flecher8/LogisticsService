@@ -56,6 +56,7 @@ builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
 builder.Services.AddScoped<IOrderService, OrderService>(); // TODO
 builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>(); // TODO
 
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
 
 builder.Services.AddScoped<IRateService, RateService>();

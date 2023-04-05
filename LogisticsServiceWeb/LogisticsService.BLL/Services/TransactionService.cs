@@ -31,7 +31,6 @@ namespace LogisticsService.BLL.Services
         public void CreateTransaction(Order order)
         {
             IsOrderCorrect(order);
-
             Transaction transaction = new Transaction();
             transaction.PrivateCompany = order.PrivateCompany;
             transaction.LogisticCompany = order.LogisticCompany;
