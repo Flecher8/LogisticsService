@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace LogisticsService.DAL.Repositories
         public Order? GetItemById(int itemId)
         {
             return context.Orders
+                .Include(o => o.PrivateCompany)
+                .Include(o => o.LogisticCompany)
+                .Include(o => o.Cargo)
+                .Include(o => o.Sensor)
                 .FirstOrDefault(s => s.OrderId == itemId);
         }
 
@@ -28,6 +33,10 @@ namespace LogisticsService.DAL.Repositories
         {
             return context.Orders
                 .Where(filter)
+                .Include(o => o.PrivateCompany)
+                .Include(o => o.LogisticCompany)
+                .Include(o => o.Cargo)
+                .Include(o => o.Sensor)
                 .ToList();
         }
 
@@ -74,7 +83,12 @@ namespace LogisticsService.DAL.Repositories
 
         public List<Order> GetAllItems()
         {
-            return context.Orders.ToList();
+            return context.Orders
+                .Include(o => o.PrivateCompany)
+                .Include(o => o.LogisticCompany)
+                .Include(o => o.Cargo)
+                .Include(o => o.Sensor)
+                .ToList();
         }
     }
 }
