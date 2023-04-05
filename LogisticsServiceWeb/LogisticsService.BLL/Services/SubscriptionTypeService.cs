@@ -13,14 +13,17 @@ namespace LogisticsService.BLL.Services
     public class SubscriptionTypeService : ISubscriptionTypeService
     {
         private readonly IDataRepository<SubscriptionType> _subscriptionTypeRepository;
+        private readonly IDataRepository<Subscription> _subscriptionRepository;
         private readonly ILogger<SubscriptionTypeService> _logger;
         private const int minSubscriptionTypeId = 1;
 
         public SubscriptionTypeService(IDataRepository<SubscriptionType> subscriptionTypeRepository, 
-            ILogger<SubscriptionTypeService> logger)
+            ILogger<SubscriptionTypeService> logger,
+            IDataRepository<Subscription> subscriptionRepository)
         {
             _subscriptionTypeRepository = subscriptionTypeRepository;
             _logger = logger;
+            _subscriptionRepository = subscriptionRepository;
         }
 
         public SubscriptionType? GetSubscriptionTypeById(int subscriptionTypeId)
@@ -86,18 +89,26 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        public void DeleteSubscriptionType(int subscriptionId)
+        public void DeleteSubscriptionType(int subscriptionTypeId)
         {
-            if(!IsSubscriptionTypeIdValid(subscriptionId))
+            if(!IsSubscriptionTypeIdValid(subscriptionTypeId))
             {
                 throw new ArgumentException("Incorrect subscription id");
             }
 
             // TODO if Active Subscriptions have such a SubscriptionType, dont delete, send BadRequest
+            if(_subscriptionRepository
+                .GetFilteredItems(
+                s => s.SubscriptionType.SubscriptionTypeId == subscriptionTypeId && 
+                s.EndDateTime > DateTime.UtcNow).Count != 0)
+            {
+                throw new ArgumentException("This subscription type can't be deleted " +
+                    "because subscriptions with such subscription type are still active");
+            }
 
             try
             {
-                _subscriptionTypeRepository.DeleteItem(subscriptionId);
+                _subscriptionTypeRepository.DeleteItem(subscriptionTypeId);
             }
             catch(Exception e)
             {

@@ -5,10 +5,12 @@ using LogisticsService.DAL;
 using LogisticsService.DAL.Interfaces;
 using LogisticsService.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,6 +63,7 @@ builder.Services.AddScoped<IRateService, RateService>();
 builder.Services.AddScoped<ISensorService, SensorService>();
 
 builder.Services.AddScoped<ISmartDeviceService, SmartDeviceService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();
 builder.Services.AddScoped<ISystemAdminService, SystemAdminService>();
 
@@ -97,6 +100,8 @@ builder.Services.AddSwaggerGen(option =>
     option.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+
+
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -117,6 +122,15 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Localization
+IList<CultureInfo> supportedCultures = new List<CultureInfo>
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("uk-UA"),
+    };
+
+builder.Services.AddLocalization(o => { o.ResourcesPath = "Resources"; });
+
 // Enable CORS
 builder.Services.AddCors(options =>
 {
@@ -130,6 +144,14 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Localization
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
