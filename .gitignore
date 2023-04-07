@@ -260,3 +260,4 @@ paket-files/
 # mdoc folders, just used locally for now
 docs/en
 docs/tmp
+LogisticsServiceWeb/LogisticsServiceWeb/appsettings.Development.json
