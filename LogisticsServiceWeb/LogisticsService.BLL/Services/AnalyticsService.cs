@@ -70,16 +70,20 @@ namespace LogisticsService.BLL.Services
 
         private TimeSpan CalculateAverageDeliveryTime(List<Order> orders)
         {
-            int count = orders.Count;
+            int count = orders
+                .Where(order => order.OrderStatus.Equals(OrderStatus.Delivered))
+                .Count();
             TimeSpan totalDeliveryTime = TimeSpan.Zero;
 
             totalDeliveryTime = orders
                 .AsParallel()
+                .Where(order => order.OrderStatus.Equals(OrderStatus.Delivered))
                 .Select(order =>
                 {
                     DateTime startDateTime = (DateTime)order.StartDeliveryDateTime;
                     DateTime EndDateTime = (DateTime)order.DeliveryDateTime;
                     TimeSpan deliveryTime = EndDateTime.Subtract(startDateTime);
+                    _logger.LogInformation(deliveryTime.ToString());
                     return deliveryTime;
                 })
                 .Aggregate(totalDeliveryTime, (sum, deliveryTime) => sum.Add(deliveryTime));
@@ -108,9 +112,12 @@ namespace LogisticsService.BLL.Services
                 return 0;
             }
 
-            double totalPrice = orders.AsParallel().Sum(order => order.Price);
+            double totalPrice = orders
+                .AsParallel()
+                .Where(order => order.OrderStatus.Equals(OrderStatus.Delivered))
+                .Sum(order => order.Price);
 
-            double averagePrice = totalPrice / orders.Count;
+            double averagePrice = totalPrice / orders.Where(order => order.OrderStatus.Equals(OrderStatus.Delivered)).Count();
 
             return averagePrice;
         }

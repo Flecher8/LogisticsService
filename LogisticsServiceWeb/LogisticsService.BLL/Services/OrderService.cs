@@ -264,6 +264,7 @@ namespace LogisticsService.BLL.Services
 
         public Order UpdateOrder(OrderDto orderDto)
         {
+            IsOrderValid(orderDto);
             try
             {
                 Order order = GetOrderById(orderDto.OrderId);
