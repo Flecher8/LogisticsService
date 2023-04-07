@@ -74,6 +74,9 @@ namespace LogisticsService.BLL.Services
             // TODO maybe make orderDto.TimeZoneId and create a class where system can calculate UTC time
             order.EstimatedDeliveryDateTime = orderDto.EstimatedDeliveryDateTime;
 
+            order.StartDeliveryDateTime = null;
+            order.DeliveryDateTime = null;
+
             DirectionInfo directionInfo = await GetDirectionInfo(order);
 
             order.Price = await GetOrderPrice(order, directionInfo);
@@ -264,12 +267,19 @@ namespace LogisticsService.BLL.Services
 
         public Order UpdateOrder(OrderDto orderDto)
         {
-            IsOrderValid(orderDto);
             try
             {
                 Order order = GetOrderById(orderDto.OrderId);
+                if(_logisticCompaniesDriverService.GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId) == null)
+                {
+                    throw new ArgumentException("LogisticCompaniesDriver id is not correct");
+                }
                 order.LogisticCompaniesDriver = _logisticCompaniesDriverService
                     .GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId);
+                if (_sensorService.GetSensorById(orderDto.SensorId) == null)
+                {
+                    throw new ArgumentException("Sensor id is not correct");
+                }
                 order.Sensor = _sensorService.GetSensorById(orderDto.SensorId);
                 order.StartDeliveryDateTime = orderDto.StartDeliveryDateTime;
                 order.DeliveryDateTime = orderDto.DeliveryDateTime;

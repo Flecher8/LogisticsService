@@ -146,19 +146,19 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
-        [HttpDelete("id/{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
-        {
-            try
-            {
-                _orderService.DeleteOrder(id);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest(e.Message);
-            }
-        }
+        //[HttpDelete("id/{id}")]
+        //public async Task<IActionResult> DeleteOrder(int id)
+        //{
+        //    try
+        //    {
+        //        _orderService.DeleteOrder(id);
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _logger.LogError(e.Message);
+        //        return BadRequest(e.Message);
+        //    }
+        //}
     }
 }
