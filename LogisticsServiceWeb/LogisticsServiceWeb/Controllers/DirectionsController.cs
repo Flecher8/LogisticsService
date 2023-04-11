@@ -1,5 +1,6 @@
 ﻿using LogisticsService.BLL.Helpers.GoogleMapsApi;
 using LogisticsService.BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DirectionsController : ControllerBase
     {
         public readonly IGoogleMapsApiDirectionsService _googleMapsApiDirectionsService;

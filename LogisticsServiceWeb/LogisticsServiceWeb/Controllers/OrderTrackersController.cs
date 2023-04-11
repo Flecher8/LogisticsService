@@ -3,6 +3,7 @@ using LogisticsService.BLL.Services;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using LogisticsService.Core.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderTrackersController : ControllerBase
     {
         private readonly IOrderTrackerService _orderTrackerService;

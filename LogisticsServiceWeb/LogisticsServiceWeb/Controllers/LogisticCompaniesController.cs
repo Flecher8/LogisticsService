@@ -7,7 +7,7 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class LogisticCompaniesController : ControllerBase
     {
         public readonly ILogisticCompanyService _logisticCompanyService;
@@ -23,7 +23,7 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> GetAllLogisticCompanies()
         {
             try

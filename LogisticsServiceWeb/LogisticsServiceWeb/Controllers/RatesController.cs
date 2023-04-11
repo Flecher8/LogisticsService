@@ -1,6 +1,7 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.BLL.Services;
 using LogisticsService.Core.DbModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RatesController : ControllerBase
     {
         public readonly IRateService _rateService;

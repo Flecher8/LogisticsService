@@ -2,6 +2,7 @@
 using LogisticsService.BLL.Services;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
@@ -10,6 +11,7 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SmartDevicesController : ControllerBase
     {
         private readonly ISmartDeviceService _smartDeviceService;

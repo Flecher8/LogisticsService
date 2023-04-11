@@ -1,12 +1,15 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SubscriptionTypesController : ControllerBase
     {
         private readonly ISubscriptionTypeService _subscriptionTypeService;

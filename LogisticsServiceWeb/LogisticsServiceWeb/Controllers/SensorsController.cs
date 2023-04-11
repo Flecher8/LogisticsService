@@ -2,6 +2,7 @@
 using LogisticsService.BLL.Services;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace LogisticsServiceWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensoreService;
