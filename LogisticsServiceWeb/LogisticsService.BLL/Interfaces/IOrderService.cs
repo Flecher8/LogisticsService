@@ -22,7 +22,7 @@ namespace LogisticsService.BLL.Interfaces
 
         Task<Order> CreateOrder(OrderDto orderDto);
 
-        Order UpdateOrder(OrderDto orderDto);
+        Order? UpdateOrder(OrderDto orderDto);
 
         void DeleteOrder(int orderId);
 

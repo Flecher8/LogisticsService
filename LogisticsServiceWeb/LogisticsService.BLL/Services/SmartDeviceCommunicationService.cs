@@ -1,4 +1,5 @@
-﻿using LogisticsService.BLL.Interfaces;
+﻿using LogisticsService.BLL.Helpers;
+using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using LogisticsService.Core.Enums;
@@ -19,6 +20,8 @@ namespace LogisticsService.BLL.Services
 
         private readonly ILogger<SmartDeviceCommunicationService> _logger;
 
+        private double distanceInKmWhenCargoIsConsideredDelivered = 0.1;
+
         public SmartDeviceCommunicationService(
             IOrderTrackerService orderTrackerService, 
             IOrderService orderService, 
@@ -33,13 +36,9 @@ namespace LogisticsService.BLL.Services
 
         public bool ActivateSensor(int sensorId)
         {
-            //if (order.OrderStatus == OrderStatus.InTransit)
-            //{
-            //    order.StartDeliveryDateTime = DateTime.UtcNow;
-            //}
             try
             {
-                Order order = _orderService
+                Order? order = _orderService
                     .GetAllOrders()
                     .AsParallel()
                     .Where(s => s.Sensor.SensorId == sensorId)
@@ -50,8 +49,9 @@ namespace LogisticsService.BLL.Services
                     return false;
                 }
                
-                if(order.OrderStatus == Core.Enums.OrderStatus.OrderAccepted)
+                if(order.OrderStatus == OrderStatus.OrderAccepted)
                 {
+                    _orderService.UpdateOrderStatus(order.OrderId);
                     _orderService.UpdateOrderStatus(order.OrderId);
                     return true;
                 }
@@ -68,40 +68,78 @@ namespace LogisticsService.BLL.Services
         {
             try
             {
-                SmartDevice smartDevice = _smartDeviceService.GetSmartDeviceById(communicationDto.SmartDeviceId);
+                SmartDevice? smartDevice = _smartDeviceService.GetSmartDeviceById(communicationDto.SmartDeviceId);
 
-                List<Order> orders = _orderService
-                    .GetAllOrders()
-                    .AsParallel()
-                    .Where(s =>
-                    s.LogisticCompany.LogisticCompanyId == smartDevice.LogisticCompany.LogisticCompanyId &&
-                    s.Sensor != null)
-                    .ToList();
-                foreach (var order in orders)
+                if(smartDevice == null)
                 {
-                    foreach (var sensor in smartDevice.Sensors)
-                    {
-                        if (order.Sensor.SensorId == sensor.SensorId && 
-                            (order.OrderStatus == OrderStatus.InTransit || 
-                            order.OrderStatus == OrderStatus.PreparingForDispatch) && 
-                            sensor != null)
-                        {
-                            OrderTrackerDto orderTrackerDto = new OrderTrackerDto();
-                            orderTrackerDto.OrderId = order.OrderId;
-                            orderTrackerDto.Latitude = communicationDto.Latitude;
-                            orderTrackerDto.Longitude = communicationDto.Longitude;
-                            _orderTrackerService.CreateOrderTracker(orderTrackerDto);
-                        }
-                    }
+                    return false;
                 }
 
+
+                List<Order> orders = GetOrdersConnectedToSmartDevice(smartDevice);
+
+                CreateOrderTrackersByOrdersAndSmartDevice(orders, smartDevice, communicationDto);
+                // If order near order end delivery address, status == Delivered
+                IsOrdersNearEndDeliveryAddress(orders, communicationDto);
+
+                return true;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
                 return false;
             }
-            return true;
+        }
+
+        private List<Order> GetOrdersConnectedToSmartDevice(SmartDevice smartDevice)
+        {
+            return _orderService
+                    .GetAllOrders()
+                    .Where(s =>
+                    s.LogisticCompany.LogisticCompanyId == smartDevice.LogisticCompany.LogisticCompanyId &&
+                    s.Sensor != null)
+                    .ToList();
+        }
+
+        private void CreateOrderTrackersByOrdersAndSmartDevice(List<Order> orders, SmartDevice smartDevice, SmartDeviceCommunicationDto communicationDto)
+        {
+            foreach (var order in orders)
+            {
+                foreach (var sensor in smartDevice.Sensors)
+                {
+                    if (order.Sensor.SensorId == sensor.SensorId && (
+                        order.OrderStatus == OrderStatus.InTransit)
+                        )
+                    {
+                        OrderTrackerDto orderTrackerDto = new OrderTrackerDto();
+                        orderTrackerDto.OrderId = order.OrderId;
+                        orderTrackerDto.Latitude = communicationDto.Latitude;
+                        orderTrackerDto.Longitude = communicationDto.Longitude;
+                        _orderTrackerService.CreateOrderTracker(orderTrackerDto);
+                    }
+                }
+            }
+        }
+
+        private void IsOrdersNearEndDeliveryAddress(List<Order> orders, SmartDeviceCommunicationDto communicationDto)
+        {
+            foreach(var order in orders)
+            {
+                if (IsSmartDeviceNearEndDeliveryAddress(communicationDto, order))
+                {
+                    _orderService.UpdateOrderStatus(order.OrderId);
+                }
+            }
+        }
+
+        private bool IsSmartDeviceNearEndDeliveryAddress(SmartDeviceCommunicationDto communicationDto, Order order)
+        {
+            DistanceCalculator distanceCalculator = new DistanceCalculator();
+
+            Coordinate coordinate1 = new Coordinate(communicationDto.Latitude, communicationDto.Longitude);
+            Coordinate coordinate2 = new Coordinate(order.EndDeliveryAddress.Latitude, order.EndDeliveryAddress.Longitute);
+
+            return DistanceCalculator.CalculateDistance(coordinate1, coordinate2) <= distanceInKmWhenCargoIsConsideredDelivered;
         }
     }
 }

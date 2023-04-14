@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace LogisticsService.DAL.Repositories
         public Sensor? GetItemById(int itemId)
         {
             return context.Sensors
+                .Include(s => s.SmartDevice)
                 .FirstOrDefault(s => s.SensorId == itemId);
         }
 
@@ -28,6 +30,7 @@ namespace LogisticsService.DAL.Repositories
         {
             return context.Sensors
                 .Where(filter)
+                .Include(s => s.SmartDevice)
                 .ToList();
         }
 

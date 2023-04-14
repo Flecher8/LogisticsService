@@ -28,6 +28,7 @@ namespace LogisticsService.DAL.Repositories
                 .Include(o => o.Sensor)
                 .Include(o => o.StartDeliveryAddress)
                 .Include(o => o.EndDeliveryAddress)
+                .Include(o => o.LogisticCompaniesDriver)
                 .FirstOrDefault(s => s.OrderId == itemId);
         }
 
@@ -41,6 +42,7 @@ namespace LogisticsService.DAL.Repositories
                 .Include(o => o.Sensor)
                 .Include(o => o.StartDeliveryAddress)
                 .Include(o => o.EndDeliveryAddress)
+                .Include(o => o.LogisticCompaniesDriver)
                 .ToList();
         }
 

@@ -76,13 +76,25 @@ namespace LogisticsService.BLL.Services
 
         public OrderTracker? GetCurrentOrderTrackerByOrderId(int orderId)
         {
+            Order? order = _orderService.GetOrderById(orderId);
+            if(order == null)
+            {
+                return null;
+            }
+
             try
             {
                 OrderTracker? orderTracker = _orderTrackerRepository
                     .GetFilteredItems(o => o.Order.OrderId == orderId)
-                    .OrderBy(o => (DateTime.Now.ToUniversalTime() - o.DateTime).Duration())
+                    .OrderBy(o => (DateTime.UtcNow - o.DateTime).Duration())
                     .ToList()
                     .FirstOrDefault();
+
+                if (orderTracker == null)
+                {
+                    orderTracker = CreateNewOrderTrackerByStartDeliveryAddress(order);
+                }
+
                 return orderTracker;
             }
             catch (Exception e)
@@ -90,6 +102,34 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
             return null;
+        }
+
+        private OrderTracker? CreateNewOrderTrackerByStartDeliveryAddress(Order order)
+        {
+            try
+            {
+                OrderTracker tracker = new OrderTracker();
+                tracker.Order = order;
+                if (order.DeliveryDateTime == null)
+                {
+                    tracker.Latitude = order.StartDeliveryAddress.Latitude;
+                    tracker.Longitude = order.StartDeliveryAddress.Longitute;
+                }
+                else
+                {
+                    tracker.Latitude = order.EndDeliveryAddress.Latitude;
+                    tracker.Longitude = order.EndDeliveryAddress.Longitute;
+                }
+                tracker.DateTime = DateTime.UtcNow;
+
+                _orderTrackerRepository.InsertItem(tracker);
+                return tracker;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return null;
+            }
         }
 
         public List<OrderTracker> GetOrderTrackersByOrderId(int orderId)

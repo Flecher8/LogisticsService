@@ -266,33 +266,52 @@ namespace LogisticsService.BLL.Services
             return null; 
         }
 
-        public Order UpdateOrder(OrderDto orderDto)
+        public Order? UpdateOrder(OrderDto orderDto)
         {
             try
             {
-                Order order = GetOrderById(orderDto.OrderId);
-                if(_logisticCompaniesDriverService.GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId) == null)
+                Order? order = GetOrderById(orderDto.OrderId);
+                if(order == null)
                 {
-                    throw new ArgumentException("LogisticCompaniesDriver id is not correct");
+                    return null;
                 }
-                order.LogisticCompaniesDriver = _logisticCompaniesDriverService
-                    .GetLogisticCompaniesDriverById(orderDto.LogisticCompaniesDriverId);
-                if (_sensorService.GetSensorById(orderDto.SensorId) == null)
-                {
-                    throw new ArgumentException("Sensor id is not correct");
-                }
-                order.Sensor = _sensorService.GetSensorById(orderDto.SensorId);
+
+                order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId);
+                order.Sensor = TryGetSensor(orderDto.SensorId);
 
                 UpdateOrder(order);
 
                 return order;
-
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
             return null;
+        }
+
+        private LogisticCompaniesDriver? TryGetLogisticCompaniesDriver(int driverId)
+        {
+            LogisticCompaniesDriver? logisticCompaniesDriver = _logisticCompaniesDriverService
+                    .GetLogisticCompaniesDriverById(driverId);
+            if (logisticCompaniesDriver == null)
+            {
+                throw new ArgumentException("LogisticCompaniesDriver id is not correct");
+            }
+            return logisticCompaniesDriver;
+        }
+
+        private Sensor? TryGetSensor(int sensorId)
+        {
+            Sensor? sensor = _sensorService.GetSensorById(sensorId);
+
+            if (sensor == null ||
+                _orderRepository.GetFilteredItems(o => o.Sensor.SensorId == sensorId).Count != 0)
+            {
+                throw new ArgumentException("Sensor id is not correct");
+            }
+
+            return sensor;
         }
 
         public void UpdateOrderStatus(int orderId)
@@ -307,17 +326,6 @@ namespace LogisticsService.BLL.Services
 
             order.OrderStatus = (OrderStatus)((int)order.OrderStatus + 1);
 
-            if (order.OrderStatus == OrderStatus.OrderAccepted)
-            {
-                // TODO
-                //// Now cargo on start address point
-                //OrderTrackerDto orderTrackerDto = new OrderTrackerDto();
-                //orderTrackerDto.OrderId = order.OrderId;
-                //orderTrackerDto.Latitude = order.StartDeliveryAddress.Latitude;
-                //orderTrackerDto.Longitude = order.StartDeliveryAddress.Longitute;
-                //_orderTrackerService.CreateOrderTracker(orderTrackerDto);
-            }
-
             if(order.OrderStatus == OrderStatus.InTransit)
             {
                 order.StartDeliveryDateTime = DateTime.UtcNow;
@@ -325,9 +333,7 @@ namespace LogisticsService.BLL.Services
 
             if (order.OrderStatus == OrderStatus.Delivered)
             {
-                // Write date and time when order deliveried
                 order.DeliveryDateTime = DateTime.UtcNow;
-                // Remove connections with sensor
                 order.Sensor = null;
             }
 
