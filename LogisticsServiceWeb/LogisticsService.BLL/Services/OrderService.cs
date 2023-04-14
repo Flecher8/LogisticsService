@@ -19,6 +19,7 @@ namespace LogisticsService.BLL.Services
     public class OrderService : IOrderService
     {
         private readonly IDataRepository<Order> _orderRepository;
+        
         private readonly IPrivateCompanyService _privateCompanyService;
         private readonly ILogisticCompanyService _logisticCompanyService;
         private readonly ILogisticCompaniesDriverService _logisticCompaniesDriverService;
@@ -281,8 +282,6 @@ namespace LogisticsService.BLL.Services
                     throw new ArgumentException("Sensor id is not correct");
                 }
                 order.Sensor = _sensorService.GetSensorById(orderDto.SensorId);
-                order.StartDeliveryDateTime = orderDto.StartDeliveryDateTime;
-                order.DeliveryDateTime = orderDto.DeliveryDateTime;
 
                 UpdateOrder(order);
 
@@ -307,6 +306,30 @@ namespace LogisticsService.BLL.Services
             }
 
             order.OrderStatus = (OrderStatus)((int)order.OrderStatus + 1);
+
+            if (order.OrderStatus == OrderStatus.OrderAccepted)
+            {
+                // TODO
+                //// Now cargo on start address point
+                //OrderTrackerDto orderTrackerDto = new OrderTrackerDto();
+                //orderTrackerDto.OrderId = order.OrderId;
+                //orderTrackerDto.Latitude = order.StartDeliveryAddress.Latitude;
+                //orderTrackerDto.Longitude = order.StartDeliveryAddress.Longitute;
+                //_orderTrackerService.CreateOrderTracker(orderTrackerDto);
+            }
+
+            if(order.OrderStatus == OrderStatus.InTransit)
+            {
+                order.StartDeliveryDateTime = DateTime.UtcNow;
+            }
+
+            if (order.OrderStatus == OrderStatus.Delivered)
+            {
+                // Write date and time when order deliveried
+                order.DeliveryDateTime = DateTime.UtcNow;
+                // Remove connections with sensor
+                order.Sensor = null;
+            }
 
             UpdateOrder(order);
         }

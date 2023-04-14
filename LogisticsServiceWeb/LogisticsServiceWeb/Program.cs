@@ -63,7 +63,7 @@ builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
 builder.Services.AddScoped<IRateService, RateService>();
 
 builder.Services.AddScoped<ISensorService, SensorService>();
-
+builder.Services.AddScoped<ISmartDeviceCommunicationService, SmartDeviceCommunicationService>();
 builder.Services.AddScoped<ISmartDeviceService, SmartDeviceService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<ISubscriptionTypeService, SubscriptionTypeService>();

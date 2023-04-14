@@ -30,7 +30,6 @@ namespace LogisticsService.BLL.Services
 
         public void CreateTransaction(Order order)
         {
-            IsOrderCorrect(order);
             Transaction transaction = new Transaction();
             transaction.PrivateCompany = order.PrivateCompany;
             transaction.LogisticCompany = order.LogisticCompany;
@@ -48,15 +47,6 @@ namespace LogisticsService.BLL.Services
             {
                 _logger.LogError(e.Message);
             }
-        }
-
-        private bool IsOrderCorrect(Order order)
-        {
-            if(_orderService.GetOrderById(order.OrderId) != null || order.Equals(order))
-            {
-                return true;
-            }
-            throw new ArgumentNullException("Order is not in database");
         }
 
         public List<Transaction> GetAllTransactions()

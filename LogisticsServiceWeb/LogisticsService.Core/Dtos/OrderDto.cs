@@ -19,11 +19,6 @@ namespace LogisticsService.Core.Dtos
         public int StartDeliveryAddressId { get; set; }
         public int EndDeliveryAddressId { get; set; }
 
-        public string OrderStatus { get; set; } = string.Empty;
-
         public DateTime EstimatedDeliveryDateTime { get; set; }
-        public DateTime StartDeliveryDateTime { get; set; }
-        public DateTime DeliveryDateTime { get; set; }
-
     }
 }
