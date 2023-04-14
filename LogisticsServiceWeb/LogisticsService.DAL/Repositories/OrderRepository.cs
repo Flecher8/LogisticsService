@@ -26,6 +26,8 @@ namespace LogisticsService.DAL.Repositories
                 .Include(o => o.LogisticCompany)
                 .Include(o => o.Cargo)
                 .Include(o => o.Sensor)
+                .Include(o => o.StartDeliveryAddress)
+                .Include(o => o.EndDeliveryAddress)
                 .FirstOrDefault(s => s.OrderId == itemId);
         }
 
@@ -37,6 +39,8 @@ namespace LogisticsService.DAL.Repositories
                 .Include(o => o.LogisticCompany)
                 .Include(o => o.Cargo)
                 .Include(o => o.Sensor)
+                .Include(o => o.StartDeliveryAddress)
+                .Include(o => o.EndDeliveryAddress)
                 .ToList();
         }
 
@@ -52,16 +56,10 @@ namespace LogisticsService.DAL.Repositories
 
             if (dbOrder is not null)
             {
-                dbOrder.PrivateCompany = item.PrivateCompany;
-                dbOrder.LogisticCompany = item.LogisticCompany;
                 dbOrder.LogisticCompaniesDriver = item.LogisticCompaniesDriver;
                 dbOrder.Sensor = item.Sensor;
-                dbOrder.Cargo = item.Cargo;
                 dbOrder.OrderStatus = item.OrderStatus;
-                dbOrder.CreationDateTime = item.CreationDateTime;
                 dbOrder.EstimatedDeliveryDateTime = item.EstimatedDeliveryDateTime;
-                dbOrder.StartDeliveryDateTime = item.StartDeliveryDateTime;
-                dbOrder.DeliveryDateTime = item.DeliveryDateTime;
                 dbOrder.Price = item.Price;
                 dbOrder.StartDeliveryAddress = item.StartDeliveryAddress;
                 dbOrder.EndDeliveryAddress = item.EndDeliveryAddress;
