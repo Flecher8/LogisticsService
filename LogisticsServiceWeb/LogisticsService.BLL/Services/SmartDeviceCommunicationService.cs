@@ -3,6 +3,7 @@ using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
 using LogisticsService.Core.Enums;
+using LogisticsService.DAL.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,42 +15,43 @@ namespace LogisticsService.BLL.Services
 {
     public class SmartDeviceCommunicationService : ISmartDeviceCommunicationService
     {
+        private readonly IDataRepository<Order> _orderRepository;
+
         private readonly IOrderTrackerService _orderTrackerService;
         private readonly IOrderService _orderService;
         private readonly ISmartDeviceService _smartDeviceService;
 
         private readonly ILogger<SmartDeviceCommunicationService> _logger;
 
-        private double distanceInKmWhenCargoIsConsideredDelivered = 0.1;
+        private double distanceInKmWhenCargoIsConsideredNearAddress = 0.1;
 
         public SmartDeviceCommunicationService(
+            IDataRepository<Order> orderRepository,
             IOrderTrackerService orderTrackerService, 
             IOrderService orderService, 
             ISmartDeviceService smartDeviceService, 
             ILogger<SmartDeviceCommunicationService> logger)
         {
+            _orderRepository = orderRepository;
             _orderTrackerService = orderTrackerService;
             _orderService = orderService;
             _smartDeviceService = smartDeviceService;
             _logger = logger;
         }
 
-        public bool ActivateSensor(int sensorId)
+        public bool ActivateSensor(SmartDeviceCommunicationDto communicationDto)
         {
             try
             {
-                Order? order = _orderService
-                    .GetAllOrders()
-                    .AsParallel()
-                    .Where(s => s.Sensor.SensorId == sensorId)
-                    .ToList()
-                    .FirstOrDefault();
-                if(order == null)
+                Order? order = GetOrderConnectedToSensor(communicationDto.SensorId);
+
+                if (order == null)
                 {
                     return false;
                 }
-               
-                if(order.OrderStatus == OrderStatus.OrderAccepted)
+
+                if (order.OrderStatus == OrderStatus.OrderAccepted &&
+                    IsSmartDeviceNearAddress(communicationDto, order.StartDeliveryAddress))
                 {
                     _orderService.UpdateOrderStatus(order.OrderId);
                     _orderService.UpdateOrderStatus(order.OrderId);
@@ -101,6 +103,13 @@ namespace LogisticsService.BLL.Services
                     .ToList();
         }
 
+        private Order? GetOrderConnectedToSensor(int sensorId)
+        {
+            return _orderRepository
+                    .GetFilteredItems(o => o.Sensor.SensorId == sensorId)
+                    .FirstOrDefault();
+        }
+
         private void CreateOrderTrackersByOrdersAndSmartDevice(List<Order> orders, SmartDevice smartDevice, SmartDeviceCommunicationDto communicationDto)
         {
             foreach (var order in orders)
@@ -125,21 +134,19 @@ namespace LogisticsService.BLL.Services
         {
             foreach(var order in orders)
             {
-                if (IsSmartDeviceNearEndDeliveryAddress(communicationDto, order))
+                if (IsSmartDeviceNearAddress(communicationDto, order.EndDeliveryAddress))
                 {
                     _orderService.UpdateOrderStatus(order.OrderId);
                 }
             }
         }
 
-        private bool IsSmartDeviceNearEndDeliveryAddress(SmartDeviceCommunicationDto communicationDto, Order order)
+        private bool IsSmartDeviceNearAddress(SmartDeviceCommunicationDto communicationDto, Address address)
         {
-            DistanceCalculator distanceCalculator = new DistanceCalculator();
-
             Coordinate coordinate1 = new Coordinate(communicationDto.Latitude, communicationDto.Longitude);
-            Coordinate coordinate2 = new Coordinate(order.EndDeliveryAddress.Latitude, order.EndDeliveryAddress.Longitute);
+            Coordinate coordinate2 = new Coordinate(address.Latitude, address.Longitute);
 
-            return DistanceCalculator.CalculateDistance(coordinate1, coordinate2) <= distanceInKmWhenCargoIsConsideredDelivered;
+            return DistanceCalculator.CalculateDistance(coordinate1, coordinate2) <= distanceInKmWhenCargoIsConsideredNearAddress;
         }
     }
 }

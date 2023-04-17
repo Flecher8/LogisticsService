@@ -11,6 +11,6 @@ namespace LogisticsService.BLL.Interfaces
     {
         bool WriteOrderTrackers(SmartDeviceCommunicationDto communicationDto);
 
-        bool ActivateSensor(int sensorId);
+        bool ActivateSensor(SmartDeviceCommunicationDto communicationDto);
     }
 }

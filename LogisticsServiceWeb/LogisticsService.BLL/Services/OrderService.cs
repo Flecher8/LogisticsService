@@ -276,6 +276,8 @@ namespace LogisticsService.BLL.Services
                     return null;
                 }
 
+                IsOrderCanBeUpdated(order);
+
                 order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId);
                 order.Sensor = TryGetSensor(orderDto.SensorId);
 
@@ -288,6 +290,15 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
             return null;
+        }
+
+        private bool IsOrderCanBeUpdated(Order order)
+        {
+            if (order.OrderStatus != OrderStatus.WaitingForAcceptanceByLogisticCompany)
+            {
+                throw new ArgumentException("Order status must be WaitingForAcceptanceByLogisticCompany");
+            }
+            return true;
         }
 
         private LogisticCompaniesDriver? TryGetLogisticCompaniesDriver(int driverId)
