@@ -89,6 +89,9 @@ namespace LogisticsService.DAL.Repositories
                 .Include(o => o.LogisticCompany)
                 .Include(o => o.Cargo)
                 .Include(o => o.Sensor)
+                .Include(o => o.StartDeliveryAddress)
+                .Include(o => o.EndDeliveryAddress)
+                .Include(o => o.LogisticCompaniesDriver)
                 .ToList();
         }
     }

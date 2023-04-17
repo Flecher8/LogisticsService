@@ -23,7 +23,7 @@ namespace LogisticsServiceWeb.Controllers
             _logger = logger;
         }
         [HttpGet("TestC")]
-        public async Task<IActionResult> GetTestC(int smartDeviceId, double latitude, double longitute)
+        public async Task<IActionResult> GetTestC()
         {
             //if(satellites > 0)
             //{
@@ -34,7 +34,8 @@ namespace LogisticsServiceWeb.Controllers
             //_logger.LogInformation("longitute: " + longitute.ToString());
             //_logger.LogInformation("DateTime: " + DateTime.Now.ToString());
             //_logger.LogInformation("satellites: {stellites} la: {la}, lo: {lo}, DateTime: {DateTime}", satellites.ToString(), latitude.ToString(), longitute.ToString(), DateTime.Now.ToString());
-            _logger.LogInformation("smartDeviceId: {smartDeviceId} la: {la}, lo: {lo}, DateTime: {DateTime}", smartDeviceId.ToString(), latitude.ToString(), longitute.ToString(), DateTime.Now.ToString());
+            //_logger.LogInformation("smartDeviceId: {smartDeviceId} la: {la}, lo: {lo}, DateTime: {DateTime}", smartDeviceId.ToString(), latitude.ToString(), longitute.ToString(), DateTime.Now.ToString());
+            _logger.LogInformation("Connection check {DateTime}", DateTime.Now.ToString());
             return Ok();
         }
 
@@ -70,7 +71,7 @@ namespace LogisticsServiceWeb.Controllers
             try
             {
                 _logger.LogInformation("ACTIVATE SENSOR: {sensorId} la: {la}, lo: {lo}, DateTime: {DateTime}\n\n", sensorId.ToString(), latitude.ToString(), longitute.ToString(), DateTime.Now.ToString());
-
+                //return Ok();
                 SmartDeviceCommunicationDto dto = new SmartDeviceCommunicationDto();
                 dto.SensorId = sensorId;
                 dto.Latitude = latitude;
