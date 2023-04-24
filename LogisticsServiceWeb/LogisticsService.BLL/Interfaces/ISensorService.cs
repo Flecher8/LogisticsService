@@ -1,0 +1,25 @@
+﻿using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LogisticsService.BLL.Interfaces
+{
+    public interface ISensorService
+    {
+        Sensor? GetSensorById(int sensorId);
+
+        List<Sensor> GetAllSensorsBySmartDeviceId(int smartDeviceId);
+
+        List<Sensor> GetAllSensors();
+
+        void CreateSensor(SensorDto sensorDto);
+
+        void UpdateSensor(Sensor sensor);
+
+        void DeleteSensor(int sensorId);
+    }
+}

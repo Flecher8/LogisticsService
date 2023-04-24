@@ -6,6 +6,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+LogisticsServiceWeb/LogisticsServiceWeb/appsettings.json
+LogisticsServiceWeb/LogisticsServiceWeb/appsettings.Development.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -258,3 +260,5 @@ paket-files/
 # mdoc folders, just used locally for now
 docs/en
 docs/tmp
+LogisticsServiceWeb/LogisticsServiceWeb/appsettings.Development.json
+LogisticsServiceWeb/LogisticsServiceWeb/appsettings.Development.json
