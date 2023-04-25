@@ -1,0 +1,13 @@
+{
+	"Software system for monitoring the delivery of goods by logistics organizations": "Software system for monitoring the delivery of goods by logistics organizations",
+	"This project was created to solve the problem of efficient delivery of goods to private companies through logistics organizations.": "This project was created to solve the problem of efficient delivery of goods to private companies through logistics organizations.",
+	"Currently, many private companies are faced with the problem of choosing the best logistics company that can deliver their goods on time and with high quality. On the other hand, logistics companies often face the challenge of managing their resources, including vehicles, workers, and technology.": "Currently, many private companies are faced with the problem of choosing the best logistics company that can deliver their goods on time and with high quality. On the other hand, logistics companies often face the challenge of managing their resources, including vehicles, workers, and technology.",
+	"The purpose of this project is to create a software system that will help private companies to efficiently select logistics companies and control the delivery of their goods, as well as help logistics companies manage their resources and ensure high quality delivery. This system will be used to streamline goods delivery processes and improve customer satisfaction by providing more accurate real-time tracking of shipments and improved communication between private companies and logistics organizations.": "The purpose of this project is to create a software system that will help private companies to efficiently select logistics companies and control the delivery of their goods, as well as help logistics companies manage their resources and ensure high quality delivery. This system will be used to streamline goods delivery processes and improve customer satisfaction by providing more accurate real-time tracking of shipments and improved communication between private companies and logistics organizations.",
+	"The system will implement:": "The system will implement:",
+	"Choosing a logistics company based on price, quality and delivery time": "Choosing a logistics company based on price, quality and delivery time",
+	"Real-time cargo tracking": "Real-time cargo tracking",
+	"Logistics company resource management": "Logistics company resource management",
+	"Goods delivery reporting": "Goods delivery reporting",
+	"Login": "Login",
+	"Language": "Language"
+}

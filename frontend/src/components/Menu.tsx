@@ -1,13 +1,20 @@
 import { useState, useEffect, FC } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 // import axios from "../../api/axios";
 // import text from "../../services/localizationService";
 
 export const Menu: FC = () => {
-	function localizationEN() {}
-	function localizationUA() {}
+	const { t, changeLanguage } = useTranslationHelper();
+
+	function localizationEN() {
+		changeLanguage("en");
+	}
+	function localizationUA() {
+		changeLanguage("ua");
+	}
 	function LastElementOfMenu() {
 		// console.log(localStorage);
 		// if (localStorage.getItem("PeopleTracker-userId") !== null) {
@@ -66,7 +73,7 @@ export const Menu: FC = () => {
 							data-toggle="dropdown"
 							aria-haspopup="true"
 							aria-expanded="false">
-							Language
+							{t("Language")}
 						</button>
 						<div className="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
 							<Button onClick={() => localizationEN()} className="btn btn-dark border border-white w-100">
