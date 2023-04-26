@@ -328,33 +328,101 @@ namespace LogisticsService.BLL.Services
         public void UpdateOrderStatus(int orderId)
         {
             Order order = GetOrderById(orderId);
-            if (order.OrderStatus == OrderStatus.Cancelled || 
-                order.OrderStatus == OrderStatus.Delivered || 
-                order.OrderStatus == OrderStatus.WaitingForPaymentByPrivateCompany)
+
+            if(order == null)
             {
                 return;
             }
 
-            order.OrderStatus = (OrderStatus)((int)order.OrderStatus + 1);
-
-            if(order.OrderStatus == OrderStatus.InTransit)
+            if(!OrderStatusCanBeUpdated(order))
             {
-                order.StartDeliveryDateTime = DateTime.UtcNow;
+                return;
             }
 
-            if (order.OrderStatus == OrderStatus.Delivered)
+            UpdateOrderStatus(order);
+        }
+
+        private bool OrderStatusCanBeUpdated(Order order)
+        {
+            if (order.OrderStatus == OrderStatus.Cancelled ||
+                order.OrderStatus == OrderStatus.Delivered ||
+                order.OrderStatus == OrderStatus.WaitingForPaymentByPrivateCompany)
             {
-                order.DeliveryDateTime = DateTime.UtcNow;
-                order.Sensor = null;
+                return false;
             }
+
+            if (order.OrderStatus == OrderStatus.WaitingForAcceptanceByLogisticCompany &&
+                (order.LogisticCompaniesDriver == null || order.Sensor == null))
+            {
+                throw new ArgumentException("You can't update order status because driver or/and sensor is/are not valid");
+            }
+            return true;
+        }
+
+        private void UpdateOrderStatus(Order order)
+        {
+            order.OrderStatus = GetNextOrderStatus(order.OrderStatus);
+
+            UpdateOrderDeliveryStatus(order);
 
             UpdateOrder(order);
+        }
+
+        private void UpdateOrderDeliveryStatus(Order order)
+        {
+            if (IsOrderInTransit(order))
+            {
+                order.StartDeliveryDateTime = DateTime.UtcNow;
+                _sensorService.ChangeSensorStatus(order.Sensor.SensorId, SensorStatus.Active);
+            }
+
+            if (IsOrderDelivered(order))
+            {
+                order.DeliveryDateTime = DateTime.UtcNow;
+                _sensorService.ChangeSensorStatus(order.Sensor.SensorId, SensorStatus.Inactive);
+                order.Sensor = null;
+            }
+        }
+
+        private bool IsOrderInTransit(Order order)
+        {
+            return order.OrderStatus == OrderStatus.InTransit ? true : false;
+        }
+
+        private bool IsOrderDelivered(Order order)
+        {
+            return order.OrderStatus == OrderStatus.Delivered ? true : false;
+        }
+
+
+        private OrderStatus GetNextOrderStatus(OrderStatus currentStatus)
+        {
+            switch (currentStatus)
+            {
+                case OrderStatus.WaitingForAcceptanceByLogisticCompany:
+                    return OrderStatus.WaitingForPaymentByPrivateCompany;
+                case OrderStatus.WaitingForPaymentByPrivateCompany:
+                    return OrderStatus.OrderAccepted;
+                case OrderStatus.OrderAccepted:
+                    return OrderStatus.PreparingForDispatch;
+                case OrderStatus.PreparingForDispatch:
+                    return OrderStatus.InTransit;
+                case OrderStatus.InTransit:
+                    return OrderStatus.Delivered;
+                case OrderStatus.Delivered:
+                    return OrderStatus.Delivered;
+                default:
+                    throw new InvalidOperationException("Invalid order status.");
+            }
         }
 
         public void MakeOrderStatusCancelled(int orderId)
         {
             Order? order = GetOrderById(orderId);
             order.OrderStatus = OrderStatus.Cancelled;
+
+            _sensorService.ChangeSensorStatus(order.Sensor == null ? 0 : order.Sensor.SensorId, SensorStatus.Inactive);
+            order.Sensor = null;
 
             UpdateOrder(order);
         }
@@ -370,6 +438,7 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
+
 
         public void UpdateOrderStatusPaid(int orderId)
         {

@@ -1,6 +1,7 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
+using LogisticsService.Core.Enums;
 using LogisticsService.DAL.Interfaces;
 using LogisticsService.DAL.Repositories;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,7 @@ namespace LogisticsService.BLL.Services
         private readonly ILogger<SmartDeviceService> _logger;
 
         public SmartDeviceService(
-            IDataRepository<SmartDevice> smartDeviceRepository, 
+            IDataRepository<SmartDevice> smartDeviceRepository,
             ILogisticCompanyService logisticCompanyService,
             ILogger<SmartDeviceService> logger)
         {
@@ -63,6 +64,19 @@ namespace LogisticsService.BLL.Services
         {
             try
             {
+                SmartDevice? smartDevice = _smartDeviceRepository.GetItemById(smartDeviceId);
+                if(smartDevice == null)
+                {
+                    return;
+                }
+
+                foreach (var sensor in smartDevice.Sensors)
+                {
+                    if(sensor.Status == SensorStatus.Active)
+                    {
+                        throw new ArgumentException("Some of smart device sensors are still active.");
+                    }
+                }
                 _smartDeviceRepository.DeleteItem(smartDeviceId);
             }
             catch (Exception e)
@@ -91,10 +105,8 @@ namespace LogisticsService.BLL.Services
             try
             {
                 SmartDevice? smartDevice = _smartDeviceRepository.GetItemById(smartDeviceId);
-                foreach(var sensor in smartDevice.Sensors)
-                {
-                    _logger.LogInformation(sensor.SensorId.ToString());
-                }
+
+                
                 return smartDevice;
             }
             catch (Exception e)

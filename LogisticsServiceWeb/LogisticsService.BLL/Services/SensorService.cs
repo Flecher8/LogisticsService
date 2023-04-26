@@ -130,5 +130,18 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
+
+        public void ChangeSensorStatus(int sensorId, SensorStatus sensorStatus)
+        {
+            Sensor sensor = GetSensorById(sensorId);
+            if(sensor == null)
+            {
+                return;
+            }
+
+            sensor.Status = sensorStatus;
+
+            UpdateSensor(sensor);
+        }
     }
 }

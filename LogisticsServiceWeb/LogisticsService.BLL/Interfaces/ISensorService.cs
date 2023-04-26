@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
+using LogisticsService.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,7 @@ namespace LogisticsService.BLL.Interfaces
         void UpdateSensor(Sensor sensor);
 
         void DeleteSensor(int sensorId);
+
+        void ChangeSensorStatus(int sensorId, SensorStatus sensorStatus);
     }
 }
