@@ -3,47 +3,51 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTranslationHelper } from "../helpers/translation/translationService";
 
-// import axios from "../../api/axios";
-// import text from "../../services/localizationService";
-
+// TODO Languages
 export const Menu: FC = () => {
 	const { t, changeLanguage } = useTranslationHelper();
 
 	function localizationEN() {
 		changeLanguage("en");
+		localStorage.clear();
 	}
 	function localizationUA() {
 		changeLanguage("ua");
 	}
 	function LastElementOfMenu() {
-		// console.log(localStorage);
-		// if (localStorage.getItem("PeopleTracker-userId") !== null) {
-		// 	if (localStorage.getItem("PeopleTracker-userType") === "User") {
-		// 		return (
-		// 			<Link to="/UserProfile" className="text-decoration-none text-reset">
-		// 				<Button className="btn btn-dark border border-white w-100">Profile</Button>
-		// 			</Link>
-		// 		);
-		// 	}
-		// 	if (localStorage.getItem("PeopleTracker-userType") === "SystemAdmin") {
-		// 		return (
-		// 			<Link to="/AdminPanelPlacements" className="text-decoration-none text-reset">
-		// 				<Button className="btn btn-dark border border-white w-100">Admin Panel</Button>
-		// 			</Link>
-		// 		);
-		// 	}
-		// } else {
-		// 	return (
-		// 		<Link to="/Login" className="text-decoration-none text-reset">
-		// 			<Button className="btn btn-dark border border-white w-100">{text("Sign in")}</Button>
-		// 		</Link>
-		// 	);
-		// }
-		// return (
-		// 	<Link to="/Login" className="text-decoration-none text-reset">
-		// 		<Button className="btn btn-dark border border-white w-100">{text("Sign in")}</Button>
-		// 	</Link>
-		// );
+		console.log(localStorage);
+		if (localStorage.getItem("userType") !== null) {
+			if (localStorage.getItem("userType") === "PrivateCompany") {
+				return (
+					<Link to="/PrivateCompanyProfile" className="text-decoration-none text-reset">
+						<Button className="btn btn-dark border border-white w-100">Profile</Button>
+					</Link>
+				);
+			}
+			if (localStorage.getItem("userType") === "LogisticCompany") {
+				return (
+					<Link to="/LogisticCompanyProfile" className="text-decoration-none text-reset">
+						<Button className="btn btn-dark border border-white w-100">Profile</Button>
+					</Link>
+				);
+			}
+
+			if (localStorage.getItem("userType") === "LogisticCompanyAdministrator") {
+				return (
+					<Link to="/LogisticCompanyAdministratorProfile" className="text-decoration-none text-reset">
+						<Button className="btn btn-dark border border-white w-100">Profile</Button>
+					</Link>
+				);
+			}
+
+			if (localStorage.getItem("userType") === "SystemAdmin") {
+				return (
+					<Link to="/SystemAdminProfile" className="text-decoration-none text-reset">
+						<Button className="btn btn-dark border border-white w-100">Admin Panel</Button>
+					</Link>
+				);
+			}
+		}
 		return (
 			<Link to="/Login" className="text-decoration-none text-reset">
 				<Button className="btn btn-dark border border-white w-100">Sign in</Button>
@@ -52,8 +56,8 @@ export const Menu: FC = () => {
 	}
 	return (
 		<div className="Menu">
-			<div className="d-inline-flex justify-content-center border w-100 p-3 mb-2 bg-dark text-white">
-				<div className="d-flex justify-content-beetween w-50">
+			<div className="d-inline-flex justify-content-around border w-100 p-3 mb-2 bg-dark text-white">
+				<div className="d-flex justify-content-start">
 					<div className="mr-2">
 						<Link to="/Home" className="text-decoration-none text-reset">
 							<Button className="btn btn-dark border border-white w-100">Home</Button>
@@ -65,7 +69,7 @@ export const Menu: FC = () => {
 						</Link>
 					</div>
 				</div>
-				<div className="d-flex justify-content-end w-25">
+				<div className="d-flex justify-content-end">
 					<div className="dropdown m-0 mr-2">
 						<button
 							className="btn dropdown-toggle btn-dark border border-white"
