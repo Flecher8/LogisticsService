@@ -41,6 +41,22 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
+        [HttpGet("email/{logisticCompaniesAdministratorEmail}")]
+        public async Task<IActionResult> GetLogisticCompaniesAdministratorByEmail(string logisticCompaniesAdministratorEmail)
+        {
+            try
+            {
+                var result = _logisticCompaniesAdministratorService
+                    .GetLogisticCompaniesAdministratorByEmail(logisticCompaniesAdministratorEmail);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllLogisticCompaniesAdministrators()
         {

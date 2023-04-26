@@ -12,6 +12,8 @@ namespace LogisticsService.BLL.Interfaces
     {
         LogisticCompaniesDriver? GetLogisticCompaniesDriverById(int logisticCompaniesDriverId);
 
+        LogisticCompaniesDriver? GetLogisticCompaniesDriverByEmail(string email);
+
         List<LogisticCompaniesDriver> GetAllLogisticCompaniesDrivers();
 
         List<LogisticCompaniesDriver> GetAllLogisticCompaniesDriversByLogisticCompanyId(int logisticCompanyId);

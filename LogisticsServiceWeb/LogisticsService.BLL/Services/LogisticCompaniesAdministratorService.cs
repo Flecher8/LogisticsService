@@ -155,5 +155,22 @@ namespace LogisticsService.BLL.Services
             }
             return null;
         }
+
+        public LogisticCompaniesAdministrator? GetLogisticCompaniesAdministratorByEmail(string email)
+        {
+            try
+            {
+                LogisticCompaniesAdministrator? logisticCompaniesAdministrator = 
+                    _logisticCompaniesAdministratorRepository
+                    .GetFilteredItems(l => l.Email == email)
+                    .FirstOrDefault();
+                return logisticCompaniesAdministrator;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
+        }
     }
 }

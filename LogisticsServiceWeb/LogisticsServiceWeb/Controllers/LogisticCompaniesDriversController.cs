@@ -41,6 +41,22 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
+        [HttpGet("email/{logisticCompaniesDriverEmail}")]
+        public async Task<IActionResult> GetLogisticCompaniesDriverByEmail(string logisticCompaniesDriverEmail)
+        {
+            try
+            {
+                var result = _logisticCompaniesDriverService
+                    .GetLogisticCompaniesDriverByEmail(logisticCompaniesDriverEmail);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllLogisticCompaniesDrivers()
         {

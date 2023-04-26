@@ -67,12 +67,28 @@ namespace LogisticsService.BLL.Services
         {
             try
             {
+                Sensor sensor = GetSensorById(sensorId);
+                if(sensor == null)
+                {
+                    return;
+                }
+
+                if(IsSensorActive(sensor))
+                {
+                    throw new ArgumentException("Sensor can't be deleted because sensor is now active");
+                }
+
                 _sensorRepository.DeleteItem(sensorId);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
+        }
+
+        private bool IsSensorActive(Sensor sensor)
+        {
+            return sensor.Status == SensorStatus.Active ? true : false;
         }
 
         public List<Sensor> GetAllSensors()

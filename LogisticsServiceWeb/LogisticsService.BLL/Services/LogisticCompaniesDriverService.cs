@@ -159,5 +159,22 @@ namespace LogisticsService.BLL.Services
             }
             return null;
         }
+
+        public LogisticCompaniesDriver? GetLogisticCompaniesDriverByEmail(string email)
+        {
+            try
+            {
+                LogisticCompaniesDriver? logisticCompaniesDriver =
+                    _logisticCompaniesDriverRepository
+                    .GetFilteredItems(l => l.Email == email)
+                    .FirstOrDefault();
+                return logisticCompaniesDriver;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
+        }
     }
 }

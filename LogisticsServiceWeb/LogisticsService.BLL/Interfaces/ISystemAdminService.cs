@@ -12,6 +12,8 @@ namespace LogisticsService.BLL.Interfaces
     {
         SystemAdmin? GetSystemAdminById(int systemAdminId);
 
+        SystemAdmin? GetSystemAdminByEmail(string email);
+
         List<SystemAdmin> GetAllSystemAdmins();
 
         void CreateSystemAdmin(PersonDto person);
