@@ -3,17 +3,25 @@ import { Button, InputGroup, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { loginApi } from "../api/loginApi";
 import { LoginViewModel } from "../helpers/viewModels/LoginViewModel";
+import { LoginResponce } from "../helpers/viewModels/LoginResponce";
+import LoginService from "../helpers/services/LoginService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
+
+const loginService = new LoginService();
+
 // TODO Language
 export const Login: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const inputEmail = useRef<HTMLInputElement>(null);
 	const inputPassword = useRef<HTMLInputElement>(null);
 
-	const login = (): void => {
-		const loginViewModel: LoginViewModel = {
-			email: inputEmail.current?.value || "",
-			password: inputPassword.current?.value || ""
-		};
-		loginApi(loginViewModel);
+	const login = async (): Promise<void> => {
+		try {
+			await loginService.login(inputEmail.current?.value || "", inputPassword.current?.value || "");
+		} catch (err: any) {
+			alert(t(err));
+		}
 	};
 
 	return (
