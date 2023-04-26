@@ -91,6 +91,10 @@ namespace LogisticsService.BLL.Services
             try
             {
                 SmartDevice? smartDevice = _smartDeviceRepository.GetItemById(smartDeviceId);
+                foreach(var sensor in smartDevice.Sensors)
+                {
+                    _logger.LogInformation(sensor.SensorId.ToString());
+                }
                 return smartDevice;
             }
             catch (Exception e)
