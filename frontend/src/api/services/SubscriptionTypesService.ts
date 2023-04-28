@@ -15,7 +15,7 @@ export interface SubscriptionType {
 }
 
 export class SubscriptionTypesService {
-	async getSubscriptionTypes(): Promise<SubscriptionType[] | null> {
+	async getAll(): Promise<SubscriptionType[] | null> {
 		try {
 			const response: AxiosResponse<SubscritionTypesViewModel> = await api.get<SubscritionTypesViewModel>(
 				"/SubscriptionTypes",
@@ -32,12 +32,32 @@ export class SubscriptionTypesService {
 		return null;
 	}
 
-	async createSubscriptionType(subscriptionType: SubscriptionType): Promise<SubscriptionType | null> {
-		return null;
+	async create(subscriptionType: SubscriptionType): Promise<void> {
+		try {
+			const response: any = await api.post<SubscriptionType>("/SubscriptionTypes", subscriptionType, config);
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
 	}
-	async updateSubscriptionType(subscriptionType: SubscriptionType): Promise<SubscriptionType | null> {
-		return null;
+	async update(subscriptionType: SubscriptionType): Promise<void> {
+		try {
+			const response: any = await api.put<SubscriptionType>("/SubscriptionTypes", subscriptionType, config);
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
 	}
 
-	async deleteSubscriptionType(id: number): Promise<void> {}
+	async delete(id: number): Promise<void> {
+		try {
+			const response: any = await api.delete<SubscriptionType>("/SubscriptionTypes/" + id, config);
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+	}
 }

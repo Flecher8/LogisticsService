@@ -15,7 +15,7 @@ export const Menu: FC = () => {
 		changeLanguage("ua");
 	}
 	function LastElementOfMenu() {
-		console.log(localStorage);
+		// console.log(localStorage);
 		if (localStorage.getItem("userType") !== null) {
 			if (localStorage.getItem("userType") === "PrivateCompany") {
 				return (

@@ -9,5 +9,6 @@
 	"Logistics company resource management": "Управління ресурсами логістичної компанії",
 	"Goods delivery reporting": "Звітність щодо доставки товарів",
 	"Login": "Логін",
-	"Language": "Мова"
+	"Language": "Мова",
+	"Error: This subscription type can't be deleted because subscriptions with such subscription type are still active": "Помилка: цей тип підписки не можна видалити, оскільки підписки з таким типом все ще активні"
 }
