@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, FC } from "react";
 import { Button, InputGroup, FormControl, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { RegistrationViewModel } from "../helpers/viewModels/RegistrationViewModel";
+import { RegistrationViewModel } from "../api/viewModels/RegistrationViewModel";
 import { registrationApi } from "../api/registrationApi";
 
 // TODO Language
@@ -31,7 +31,7 @@ export const Registration: FC = () => {
 		return true;
 	};
 
-	const register = (): void => {
+	const register = async (): Promise<void> => {
 		if (!passworCorrect()) {
 			alert("Password is not the same");
 			return;
@@ -48,7 +48,10 @@ export const Registration: FC = () => {
 			userType: inputUserType
 		};
 
-		registrationApi(registrationViewMode);
+		const success: boolean = await registrationApi(registrationViewMode);
+		if (success) {
+			window.location.href = "/Login";
+		}
 	};
 
 	return (

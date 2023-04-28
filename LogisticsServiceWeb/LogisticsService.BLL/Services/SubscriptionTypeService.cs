@@ -96,7 +96,7 @@ namespace LogisticsService.BLL.Services
                 throw new ArgumentException("Incorrect subscription id");
             }
 
-            // TODO if Active Subscriptions have such a SubscriptionType, dont delete, send BadRequest
+            
             if(_subscriptionRepository
                 .GetFilteredItems(
                 s => s.SubscriptionType.SubscriptionTypeId == subscriptionTypeId && 

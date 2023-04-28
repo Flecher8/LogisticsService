@@ -1,10 +1,7 @@
 import { useRef, FC } from "react";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { loginApi } from "../api/loginApi";
-import { LoginViewModel } from "../helpers/viewModels/LoginViewModel";
-import { LoginResponce } from "../helpers/viewModels/LoginResponce";
-import LoginService from "../helpers/services/LoginService";
+import LoginService from "../api/services/LoginService";
 import { useTranslationHelper } from "../helpers/translation/translationService";
 
 const loginService = new LoginService();

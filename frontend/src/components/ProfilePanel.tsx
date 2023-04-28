@@ -16,10 +16,6 @@ export const ProfilePanel: FC<ProfilePanelProps> = ({ profilePanelElements }) =>
 	const { t, changeLanguage } = useTranslationHelper();
 
 	function clearUserInfo() {
-		// localStorage.removeItem("userId");
-		// localStorage.removeItem("userToken");
-		// localStorage.removeItem("userType");
-		// localStorage.removeItem("userEmail");
 		localStorage.clear();
 	}
 
