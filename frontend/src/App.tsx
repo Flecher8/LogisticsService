@@ -9,6 +9,7 @@ import { Registration } from "./pages/Registration";
 import { SystemAdminProfile } from "./pages/AdminPages/SystemAdminProfile";
 import { AdminSubscriptionTypes } from "./pages/AdminPages/AdminSubscriptionTypes";
 import { AdminSensor } from "./pages/AdminPages/AdminSensor";
+import { AdminSmartDevice } from "./pages/AdminPages/AdminSmartDevice";
 
 export const App: FC = () => {
 	return (
@@ -23,6 +24,7 @@ export const App: FC = () => {
 					<Route path="/SystemAdminProfile" element={<SystemAdminProfile />} />
 					<Route path="/AdminSubscriptionTypes" element={<AdminSubscriptionTypes />} />
 					<Route path="/AdminSensors" element={<AdminSensor />} />
+					<Route path="/AdminSmartDevices" element={<AdminSmartDevice />} />
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>

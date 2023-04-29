@@ -16,7 +16,6 @@ const apiAddress: string = "/Sensors";
 
 export class SensorsService {
 	async getAll(): Promise<Sensor[] | null> {
-		console.log(config);
 		try {
 			const response: AxiosResponse<SensorViewModel> = await api.get<SensorViewModel>(apiAddress, config);
 

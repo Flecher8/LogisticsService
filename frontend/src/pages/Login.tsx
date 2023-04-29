@@ -19,6 +19,8 @@ export const Login: FC = () => {
 		} catch (err: any) {
 			alert(t(err));
 		}
+		console.log(localStorage);
+		//window.location.reload();
 	};
 
 	return (

@@ -17,7 +17,7 @@ export default class LoginService {
 		this.saveUserLoginData(response);
 		this.saveUserEmail(email);
 
-		const id: number | undefined = await this.getUserIdApi(email);
+		const id: number | undefined = await this.getUserIdApi(email, response.token);
 		if (id === undefined) {
 			return;
 		}
@@ -68,43 +68,20 @@ export default class LoginService {
 		localStorage.setItem("userId", id.toString());
 	};
 
-	private getUserIdApi = async (email: string): Promise<number | undefined> => {
+	private getUserIdApi = async (email: string, token: string): Promise<number | undefined> => {
 		try {
 			if (localStorage.getItem("userType") === null) {
 				return undefined;
 			}
+
+			const headers = { Authorization: `Bearer ${token}` };
 			const userType: string | null = localStorage.getItem("userType");
-			let url = "";
-			switch (userType) {
-				case "SystemAdmin":
-					url = "/SystemAdmins/email/";
-					break;
-				case "PrivateCompany":
-					url = "/PrivateCompanies/email/";
-					break;
-				case "LogisticCompany":
-					url = "/LogisticCompanies/email/";
-					break;
-				case "LogisticCompanyAdministrator":
-					url = "/LogisticCompaniesAdministrators/email/";
-					break;
-				default:
-					return undefined;
-			}
-			const response = await api.get<any>(url + email, config);
+
+			let url: string | undefined = this.getUrlForGettingUserIdByEmail(userType);
+
+			const response: any = await api.get<any>(url + email, { headers });
 			if (response.status === 200) {
-				switch (userType) {
-					case "SystemAdmin":
-						return response.data.systemAdminId;
-					case "PrivateCompany":
-						return response.data.privateCompanyId;
-					case "LogisticCompany":
-						return response.data.logisticCompanyId;
-					case "LogisticCompanyAdministrator":
-						return response.data.logisticCompanyAdministratorId;
-					default:
-						return undefined;
-				}
+				return this.getResponceUserId(response, userType);
 			}
 		} catch (err: any) {
 			// errors that expected from back
@@ -113,6 +90,36 @@ export default class LoginService {
 			}
 		}
 		return undefined;
+	};
+
+	private getResponceUserId = (response: any, userType: string | null): number | undefined => {
+		switch (userType) {
+			case "SystemAdmin":
+				return response.data.systemAdminId;
+			case "PrivateCompany":
+				return response.data.privateCompanyId;
+			case "LogisticCompany":
+				return response.data.logisticCompanyId;
+			case "LogisticCompanyAdministrator":
+				return response.data.logisticCompanyAdministratorId;
+			default:
+				return undefined;
+		}
+	};
+
+	private getUrlForGettingUserIdByEmail = (userType: string | null): string | undefined => {
+		switch (userType) {
+			case "SystemAdmin":
+				return "/SystemAdmins/email/";
+			case "PrivateCompany":
+				return "/PrivateCompanies/email/";
+			case "LogisticCompany":
+				return "/LogisticCompanies/email/";
+			case "LogisticCompanyAdministrator":
+				return "/LogisticCompaniesAdministrators/email/";
+			default:
+				return undefined;
+		}
 	};
 
 	private loginApi = async (props: LoginViewModel): Promise<LoginResponce | undefined> => {

@@ -85,19 +85,30 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        public List<SmartDevice> GetAllSmartDevices()
+        public List<SmartDeviceDto> GetAllSmartDevices()
         {
             var smartDevices = new List<SmartDevice>();
+            var SmartDeviceDtos = new List<SmartDeviceDto>();
             try
             {
                 smartDevices = _smartDeviceRepository.GetAllItems();
+                foreach(var smartDevice in smartDevices)
+                {
+                    SmartDeviceDto smartDeviceDto = new SmartDeviceDto();
+                    smartDeviceDto.SmartDeviceId = smartDevice.SmartDeviceId;
+                    smartDeviceDto.NumberOfSensors = smartDevice.NumberOfSensors;
+                    smartDeviceDto.LogisticCompanyId = 
+                        smartDevice.LogisticCompany == null ? 0: smartDevice.LogisticCompany.LogisticCompanyId;
+                    SmartDeviceDtos.Add(smartDeviceDto);
+                }
+
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
 
-            return smartDevices;
+            return SmartDeviceDtos;
         }
 
         public SmartDevice? GetSmartDeviceById(int smartDeviceId)
@@ -138,20 +149,30 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public List<SmartDevice> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)
+        public List<SmartDeviceDto> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)
         {
             var smartDevices = new List<SmartDevice>();
+            var SmartDeviceDtos = new List<SmartDeviceDto>();
             try
             {
                 smartDevices = _smartDeviceRepository
                     .GetFilteredItems(s => s.LogisticCompany.LogisticCompanyId == logisticCompanyId);
+
+                foreach (var smartDevice in smartDevices)
+                {
+                    SmartDeviceDto smartDeviceDto = new SmartDeviceDto();
+                    smartDeviceDto.SmartDeviceId = smartDevice.SmartDeviceId;
+                    smartDeviceDto.NumberOfSensors = smartDevice.NumberOfSensors;
+                    smartDeviceDto.LogisticCompanyId = smartDevice.LogisticCompany.LogisticCompanyId;
+                    SmartDeviceDtos.Add(smartDeviceDto);
+                }
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
 
-            return smartDevices;
+            return SmartDeviceDtos;
         }
     }
 }
