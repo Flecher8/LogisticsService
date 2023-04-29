@@ -5,11 +5,8 @@ import { ProfilePanel, ProfilePanelElement, ProfilePanelProps } from "./ProfileP
 
 // Panel elements
 const profilePanelElements: ProfilePanelElement[] = [
-	{ name: "Profile", linkTo: "/SystemAdminProfile" },
-	{ name: "Subscription types", linkTo: "/AdminSubscriptionTypes" },
-	{ name: "Sensors", linkTo: "/AdminSensors" },
-	{ name: "Smart devices", linkTo: "/AdminSmartDevices" },
-	{ name: "Logistic companies", linkTo: "/AdminLogisticCompanies" }
+	{ name: "Profile", linkTo: "/SystemAdminProfile" }
+	// { name: "Profile", linkTo: "/SystemAdminProfile" },
 ];
 
 // create a profile panel props object
@@ -17,9 +14,9 @@ const profilePanelProps: ProfilePanelProps = {
 	profilePanelElements
 };
 
-export const AdminPanel: FC = () => {
+export const PrivateCompanyPanel: FC = () => {
 	return (
-		<div className="AdminPanel">
+		<div className="PrivateCompanyPanel">
 			<ProfilePanel {...profilePanelProps} />
 		</div>
 	);

@@ -2,15 +2,16 @@ import { useState, useEffect, FC } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AdminPanel } from "../../components/AdminPanel";
-import { SystemAdmin, SystemAdminService } from "../../api/services/SystemAdminService";
+import { PrivateCompanyPanel } from "../../components/PrivateCompanyPanel";
+import { PrivateCompaniesService, PrivateCompany } from "../../api/services/PrivateCompaniesService";
 
-export const SystemAdminProfile: FC = () => {
-	const [profile, setProfile] = useState<SystemAdmin | null>(null);
+export const PrivateCompanyProfile: FC = () => {
+	const [profile, setProfile] = useState<PrivateCompany | null>(null);
 
 	const getProfileData = async (): Promise<void> => {
 		try {
 			const userId: number = parseInt(localStorage["userId"]);
-			const response: SystemAdmin | null = await SystemAdminService.prototype.getItem(userId);
+			const response: PrivateCompany | null = await PrivateCompaniesService.prototype.getItem(userId);
 			setProfile(response);
 		} catch (err) {
 			alert(err);
@@ -21,10 +22,10 @@ export const SystemAdminProfile: FC = () => {
 		getProfileData();
 	}, []);
 	return (
-		<div className="SystemAdminProfile container">
+		<div className="PrivateCompanyProfile container">
 			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
-				<AdminPanel />
+				<PrivateCompanyPanel />
 			</div>
 			<div>
 				<header>
@@ -36,8 +37,9 @@ export const SystemAdminProfile: FC = () => {
 					<Card className="my-5">
 						<Card.Header>Profile Information</Card.Header>
 						<Card.Body>
-							<Card.Text>{`Name: ${profile.firstName} ${profile.lastName}`}</Card.Text>
+							<Card.Text>{`Company name: ${profile.companyName}`}</Card.Text>
 							<Card.Text>{`Email: ${profile.email}`}</Card.Text>
+							<Card.Text>{`Description: ${profile.description === null ? "" : profile.description}`}</Card.Text>
 						</Card.Body>
 					</Card>
 				)}

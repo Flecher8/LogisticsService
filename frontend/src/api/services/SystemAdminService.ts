@@ -12,9 +12,9 @@ export interface SystemAdmin {
 const apiAddress: string = "/SystemAdmins";
 
 export class SystemAdminService {
-	async getProfileInfo(id: number): Promise<SystemAdmin | null> {
+	async getItem(id: number): Promise<SystemAdmin | null> {
 		try {
-			const response: AxiosResponse<SystemAdmin> = await api.get<SystemAdmin>(apiAddress + "/id/" + id, config);
+			const response: AxiosResponse<SystemAdmin> = await api.get<SystemAdmin>(apiAddress + "/" + id, config);
 			if (response.status === 200) {
 				return response.data;
 			}
