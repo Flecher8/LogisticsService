@@ -8,6 +8,7 @@ import { Login } from "./pages/Login";
 import { Registration } from "./pages/Registration";
 import { SystemAdminProfile } from "./pages/AdminPages/SystemAdminProfile";
 import { AdminSubscriptionTypes } from "./pages/AdminPages/AdminSubscriptionTypes";
+import { AdminSensor } from "./pages/AdminPages/AdminSensor";
 
 export const App: FC = () => {
 	return (
@@ -21,6 +22,7 @@ export const App: FC = () => {
 					<Route path="/Registration" element={<Registration />} />
 					<Route path="/SystemAdminProfile" element={<SystemAdminProfile />} />
 					<Route path="/AdminSubscriptionTypes" element={<AdminSubscriptionTypes />} />
+					<Route path="/AdminSensors" element={<AdminSensor />} />
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>

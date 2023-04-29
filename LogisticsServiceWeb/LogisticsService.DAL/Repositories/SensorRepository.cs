@@ -66,7 +66,9 @@ namespace LogisticsService.DAL.Repositories
 
         public List<Sensor> GetAllItems()
         {
-            return context.Sensors.ToList();
+            return context.Sensors
+                .Include(s => s.SmartDevice)
+                .ToList();
         }
     }
 }

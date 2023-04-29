@@ -84,7 +84,7 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutSensor(Sensor sensor)
+        public async Task<IActionResult> PutSensor(SensorDto sensor)
         {
             try
             {

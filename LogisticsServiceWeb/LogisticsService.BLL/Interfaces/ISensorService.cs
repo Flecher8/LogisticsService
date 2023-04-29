@@ -15,11 +15,11 @@ namespace LogisticsService.BLL.Interfaces
 
         List<Sensor> GetAllSensorsBySmartDeviceId(int smartDeviceId);
 
-        List<Sensor> GetAllSensors();
+        List<SensorDto> GetAllSensors();
 
         void CreateSensor(SensorDto sensorDto);
 
-        void UpdateSensor(Sensor sensor);
+        void UpdateSensor(SensorDto sensor);
 
         void DeleteSensor(int sensorId);
 

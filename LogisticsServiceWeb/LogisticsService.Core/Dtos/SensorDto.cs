@@ -8,6 +8,7 @@ namespace LogisticsService.Core.Dtos
 {
     public class SensorDto
     {
+        public int SensorId { get; set; }
         public int SmartDeviceId { get; set; }
     }
 }

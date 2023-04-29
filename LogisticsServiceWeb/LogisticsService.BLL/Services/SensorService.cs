@@ -91,19 +91,28 @@ namespace LogisticsService.BLL.Services
             return sensor.Status == SensorStatus.Active ? true : false;
         }
 
-        public List<Sensor> GetAllSensors()
+        public List<SensorDto> GetAllSensors()
         {
             var sensors = new List<Sensor>();
+            var sensorDtos = new List<SensorDto>();
             try
             {
                 sensors = _sensorRepository.GetAllItems();
+                
+                foreach(var sensor in sensors)
+                {
+                    SensorDto sensorDto = new SensorDto();
+                    sensorDto.SensorId = sensor.SensorId;
+                    sensorDto.SmartDeviceId = sensor.SmartDevice.SmartDeviceId;
+                    sensorDtos.Add(sensorDto);
+                }
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
 
-            return sensors;
+            return sensorDtos;
         }
 
         public List<Sensor> GetAllSensorsBySmartDeviceId(int smartDeviceId)
@@ -135,7 +144,26 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public void UpdateSensor(Sensor sensor)
+        public void UpdateSensor(SensorDto sensorDto)
+        {
+            try
+            {
+                IsSensorValid(sensorDto);
+                Sensor? sensor = GetSensorById(sensorDto.SensorId);
+                if(sensor == null)
+                {
+                    return;
+                }
+                sensor.SmartDevice = _smartDeviceService.GetSmartDeviceById(sensorDto.SmartDeviceId);
+                _sensorRepository.UpdateItem(sensor);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+        }
+
+        private void UpdateSensor(Sensor sensor)
         {
             try
             {
