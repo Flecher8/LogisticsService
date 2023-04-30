@@ -79,7 +79,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 }); ;
 // Can be added to remove json cycles
 //.AddJsonOptions(options =>

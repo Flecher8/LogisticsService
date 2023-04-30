@@ -13,6 +13,8 @@ import { AdminSmartDevice } from "./pages/AdminPages/AdminSmartDevice";
 import { AdminLogisticCompanies } from "./pages/AdminPages/AdminLogisticCompanies";
 import { PrivateCompanyProfile } from "./pages/PrivateCompanyPages/PrivateCompanyProfile";
 import { PrivateCompanyStatistics } from "./pages/PrivateCompanyPages/PrivateCompanyStatistics";
+import { PrivateCompanyCancelledOrders } from "./pages/PrivateCompanyPages/PrivateCompanyCancelledOrders";
+import { PrivateCompanyDeliveredOrders } from "./pages/PrivateCompanyPages/PrivateCompanyDeliveredOrders";
 
 export const App: FC = () => {
 	return (
@@ -31,6 +33,8 @@ export const App: FC = () => {
 					<Route path="/AdminLogisticCompanies" element={<AdminLogisticCompanies />} />
 					<Route path="/PrivateCompanyProfile" element={<PrivateCompanyProfile />} />
 					<Route path="/PrivateCompanyStatistics" element={<PrivateCompanyStatistics />} />
+					<Route path="/PrivateCompanyCancelledOrders" element={<PrivateCompanyCancelledOrders />} />
+					<Route path="/PrivateCompanyDeliveredOrders" element={<PrivateCompanyDeliveredOrders />} />
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>
