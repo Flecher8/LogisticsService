@@ -5,8 +5,8 @@ import { ProfilePanel, ProfilePanelElement, ProfilePanelProps } from "./ProfileP
 
 // Panel elements
 const profilePanelElements: ProfilePanelElement[] = [
-	{ name: "Profile", linkTo: "/SystemAdminProfile" }
-	// { name: "Profile", linkTo: "/SystemAdminProfile" },
+	{ name: "Profile", linkTo: "/PrivateCompanyProfile" },
+	{ name: "Statistics", linkTo: "/PrivateCompanyStatistics" }
 ];
 
 // create a profile panel props object

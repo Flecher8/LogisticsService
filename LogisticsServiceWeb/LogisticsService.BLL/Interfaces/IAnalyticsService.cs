@@ -8,9 +8,9 @@ namespace LogisticsService.BLL.Interfaces
 {
     public interface IAnalyticsService
     {
-        TimeSpan GetAverageDeliveryTimeByPrivateCompany(int privateCompanyId);
+        string GetAverageDeliveryTimeByPrivateCompany(int privateCompanyId);
 
-        TimeSpan GetAverageDeliveryTimeByLogisticCompany(int logisticCompanyId);
+        string GetAverageDeliveryTimeByLogisticCompany(int logisticCompanyId);
 
         double GetAverageDeliveryPathLengthByPrivateCompany(int privateCompanyId, string metric);
 

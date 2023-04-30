@@ -12,6 +12,7 @@ import { AdminSensor } from "./pages/AdminPages/AdminSensor";
 import { AdminSmartDevice } from "./pages/AdminPages/AdminSmartDevice";
 import { AdminLogisticCompanies } from "./pages/AdminPages/AdminLogisticCompanies";
 import { PrivateCompanyProfile } from "./pages/PrivateCompanyPages/PrivateCompanyProfile";
+import { PrivateCompanyStatistics } from "./pages/PrivateCompanyPages/PrivateCompanyStatistics";
 
 export const App: FC = () => {
 	return (
@@ -29,6 +30,7 @@ export const App: FC = () => {
 					<Route path="/AdminSmartDevices" element={<AdminSmartDevice />} />
 					<Route path="/AdminLogisticCompanies" element={<AdminLogisticCompanies />} />
 					<Route path="/PrivateCompanyProfile" element={<PrivateCompanyProfile />} />
+					<Route path="/PrivateCompanyStatistics" element={<PrivateCompanyStatistics />} />
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>
