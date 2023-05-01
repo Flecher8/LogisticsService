@@ -2,11 +2,6 @@ import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
 
-export interface SubscritionTypesViewModel {
-	$id: number;
-	$values: SubscriptionType[];
-}
-
 export interface SubscriptionType {
 	subscriptionTypeId?: number;
 	subscriptionTypeName: string;
@@ -17,12 +12,12 @@ export interface SubscriptionType {
 export class SubscriptionTypesService {
 	async getAll(): Promise<SubscriptionType[] | null> {
 		try {
-			const response: AxiosResponse<SubscritionTypesViewModel> = await api.get<SubscritionTypesViewModel>(
+			const response: AxiosResponse<SubscriptionType[]> = await api.get<SubscriptionType[]>(
 				"/SubscriptionTypes",
 				config
 			);
 			if (response.status === 200) {
-				return response.data.$values;
+				return response.data;
 			}
 		} catch (err: any) {
 			if (err.response?.status === 400) {

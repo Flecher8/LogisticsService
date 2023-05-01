@@ -2,11 +2,6 @@ import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
 
-export interface LogisticCompaniesViewModel {
-	$id: number;
-	$values: LogisticCompany[];
-}
-
 export interface LogisticCompany {
 	logisticCompanyId: number;
 	companyName: string;
@@ -19,12 +14,9 @@ const apiAddress: string = "/LogisticCompanies";
 export class LogisticCompaniesService {
 	async getAll(): Promise<LogisticCompany[] | null> {
 		try {
-			const response: AxiosResponse<LogisticCompaniesViewModel> = await api.get<LogisticCompaniesViewModel>(
-				apiAddress,
-				config
-			);
+			const response: AxiosResponse<LogisticCompany[]> = await api.get<LogisticCompany[]>(apiAddress, config);
 			if (response.status === 200) {
-				return response.data.$values;
+				return response.data;
 			}
 		} catch (err: any) {
 			if (err.response?.status === 400) {

@@ -2,11 +2,6 @@ import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
 
-export interface SmartDeviceViewModel {
-	$id: number;
-	$values: SmartDevice[];
-}
-
 export interface SmartDevice {
 	smartDeviceId?: number;
 	logisticCompanyId: number;
@@ -18,10 +13,10 @@ const apiAddress: string = "/SmartDevices";
 export class SmartDevicesService {
 	async getAll(): Promise<SmartDevice[] | null> {
 		try {
-			const response: AxiosResponse<SmartDeviceViewModel> = await api.get<SmartDeviceViewModel>(apiAddress, config);
+			const response: AxiosResponse<SmartDevice[]> = await api.get<SmartDevice[]>(apiAddress, config);
 			console.log(response.data);
 			if (response.status === 200) {
-				return response.data.$values;
+				return response.data;
 			}
 		} catch (err: any) {
 			if (err.response?.status === 400) {

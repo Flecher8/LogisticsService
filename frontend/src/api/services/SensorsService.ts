@@ -2,11 +2,6 @@ import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
 
-export interface SensorViewModel {
-	$id: number;
-	$values: Sensor[];
-}
-
 export interface Sensor {
 	sensorId?: number;
 	smartDeviceId: number;
@@ -17,10 +12,10 @@ const apiAddress: string = "/Sensors";
 export class SensorsService {
 	async getAll(): Promise<Sensor[] | null> {
 		try {
-			const response: AxiosResponse<SensorViewModel> = await api.get<SensorViewModel>(apiAddress, config);
+			const response: AxiosResponse<Sensor[]> = await api.get<Sensor[]>(apiAddress, config);
 
 			if (response.status === 200) {
-				return response.data.$values;
+				return response.data;
 			}
 		} catch (err: any) {
 			if (err.response?.status === 400) {
