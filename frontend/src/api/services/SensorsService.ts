@@ -19,7 +19,6 @@ export class SensorsService {
 			}
 		} catch (err: any) {
 			if (err.response?.status === 400) {
-				console.log(err);
 				throw new Error(err.response.data);
 			}
 		}

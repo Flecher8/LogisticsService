@@ -29,21 +29,23 @@ export const PrivateCompanyDeliveredOrders: FC = () => {
 			<div className="d-flex border border-dark w-100">
 				<PrivateCompanyPanel />
 			</div>
-			<div>
+			<div className="d-flex flex-column">
 				<header>
 					<div className="text-center mt-5">
 						<h1>Delivered orders</h1>
 					</div>
 				</header>
-				{orders ? (
-					orders.map(order => (
-						<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
-							<OrderCard order={order} />
-						</div>
-					))
-				) : (
-					<p>No data</p>
-				)}
+				<div className="d-flex flex-column align-items-start flex-fill flex-wrap">
+					{orders ? (
+						orders.map(order => (
+							<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
+								<OrderCard order={order} />
+							</div>
+						))
+					) : (
+						<p>No data</p>
+					)}
+				</div>
 			</div>
 		</div>
 	);

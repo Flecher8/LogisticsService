@@ -54,8 +54,8 @@ builder.Services.AddScoped<ILogisticCompaniesAdministratorService, LogisticCompa
 builder.Services.AddScoped<ILogisticCompaniesDriverService, LogisticCompaniesDriverService>();
 builder.Services.AddScoped<ILogisticCompanyService, LogisticCompanyService>();
 
-builder.Services.AddScoped<IOrderService, OrderService>(); // TODO
-builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>(); // TODO
+builder.Services.AddScoped<IOrderService, OrderService>(); 
+builder.Services.AddScoped<IOrderTrackerService, OrderTrackerService>(); 
 
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPrivateCompanyService, PrivateCompanyService>();
