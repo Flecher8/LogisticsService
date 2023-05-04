@@ -7,6 +7,7 @@ import { ProfilePanel, ProfilePanelElement, ProfilePanelProps } from "./ProfileP
 const profilePanelElements: ProfilePanelElement[] = [
 	{ name: "Profile", linkTo: "/PrivateCompanyProfile" },
 	{ name: "Statistics", linkTo: "/PrivateCompanyStatistics" },
+	{ name: "Active Orders", linkTo: "/PrivateCompanyActiveOrders" },
 	{ name: "Delivered Orders", linkTo: "/PrivateCompanyDeliveredOrders" },
 	{ name: "Cancelled Orders", linkTo: "/PrivateCompanyCancelledOrders" }
 ];

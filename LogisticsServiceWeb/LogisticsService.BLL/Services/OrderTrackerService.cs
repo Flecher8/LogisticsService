@@ -90,10 +90,10 @@ namespace LogisticsService.BLL.Services
                     .ToList()
                     .FirstOrDefault();
 
-                //if (orderTracker == null)
-                //{
-                //    orderTracker = CreateNewOrderTrackerByStartDeliveryAddress(order);
-                //}
+                if (order.OrderStatus == Core.Enums.OrderStatus.InTransit && orderTracker == null)
+                {
+                    orderTracker = CreateNewOrderTrackerByStartDeliveryAddress(order);
+                }
 
                 return orderTracker;
             }

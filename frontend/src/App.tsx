@@ -15,6 +15,8 @@ import { PrivateCompanyProfile } from "./pages/PrivateCompanyPages/PrivateCompan
 import { PrivateCompanyStatistics } from "./pages/PrivateCompanyPages/PrivateCompanyStatistics";
 import { PrivateCompanyCancelledOrders } from "./pages/PrivateCompanyPages/PrivateCompanyCancelledOrders";
 import { PrivateCompanyDeliveredOrders } from "./pages/PrivateCompanyPages/PrivateCompanyDeliveredOrders";
+import { PrivateCompanyActiveOrders } from "./pages/PrivateCompanyPages/PrivateCompanyActiveOrders";
+import { PrivateCompanyShowOrderInfo } from "./pages/PrivateCompanyPages/PrivateCompanyShowOrderInfo";
 
 export const App: FC = () => {
 	return (
@@ -35,6 +37,8 @@ export const App: FC = () => {
 					<Route path="/PrivateCompanyStatistics" element={<PrivateCompanyStatistics />} />
 					<Route path="/PrivateCompanyCancelledOrders" element={<PrivateCompanyCancelledOrders />} />
 					<Route path="/PrivateCompanyDeliveredOrders" element={<PrivateCompanyDeliveredOrders />} />
+					<Route path="/PrivateCompanyActiveOrders" element={<PrivateCompanyActiveOrders />} />
+					<Route path="/PrivateCompanyShowOrderInfo/:id" element={<PrivateCompanyShowOrderInfo />} />
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>
