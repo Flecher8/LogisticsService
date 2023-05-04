@@ -16,10 +16,6 @@ export const PrivateCompanyActiveOrders: FC = () => {
 		} catch (err) {}
 	};
 
-	const handleOrderClick = (orderId: number): void => {
-		console.log(orderId);
-	};
-
 	useEffect(() => {
 		getOrders();
 	}, []);
@@ -39,7 +35,7 @@ export const PrivateCompanyActiveOrders: FC = () => {
 					<h2>Waiting for acceptance by logistic company</h2>
 					{orders?.waitingForAcceptanceByLogisticCompanyOrders ? (
 						orders.waitingForAcceptanceByLogisticCompanyOrders.map(order => (
-							<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
+							<div key={order.orderId}>
 								<Link
 									key={order.orderId}
 									to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
@@ -56,8 +52,13 @@ export const PrivateCompanyActiveOrders: FC = () => {
 					<h2>Waiting for payment</h2>
 					{orders?.waitingForPaymentByPrivateCompanyOrders ? (
 						orders.waitingForPaymentByPrivateCompanyOrders.map(order => (
-							<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
-								<OrderCard order={order} />
+							<div key={order.orderId}>
+								<Link
+									key={order.orderId}
+									to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
+									style={{ textDecoration: "none", color: "black" }}>
+									<OrderCard order={order} />
+								</Link>
 							</div>
 						))
 					) : (
@@ -68,8 +69,13 @@ export const PrivateCompanyActiveOrders: FC = () => {
 					<h2>Accepted orders</h2>
 					{orders?.acceptedOrders ? (
 						orders.acceptedOrders.map(order => (
-							<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
-								<OrderCard order={order} />
+							<div key={order.orderId}>
+								<Link
+									key={order.orderId}
+									to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
+									style={{ textDecoration: "none", color: "black" }}>
+									<OrderCard order={order} />
+								</Link>
 							</div>
 						))
 					) : (
@@ -80,8 +86,13 @@ export const PrivateCompanyActiveOrders: FC = () => {
 					<h2>In transit</h2>
 					{orders?.inTransitOrders ? (
 						orders.inTransitOrders.map(order => (
-							<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
-								<OrderCard order={order} />
+							<div key={order.orderId}>
+								<Link
+									key={order.orderId}
+									to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
+									style={{ textDecoration: "none", color: "black" }}>
+									<OrderCard order={order} />
+								</Link>
 							</div>
 						))
 					) : (

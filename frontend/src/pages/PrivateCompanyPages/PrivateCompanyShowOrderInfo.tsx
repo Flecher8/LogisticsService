@@ -2,12 +2,15 @@ import React, { useState, useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
 import { PrivateCompanyPanel } from "../../components/PrivateCompanyPanel";
-import { ActiveOrders, Order, OrdersService } from "../../api/services/OrdersService";
+import { ActiveOrders, Address, Order, OrderStatus, OrdersService, Point } from "../../api/services/OrdersService";
 import { OrderCard } from "../../components/OrderCard";
 import { GoogleMaps } from "../../components/GoogleMap";
+import { GeolocationService } from "../../api/services/GeolocationService";
+import { DataTimeService } from "../../helpers/DataTimeService";
+import { CargoCard } from "../../components/CargoCard";
 
 export const PrivateCompanyShowOrderInfo: FC = () => {
-	const [order, setOrder] = useState<Order | null>();
+	const [order, setOrder] = useState<Order | null>(null);
 	const { id } = useParams<{ id: string }>();
 
 	const getOrder = async (): Promise<void> => {
@@ -16,7 +19,7 @@ export const PrivateCompanyShowOrderInfo: FC = () => {
 
 			const response: Order | null = await OrdersService.prototype.getOrder(parseInt(id));
 			setOrder(response);
-			console.log(response);
+			if (response == null) return;
 		} catch (err) {}
 	};
 
@@ -29,16 +32,7 @@ export const PrivateCompanyShowOrderInfo: FC = () => {
 			<div className="d-flex border border-dark w-100">
 				<PrivateCompanyPanel />
 			</div>
-			<div>
-				<header>
-					<div className="text-center mt-5">
-						<h1>Order Info</h1>
-					</div>
-				</header>
-				<div>
-					<GoogleMaps lat={50.84281197725498} lng={4.3823823826825405} />
-				</div>
-			</div>
+			<div>{order !== null ? <OrderCard order={order} /> : <p>No data</p>}</div>
 		</div>
 	);
 };

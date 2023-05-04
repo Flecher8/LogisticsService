@@ -66,7 +66,7 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        public Cargo GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg")
+        public Cargo? GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg")
         {
             CargoValidator cargoValidator = new CargoValidator();
             cargoValidator.IsCargoTypesValid(cargoSizeType, cargoWeightType);
@@ -78,8 +78,18 @@ namespace LogisticsService.BLL.Services
                 {
                     return null;
                 }
-                return cargo;
-                //return CreateCargoDtoFromCargo(cargo, cargoSizeType, cargoWeightType);
+                //return cargo;
+                CargoDto dto = CreateCargoDtoFromCargo(cargo, cargoSizeType, cargoWeightType);
+                Cargo newCargo = new Cargo();
+                newCargo.CargoId = cargoId;
+                newCargo.Name = dto.Name;
+                newCargo.Weight = dto.Weight;
+                newCargo.Length = dto.Length;
+                newCargo.Width = dto.Width;
+                newCargo.Height = dto.Height;
+                newCargo.Description = dto.Description;
+                return newCargo;
+
             }
             catch (Exception e)
             {

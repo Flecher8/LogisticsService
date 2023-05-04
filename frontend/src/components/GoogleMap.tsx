@@ -12,8 +12,7 @@ export const GoogleMaps: FC<GoogleMapsProps> = ({ lat, lng }) => {
 	});
 
 	const containerStyle = {
-		width: "1000px",
-		height: "400px"
+		height: "300px"
 	};
 
 	const handleClick = (event: any) => {

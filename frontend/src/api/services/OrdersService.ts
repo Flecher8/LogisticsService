@@ -54,10 +54,31 @@ export interface Address {
 	longitute: number;
 }
 
+export interface Point {
+	latitude: number;
+	longitude: number;
+}
+
 const apiAddress: string = "/Orders";
 const privateCompanyOrdersApi = "/privateCompanyId/";
 
+const orderTrackerApi = "/OrderTrackers/CurrentOrderTracker/orderId/";
+
 export class OrdersService {
+	async getOrderCurrentLocation(id: number): Promise<Point | null> {
+		try {
+			const response: AxiosResponse<Point> = await api.get<Point>(orderTrackerApi + id, config);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+		return null;
+	}
+
 	async getOrder(id: number): Promise<Order | null> {
 		try {
 			const response: AxiosResponse<Order> = await api.get<Order>(apiAddress + "/id/" + id, config);
