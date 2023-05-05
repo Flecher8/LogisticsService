@@ -1,14 +1,24 @@
 import { useState, useEffect, FC } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AdminPanel } from "../../components/AdminPanel";
 import { LogisticCompanyPanel } from "../../components/LogisticCompanyPanel";
 import { LogisticCompaniesService, LogisticCompany } from "../../api/services/LogisticCompaniesService";
 import { Rate, RatesService } from "../../api/services/RatesService";
+import { UpdateRate } from "../../components/UpdateRate";
 
 export const LogisticCompanyProfile: FC = () => {
 	const [profile, setProfile] = useState<LogisticCompany | null>(null);
-	const [rate, setRate] = useState<Rate | null>(null);
+	const [rate, setRate] = useState<Rate>();
+
+	// Update modal show
+	const [updateItemModelShow, SetUpdateItemModelShow] = useState(false);
+	const updateItemModelHandleClose = () => SetUpdateItemModelShow(false);
+	const updateItemModelHandleShow = () => SetUpdateItemModelShow(true);
+
+	function handleEditItem() {
+		updateItemModelHandleShow();
+	}
 
 	const getProfileData = async (): Promise<void> => {
 		try {
@@ -17,6 +27,9 @@ export const LogisticCompanyProfile: FC = () => {
 			setProfile(logisticCompany);
 
 			const rate: Rate | null = await RatesService.prototype.getItemByLogisticCompany(userId);
+
+			if (rate === null) return;
+
 			setRate(rate);
 		} catch (err) {
 			alert(err);
@@ -32,6 +45,9 @@ export const LogisticCompanyProfile: FC = () => {
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompanyPanel />
 			</div>
+			<Modal size="lg" centered show={updateItemModelShow} onHide={updateItemModelHandleClose}>
+				<UpdateRate close={updateItemModelHandleClose} item={rate} />
+			</Modal>
 			<div>
 				<header>
 					<div className="text-center mt-5">
@@ -55,7 +71,11 @@ export const LogisticCompanyProfile: FC = () => {
 						<p>No data</p>
 					)}
 				</div>
-				<div></div>
+				<div>
+					<Button onClick={() => handleEditItem()} variant="outline-dark">
+						Update rate
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

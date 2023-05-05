@@ -19,6 +19,9 @@ import { PrivateCompanyActiveOrders } from "./pages/PrivateCompanyPages/PrivateC
 import { PrivateCompanyShowOrderInfo } from "./pages/PrivateCompanyPages/PrivateCompanyShowOrderInfo";
 import { PrivateCompanyCreateOrder } from "./pages/PrivateCompanyPages/PrivateCompanyCreateOrder";
 import { LogisticCompanyProfile } from "./pages/LogisticCompanyPages/LogisticCompanyProfile";
+import { LogisticCompanyStatistics } from "./pages/LogisticCompanyPages/LogisticCompanyStatistics";
+import { LogisticCompanySmartDevices } from "./pages/LogisticCompanyPages/LogisticCompanySmartDevices";
+import { LogisticCompanyChangeAdministrators } from "./pages/LogisticCompanyPages/LogisticCompanyChangeAdministrators";
 
 export const App: FC = () => {
 	return (
@@ -43,6 +46,9 @@ export const App: FC = () => {
 					<Route path="/PrivateCompanyShowOrderInfo/:id" element={<PrivateCompanyShowOrderInfo />} />
 					<Route path="/PrivateCompanyCreateOrder" element={<PrivateCompanyCreateOrder />} />
 					<Route path="/LogisticCompanyProfile" element={<LogisticCompanyProfile />} />
+					<Route path="/LogisticCompanyStatistics" element={<LogisticCompanyStatistics />} />
+					<Route path="/LogisticCompanySmartDevices" element={<LogisticCompanySmartDevices />} />
+					<Route path="/LogisticCompanyChangeAdministrators" element={<LogisticCompanyChangeAdministrators />} />
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>

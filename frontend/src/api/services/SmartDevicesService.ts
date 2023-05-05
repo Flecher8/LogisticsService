@@ -14,7 +14,24 @@ export class SmartDevicesService {
 	async getAll(): Promise<SmartDevice[] | null> {
 		try {
 			const response: AxiosResponse<SmartDevice[]> = await api.get<SmartDevice[]>(apiAddress, config);
-			console.log(response.data);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				console.log(err);
+				throw new Error(err.response.data);
+			}
+		}
+		return null;
+	}
+
+	async getItemsByLogisticCompany(logisticCompanyId: number): Promise<SmartDevice[] | null> {
+		try {
+			const response: AxiosResponse<SmartDevice[]> = await api.get<SmartDevice[]>(
+				apiAddress + "/logisticCompanyId/" + logisticCompanyId,
+				config
+			);
 			if (response.status === 200) {
 				return response.data;
 			}

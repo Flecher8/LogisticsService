@@ -14,7 +14,7 @@ export interface Rate {
 	priceForKmInDollar: number;
 }
 
-const apiAddress: string = "/Rates/logisticCompanyId/";
+const apiAddress: string = "/Rates";
 
 export class RatesService {
 	async getRates(): Promise<LogisticCompanyRates[] | null> {
@@ -47,7 +47,10 @@ export class RatesService {
 
 	async getItemByLogisticCompany(logisticCompanyId: number): Promise<Rate | null> {
 		try {
-			const response: AxiosResponse<Rate> = await api.get<Rate>(apiAddress + logisticCompanyId, config);
+			const response: AxiosResponse<Rate> = await api.get<Rate>(
+				apiAddress + "/logisticCompanyId/" + logisticCompanyId,
+				config
+			);
 			if (response.status === 200) {
 				return response.data;
 			}
@@ -57,5 +60,16 @@ export class RatesService {
 			}
 		}
 		return null;
+	}
+
+	async update(rate: Rate): Promise<void> {
+		try {
+			const response: any = await api.put<Rate>(apiAddress, rate, config);
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				console.log(err);
+				throw new Error(err.response.data);
+			}
+		}
 	}
 }

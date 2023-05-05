@@ -1,4 +1,5 @@
 ﻿using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace LogisticsService.BLL.Interfaces
 
         void CreateRate(Rate rate);
 
-        void UpdateRate(Rate rate);
+        void UpdateRate(RateDto rate);
     }
 }
