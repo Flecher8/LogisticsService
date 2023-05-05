@@ -94,10 +94,10 @@ namespace LogisticsServiceWeb.Controllers
         {
             try
             {
-                _logger.LogInformation("Ok");
+                
                 var result = _logisticCompaniesAdministratorService
                     .CreateLogisticCompaniesAdministrator(person);
-                _logger.LogInformation("Ok2");
+               
                 return Ok(result);
             }
             catch (Exception e)

@@ -8,7 +8,6 @@ export class PaymentService {
 	async payForOrder(orderId: number): Promise<void> {
 		try {
 			const response: AxiosResponse<any> = await api.post<any>(apiAddress + orderId, null, config);
-			console.log(response);
 		} catch (err: any) {
 			if (err.response?.status === 400) {
 				throw new Error(err.response.data);

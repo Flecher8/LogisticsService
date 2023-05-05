@@ -25,4 +25,20 @@ export class LogisticCompaniesService {
 		}
 		return null;
 	}
+	async getItem(id: number): Promise<LogisticCompany | null> {
+		try {
+			const response: AxiosResponse<LogisticCompany> = await api.get<LogisticCompany>(
+				apiAddress + "/id/" + id,
+				config
+			);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+		return null;
+	}
 }

@@ -31,6 +31,11 @@ export const PrivateCompanyActiveOrders: FC = () => {
 						<h1>Active orders</h1>
 					</div>
 				</header>
+				<div className="">
+					<Link to="/PrivateCompanyCreateOrder">
+						<Button>Create new order</Button>
+					</Link>
+				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill ">
 					<h2>Waiting for acceptance by logistic company</h2>
 					<div className="d-flex flex-row align-items-start flex-fill">
