@@ -31,10 +31,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(Rate item)
+        public int InsertItem(Rate item)
         {
             context.Rates.Add(item);
             context.SaveChanges();
+            int createdItemId = item.RateId;
+            return createdItemId;
         }
 
         public void UpdateItem(Rate item)

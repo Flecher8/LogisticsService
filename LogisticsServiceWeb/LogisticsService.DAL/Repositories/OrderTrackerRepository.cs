@@ -31,10 +31,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(OrderTracker item)
+        public int InsertItem(OrderTracker item)
         {
             context.OrderTrackers.Add(item);
             context.SaveChanges();
+            int createdItemId = item.OrderTrackerId;
+            return createdItemId;
         }
 
         public void UpdateItem(OrderTracker item)

@@ -32,10 +32,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(SubscriptionType item)
+        public int InsertItem(SubscriptionType item)
         {
             context.SubscriptionTypes.Add(item);
             context.SaveChanges();
+            int createdItemId = item.SubscriptionTypeId;
+            return createdItemId;
         }
 
         public void UpdateItem(SubscriptionType item)

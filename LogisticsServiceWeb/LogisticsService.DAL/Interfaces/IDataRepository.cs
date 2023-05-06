@@ -15,7 +15,7 @@ namespace LogisticsService.DAL.Interfaces
 
         T? GetItemById(int itemId);
 
-        void InsertItem(T item);
+        int InsertItem(T item);
 
         void DeleteItem(int itemId);
 

@@ -36,10 +36,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(SmartDevice item)
+        public int InsertItem(SmartDevice item)
         {
             context.SmartDevices.Add(item);
             context.SaveChanges();
+            int createdItemId = item.SmartDeviceId;
+            return createdItemId;
         }
 
         public void UpdateItem(SmartDevice item)
