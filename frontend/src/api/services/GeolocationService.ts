@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
-import { Address } from "./OrdersService";
+import { Address } from "./AddressesService";
 
 const apiAddress: string = "/Geocode?language=";
 

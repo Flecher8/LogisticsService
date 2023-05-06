@@ -32,14 +32,11 @@ export const GoogleMaps: FC<GoogleMapsProps> = ({ lat, lng }) => {
 		padding: 15
 	};
 
-	const onLoad = (marker: any) => {
-		console.log("marker: ", marker);
-	};
 	return (
 		<div className="GoogleMaps">
 			{isLoaded && (
 				<GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-					<MarkerF onLoad={onLoad} position={center} />
+					<MarkerF position={center} />
 				</GoogleMap>
 			)}
 		</div>

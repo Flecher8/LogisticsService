@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,12 +3,26 @@ import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
 import { PrivateCompany } from "./PrivateCompaniesService";
 import { LogisticCompany } from "./LogisticCompaniesService";
+import { Address } from "./AddressesService";
+import { Cargo } from "./CargosService";
 
 export interface ActiveOrders {
 	waitingForAcceptanceByLogisticCompanyOrders: Order[];
 	waitingForPaymentByPrivateCompanyOrders: Order[];
 	acceptedOrders: Order[];
 	inTransitOrders: Order[];
+}
+
+export interface OrderDto {
+	orderId?: number;
+	privateCompanyId: number;
+	logisticCompanyId: number;
+	logisticCompaniesDriverId?: number;
+	sensorId?: number;
+	cargoId: number;
+	startDeliveryAddressId: number;
+	endDeliveryAddressId: number;
+	estimatedDeliveryDateTime: string;
 }
 
 export interface Order {
@@ -35,23 +49,6 @@ export enum OrderStatus {
 	InTransit,
 	Delivered,
 	Cancelled
-}
-
-export interface Cargo {
-	cargoId: number;
-	name: string;
-	weight: number;
-	length: number;
-	width: number;
-	height: number;
-	description: string;
-}
-
-export interface Address {
-	addressId: number;
-	addressName: string;
-	latitude: number;
-	longitute: number;
 }
 
 export interface Point {
@@ -180,5 +177,18 @@ export class OrdersService {
 			}
 		}
 		return null;
+	}
+
+	async create(orderDto: OrderDto): Promise<void> {
+		try {
+			const response: AxiosResponse<any> = await api.post<any>(apiAddress, orderDto, config);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
 	}
 }

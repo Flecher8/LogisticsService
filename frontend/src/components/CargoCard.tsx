@@ -1,6 +1,6 @@
 import { useState, FC } from "react";
 import { Button, Card } from "react-bootstrap";
-import { Cargo } from "../api/services/OrdersService";
+import { Cargo } from "../api/services/CargosService";
 
 interface CargoProps {
 	cargo: Cargo;

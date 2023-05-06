@@ -65,7 +65,7 @@ namespace LogisticsService.BLL.Services
             Order order = new Order();
             order.PrivateCompany = _privateCompanyService.GetPrivateCompanyById(orderDto.PrivateCompanyId);
             order.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(orderDto.LogisticCompanyId);
-            order.Cargo = _cargoService.GetCargoById(orderDto.CargoId);
+            order.Cargo = _cargoService.GetCargoByIdForOrder(orderDto.CargoId);
             order.StartDeliveryAddress = _addressService.GetAddressById(orderDto.StartDeliveryAddressId);
             order.EndDeliveryAddress = _addressService.GetAddressById(orderDto.EndDeliveryAddressId);
 

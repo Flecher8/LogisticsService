@@ -1,10 +1,11 @@
 import { useState, useEffect, FC } from "react";
 import { Card } from "react-bootstrap";
-import { Address, Order, OrderStatus, OrdersService, Point } from "../api/services/OrdersService";
+import { Order, OrderStatus, OrdersService, Point } from "../api/services/OrdersService";
 import { DataTimeService } from "../helpers/DataTimeService";
 import { CargoCard } from "./CargoCard";
 import { GoogleMaps } from "./GoogleMap";
 import { GeolocationService } from "../api/services/GeolocationService";
+import { Address } from "../api/services/AddressesService";
 
 interface OrderCardProps {
 	order: Order;

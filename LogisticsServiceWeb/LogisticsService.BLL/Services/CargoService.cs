@@ -27,7 +27,7 @@ namespace LogisticsService.BLL.Services
             _logger = logger;
         }
 
-        public Cargo CreateCargo(CargoDto cargoDto)
+        public int CreateCargo(CargoDto cargoDto)
         {
             CargoValidator cargoValidator = new CargoValidator();
             cargoValidator.IsCargoValid(cargoDto);
@@ -45,13 +45,14 @@ namespace LogisticsService.BLL.Services
 
             try
             {
-                _cargoRepository.InsertItem(cargo);
+                int id = _cargoRepository.InsertItem(cargo);
+                return id;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
-            return cargo;
+            return -1;
         }
 
         public void DeleteCargo(int cargoId)
@@ -89,6 +90,28 @@ namespace LogisticsService.BLL.Services
                 newCargo.Height = dto.Height;
                 newCargo.Description = dto.Description;
                 return newCargo;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
+        }
+
+        public Cargo? GetCargoByIdForOrder(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg")
+        {
+            CargoValidator cargoValidator = new CargoValidator();
+            cargoValidator.IsCargoTypesValid(cargoSizeType, cargoWeightType);
+
+            try
+            {
+                Cargo? cargo = _cargoRepository.GetItemById(cargoId);
+                if (cargo == null)
+                {
+                    return null;
+                }
+                return cargo;
 
             }
             catch (Exception e)
