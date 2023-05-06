@@ -22,6 +22,7 @@ import { LogisticCompanyProfile } from "./pages/LogisticCompanyPages/LogisticCom
 import { LogisticCompanyStatistics } from "./pages/LogisticCompanyPages/LogisticCompanyStatistics";
 import { LogisticCompanySmartDevices } from "./pages/LogisticCompanyPages/LogisticCompanySmartDevices";
 import { LogisticCompanyChangeAdministrators } from "./pages/LogisticCompanyPages/LogisticCompanyChangeAdministrators";
+import { LogisticCompaniesAdministratorProfile } from "./pages/LogisticCompanyAdministratorPages/LogisticCompaniesAdministratorProfile";
 
 export const App: FC = () => {
 	return (
@@ -33,11 +34,13 @@ export const App: FC = () => {
 					<Route path="/Contacts" element={<Contacts />} />
 					<Route path="/Login" element={<Login />} />
 					<Route path="/Registration" element={<Registration />} />
+					{/* Admins Pages */}
 					<Route path="/SystemAdminProfile" element={<SystemAdminProfile />} />
 					<Route path="/AdminSubscriptionTypes" element={<AdminSubscriptionTypes />} />
 					<Route path="/AdminSensors" element={<AdminSensor />} />
 					<Route path="/AdminSmartDevices" element={<AdminSmartDevice />} />
 					<Route path="/AdminLogisticCompanies" element={<AdminLogisticCompanies />} />
+					{/* Private Company Pages */}
 					<Route path="/PrivateCompanyProfile" element={<PrivateCompanyProfile />} />
 					<Route path="/PrivateCompanyStatistics" element={<PrivateCompanyStatistics />} />
 					<Route path="/PrivateCompanyCancelledOrders" element={<PrivateCompanyCancelledOrders />} />
@@ -45,10 +48,16 @@ export const App: FC = () => {
 					<Route path="/PrivateCompanyActiveOrders" element={<PrivateCompanyActiveOrders />} />
 					<Route path="/PrivateCompanyShowOrderInfo/:id" element={<PrivateCompanyShowOrderInfo />} />
 					<Route path="/PrivateCompanyCreateOrder" element={<PrivateCompanyCreateOrder />} />
+					{/* Logistic Company Pages */}
 					<Route path="/LogisticCompanyProfile" element={<LogisticCompanyProfile />} />
 					<Route path="/LogisticCompanyStatistics" element={<LogisticCompanyStatistics />} />
 					<Route path="/LogisticCompanySmartDevices" element={<LogisticCompanySmartDevices />} />
 					<Route path="/LogisticCompanyChangeAdministrators" element={<LogisticCompanyChangeAdministrators />} />
+					{/* Logistic Company Administrators Pages */}
+					<Route
+						path="/LogisticCompaniesAdministratorProfile"
+						element={<LogisticCompaniesAdministratorProfile />}
+					/>
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />
 				</Routes>

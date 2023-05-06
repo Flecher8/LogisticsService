@@ -30,6 +30,23 @@ export class LogisticCompaniesAdministratorsService {
 		return null;
 	}
 
+	async getItem(userId: number): Promise<LogisticCompaniesAdministrator | null> {
+		try {
+			const response: AxiosResponse<LogisticCompaniesAdministrator> = await api.get<LogisticCompaniesAdministrator>(
+				apiAddress + "/id/" + userId,
+				config
+			);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+		return null;
+	}
+
 	async create(item: LogisticCompaniesAdministrator): Promise<void> {
 		try {
 			const response: any = await api.post<LogisticCompaniesAdministrator>(apiAddress, item, config);

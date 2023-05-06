@@ -33,7 +33,7 @@ export const Menu: FC = () => {
 
 			if (localStorage.getItem("userType") === "LogisticCompanyAdministrator") {
 				return (
-					<Link to="/LogisticCompanyAdministratorProfile" className="text-decoration-none text-reset">
+					<Link to="/LogisticCompaniesAdministratorProfile" className="text-decoration-none text-reset">
 						<Button className="btn btn-dark border border-white w-100">Profile</Button>
 					</Link>
 				);

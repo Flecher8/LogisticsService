@@ -101,7 +101,7 @@ export default class LoginService {
 			case "LogisticCompany":
 				return response.data.logisticCompanyId;
 			case "LogisticCompanyAdministrator":
-				return response.data.logisticCompanyAdministratorId;
+				return response.data.logisticCompaniesAdministratorId;
 			default:
 				return undefined;
 		}
