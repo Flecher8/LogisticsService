@@ -40,7 +40,7 @@ export default class LoginService {
 					newLocation = "/LogisticCompanyProfile";
 					break;
 				case "LogisticCompanyAdministrator":
-					newLocation = "/LogisticCompanyAdministratorProfile";
+					newLocation = "/LogisticCompaniesAdministratorProfile";
 					break;
 				case "SystemAdmin":
 					newLocation = "/SystemAdminProfile";

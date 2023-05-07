@@ -92,6 +92,14 @@ export const OrderInfoCard: FC<OrderCardProps> = ({ order }) => {
 							Estimated delivery date and time: {getLocalDataByUTCData(order.estimatedDeliveryDateTime)}
 						</Card.Text>
 						<Card.Text>Price: {order.price} $</Card.Text>
+						{order.logisticCompaniesDriver !== null && order.logisticCompaniesDriver !== undefined ? (
+							<Card.Text>{`Driver name: ${order.logisticCompaniesDriver?.firstName} + " " + ${order.logisticCompaniesDriver?.lastName}`}</Card.Text>
+						) : null}
+						{localStorage["userType"] === "LogisticCompanyAdministrator" &&
+						order.sensor !== null &&
+						order.sensor !== undefined ? (
+							<Card.Text>Sensor id: {`${order.sensor?.sensorId}`}</Card.Text>
+						) : null}
 						<Card.Text>{order.cargo ? <CargoCard cargo={order.cargo} /> : <p>No data</p>}</Card.Text>
 						<Card.Text>
 							{/* //TODO SHOW MAP  */}

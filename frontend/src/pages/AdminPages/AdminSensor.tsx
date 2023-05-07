@@ -2,14 +2,14 @@ import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AdminPanel } from "../../components/AdminPanel";
-import { Sensor, SensorsService } from "../../api/services/SensorsService";
+import { SensorDto, SensorsService } from "../../api/services/SensorsService";
 import { CreateSensor } from "../../components/AdminSensorComponents/CreateSensor";
 import { UpdateSensor } from "../../components/AdminSensorComponents/UpdateSensor";
 
 // TODO Language
 export const AdminSensor: FC = () => {
-	const [items, setItems] = useState<Sensor[] | null>([]);
-	const [item, setItem] = useState<Sensor | undefined>();
+	const [items, setItems] = useState<SensorDto[] | null>([]);
+	const [item, setItem] = useState<SensorDto | undefined>();
 
 	// Create modal show
 	const [createItemModelShow, SetCreateItemModelShow] = useState(false);
@@ -45,7 +45,7 @@ export const AdminSensor: FC = () => {
 
 	const getItems = async (): Promise<void> => {
 		try {
-			const response: Sensor[] | null = await SensorsService.prototype.getAll();
+			const response: SensorDto[] | null = await SensorsService.prototype.getAll();
 			if (response === null) {
 			}
 			setItems(response);

@@ -6,9 +6,12 @@ import { ProfilePanel, ProfilePanelElement, ProfilePanelProps } from "./ProfileP
 // Panel elements
 const profilePanelElements: ProfilePanelElement[] = [
 	{ name: "Profile", linkTo: "/LogisticCompaniesAdministratorProfile" },
-	{ name: "Drivers", linkTo: "/LogisticCompanyAdministratorChangeDrivers" }
-	// { name: "Smart Devices", linkTo: "/LogisticCompanySmartDevices" },
-	// { name: "Administrators", linkTo: "/LogisticCompanyChangeAdministrators" }
+	{ name: "Drivers", linkTo: "/LogisticCompanyAdministratorChangeDrivers" },
+	{ name: "Smart Devices", linkTo: "/LogisticCompanyAdministratorSmartDevices" },
+	{ name: "Sensors", linkTo: "/LogisticCompanyAdministratorSensors" },
+	{ name: "Active orders", linkTo: "/LogisticCompanyAdministratorActiveOrders" },
+	{ name: "Delivered orders", linkTo: "/LogisticCompanyAdministratorDeliveredOrders" },
+	{ name: "Cancelled orders", linkTo: "/LogisticCompanyAdministratorCancelledOrders" }
 ];
 
 // create a profile panel props object

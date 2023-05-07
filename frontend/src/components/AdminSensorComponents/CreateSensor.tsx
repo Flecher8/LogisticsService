@@ -1,14 +1,14 @@
 import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Form } from "react-bootstrap";
 import { CreateModelProps } from "../../helpers/interfaces/ChangeModelProps";
-import { Sensor, SensorsService } from "../../api/services/SensorsService";
+import { SensorDto, SensorsService } from "../../api/services/SensorsService";
 
 export const CreateSensor: FC<CreateModelProps> = (props: CreateModelProps) => {
 	const [smartDeviceId, setSmartDeviceId] = useState<number>(0);
 
 	async function handle() {
 		try {
-			let item: Sensor = {
+			let item: SensorDto = {
 				smartDeviceId: smartDeviceId
 			};
 			await SensorsService.prototype.create(item);

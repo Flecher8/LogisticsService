@@ -1,7 +1,5 @@
 import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
-import { AdminPanel } from "../../components/AdminPanel";
-import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import {
 	LogisticCompaniesDriver,
 	LogisticCompaniesDriversService

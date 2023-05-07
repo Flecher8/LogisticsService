@@ -1,15 +1,15 @@
 import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Form } from "react-bootstrap";
 import { UpdateModelProps } from "../../helpers/interfaces/UpdateModelProps";
-import { Sensor, SensorsService } from "../../api/services/SensorsService";
+import { SensorDto, SensorsService } from "../../api/services/SensorsService";
 
-export const UpdateSensor: FC<UpdateModelProps<Sensor>> = (props: UpdateModelProps<Sensor>) => {
+export const UpdateSensor: FC<UpdateModelProps<SensorDto>> = (props: UpdateModelProps<SensorDto>) => {
 	const [itemId, setItemId] = useState<number | undefined>(0);
 	const [smartDeviceId, setSmartDeviceId] = useState<number>(0);
 
 	async function handle() {
 		try {
-			let item: Sensor = {
+			let item: SensorDto = {
 				sensorId: itemId,
 				smartDeviceId: smartDeviceId
 			};

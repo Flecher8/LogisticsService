@@ -24,6 +24,12 @@ import { LogisticCompanySmartDevices } from "./pages/LogisticCompanyPages/Logist
 import { LogisticCompanyChangeAdministrators } from "./pages/LogisticCompanyPages/LogisticCompanyChangeAdministrators";
 import { LogisticCompaniesAdministratorProfile } from "./pages/LogisticCompanyAdministratorPages/LogisticCompaniesAdministratorProfile";
 import { LogisticCompanyAdministratorChangeDrivers } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorChangeDrivers";
+import { LogisticCompanyAdministratorSmartDevices } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorSmartDevices";
+import { LogisticCompanyAdministratorSensors } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorSensors";
+import { LogisticCompanyAdministratorShowOrderInfo } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorShowOrderInfo";
+import { LogisticCompanyAdministratorCancelledOrders } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorCancelledOrders";
+import { LogisticCompanyAdministratorDeliveredOrders } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorDeliveredOrders";
+import { LogisticCompanyAdministratorActiveOrders } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorActiveOrders";
 
 export const App: FC = () => {
 	return (
@@ -62,6 +68,27 @@ export const App: FC = () => {
 					<Route
 						path="/LogisticCompanyAdministratorChangeDrivers"
 						element={<LogisticCompanyAdministratorChangeDrivers />}
+					/>
+					<Route
+						path="/LogisticCompanyAdministratorSmartDevices"
+						element={<LogisticCompanyAdministratorSmartDevices />}
+					/>
+					<Route path="/LogisticCompanyAdministratorSensors" element={<LogisticCompanyAdministratorSensors />} />
+					<Route
+						path="/LogisticCompanyAdministratorShowOrderInfo/:id"
+						element={<LogisticCompanyAdministratorShowOrderInfo />}
+					/>
+					<Route
+						path="/LogisticCompanyAdministratorCancelledOrders"
+						element={<LogisticCompanyAdministratorCancelledOrders />}
+					/>
+					<Route
+						path="/LogisticCompanyAdministratorDeliveredOrders"
+						element={<LogisticCompanyAdministratorDeliveredOrders />}
+					/>
+					<Route
+						path="/LogisticCompanyAdministratorActiveOrders"
+						element={<LogisticCompanyAdministratorActiveOrders />}
 					/>
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />

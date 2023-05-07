@@ -11,13 +11,9 @@ export const PrivateCompanyCancelledOrders: FC = () => {
 	const getOrders = async (): Promise<void> => {
 		try {
 			const userId: number = localStorage["userId"];
-			const response: Order[] | null = await OrdersService.prototype.getCancelledOrders(userId);
+			const response: Order[] | null = await OrdersService.prototype.getCancelledOrdersByPrivateCompany(userId);
 			setOrders(response);
 		} catch (err) {}
-	};
-
-	const handleOrderClick = (orderId: number): void => {
-		console.log(orderId);
 	};
 
 	useEffect(() => {
@@ -38,8 +34,13 @@ export const PrivateCompanyCancelledOrders: FC = () => {
 				<div className="d-flex flex-column align-items-start flex-fill flex-wrap">
 					{orders ? (
 						orders.map(order => (
-							<div key={order.orderId} onClick={e => handleOrderClick(order.orderId)}>
-								<OrderCard order={order} />
+							<div key={order.orderId}>
+								<Link
+									key={order.orderId}
+									to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
+									style={{ textDecoration: "none", color: "black" }}>
+									<OrderCard order={order} />
+								</Link>
 							</div>
 						))
 					) : (

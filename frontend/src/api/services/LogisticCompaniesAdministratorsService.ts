@@ -75,4 +75,16 @@ export class LogisticCompaniesAdministratorsService {
 			}
 		}
 	}
+
+	async getLogisticCompanyId(): Promise<number> {
+		const userId: number = parseInt(localStorage["userId"]);
+
+		const admin: LogisticCompaniesAdministrator | null =
+			await LogisticCompaniesAdministratorsService.prototype.getItem(userId);
+
+		if (admin === null) return 0;
+
+		let logisticCompanyId: number = admin.logisticCompany.logisticCompanyId;
+		return logisticCompanyId;
+	}
 }

@@ -1,18 +1,24 @@
 import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
+import { SmartDevice } from "./SmartDevicesService";
 
-export interface Sensor {
+export interface SensorDto {
 	sensorId?: number;
 	smartDeviceId: number;
+}
+
+export interface Sensor {
+	sensorId: number;
+	smartDevice: SmartDevice;
 }
 
 const apiAddress: string = "/Sensors";
 
 export class SensorsService {
-	async getAll(): Promise<Sensor[] | null> {
+	async getAll(): Promise<SensorDto[] | null> {
 		try {
-			const response: AxiosResponse<Sensor[]> = await api.get<Sensor[]>(apiAddress, config);
+			const response: AxiosResponse<SensorDto[]> = await api.get<SensorDto[]>(apiAddress, config);
 
 			if (response.status === 200) {
 				return response.data;
@@ -25,18 +31,36 @@ export class SensorsService {
 		return null;
 	}
 
-	async create(item: Sensor): Promise<void> {
+	async getItemsBySmartDevice(smartDeviceId: number): Promise<Sensor[] | null> {
 		try {
-			const response: any = await api.post<Sensor>(apiAddress, item, config);
+			const response: AxiosResponse<Sensor[]> = await api.get<Sensor[]>(
+				apiAddress + "/smartDeviceId/" + smartDeviceId,
+				config
+			);
+
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+		return null;
+	}
+
+	async create(item: SensorDto): Promise<void> {
+		try {
+			const response: any = await api.post<SensorDto>(apiAddress, item, config);
 		} catch (err: any) {
 			if (err.response?.status === 400) {
 				throw new Error(err.response.data);
 			}
 		}
 	}
-	async update(item: Sensor): Promise<void> {
+	async update(item: SensorDto): Promise<void> {
 		try {
-			const response: any = await api.put<Sensor>(apiAddress, item, config);
+			const response: any = await api.put<SensorDto>(apiAddress, item, config);
 		} catch (err: any) {
 			if (err.response?.status === 400) {
 				throw new Error(err.response.data);
