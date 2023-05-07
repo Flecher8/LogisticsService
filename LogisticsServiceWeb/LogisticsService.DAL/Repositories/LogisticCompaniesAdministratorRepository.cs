@@ -22,6 +22,7 @@ namespace LogisticsService.DAL.Repositories
         public LogisticCompaniesAdministrator? GetItemById(int itemId)
         {
             return context.LogisticCompaniesAdministrators
+                .Include(l => l.LogisticCompany)
                 .FirstOrDefault(s => s.LogisticCompaniesAdministratorId == itemId);
         }
 
@@ -29,6 +30,7 @@ namespace LogisticsService.DAL.Repositories
         {
             return context.LogisticCompaniesAdministrators
                 .Where(filter)
+                .Include(l => l.LogisticCompany)
                 .ToList();
             //  .Include(l => l.LogisticCompany)
         }
@@ -70,7 +72,9 @@ namespace LogisticsService.DAL.Repositories
 
         public List<LogisticCompaniesAdministrator> GetAllItems()
         {
-            return context.LogisticCompaniesAdministrators.ToList();
+            return context.LogisticCompaniesAdministrators
+                .Include(l => l.LogisticCompany)
+                .ToList();
         }
     }
 }

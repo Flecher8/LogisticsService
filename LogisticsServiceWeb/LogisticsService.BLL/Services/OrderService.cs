@@ -278,8 +278,8 @@ namespace LogisticsService.BLL.Services
 
                 IsOrderCanBeUpdated(order);
 
-                order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId);
-                order.Sensor = TryGetSensor(orderDto.SensorId);
+                order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId, order.LogisticCompany.LogisticCompanyId);
+                order.Sensor = TryGetSensor(orderDto.SensorId, order.LogisticCompany.LogisticCompanyId);
 
                 UpdateOrder(order);
 
@@ -301,18 +301,25 @@ namespace LogisticsService.BLL.Services
             return true;
         }
 
-        private LogisticCompaniesDriver? TryGetLogisticCompaniesDriver(int driverId)
+        private LogisticCompaniesDriver? TryGetLogisticCompaniesDriver(int driverId, int logisticCompanyId)
         {
             LogisticCompaniesDriver? logisticCompaniesDriver = _logisticCompaniesDriverService
                     .GetLogisticCompaniesDriverById(driverId);
+
             if (logisticCompaniesDriver == null)
             {
-                throw new ArgumentException("LogisticCompaniesDriver id is not correct");
+                throw new ArgumentException("Logistic company driver id is not correct");
             }
+
+            if(logisticCompaniesDriver.LogisticCompany.LogisticCompanyId != logisticCompanyId)
+            {
+                throw new ArgumentException("Logistic company driver is connect to another logistic company");
+            }
+
             return logisticCompaniesDriver;
         }
 
-        private Sensor? TryGetSensor(int sensorId)
+        private Sensor? TryGetSensor(int sensorId, int logisticCompanyId)
         {
             Sensor? sensor = _sensorService.GetSensorById(sensorId);
 
@@ -321,6 +328,7 @@ namespace LogisticsService.BLL.Services
             {
                 throw new ArgumentException("Sensor id is not correct");
             }
+            // TODO Check if sensor is assigned to specific logistic company with id = logisticCompanyId
 
             return sensor;
         }

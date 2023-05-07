@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { CreateModelProps } from "../helpers/interfaces/ChangeModelProps";
 import {
-	LogisticCompaniesAdministrator,
+	LogisticCompaniesAdministratorDto,
 	LogisticCompaniesAdministratorsService
 } from "../api/services/LogisticCompaniesAdministratorsService";
 
@@ -15,7 +15,7 @@ export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (prop
 
 	async function handle() {
 		try {
-			let administrator: LogisticCompaniesAdministrator = {
+			let administrator: LogisticCompaniesAdministratorDto = {
 				firstName: firstName,
 				lastName: lastName,
 				email: email,

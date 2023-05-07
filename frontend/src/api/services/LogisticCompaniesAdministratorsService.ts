@@ -1,8 +1,9 @@
 import { AxiosResponse } from "axios";
 import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
+import { LogisticCompany } from "./LogisticCompaniesService";
 
-export interface LogisticCompaniesAdministrator {
+export interface LogisticCompaniesAdministratorDto {
 	logisticCompaniesAdministratorId?: number;
 	firstName: string;
 	lastName: string;
@@ -11,13 +12,21 @@ export interface LogisticCompaniesAdministrator {
 	logisticCompanyId: number;
 }
 
+export interface LogisticCompaniesAdministrator {
+	logisticCompaniesAdministratorId: number;
+	firstName: string;
+	lastName: string;
+	email: string;
+	logisticCompany: LogisticCompany;
+}
+
 const apiAddress: string = "/LogisticCompaniesAdministrators";
 
 export class LogisticCompaniesAdministratorsService {
-	async getItemByLogisticCompany(logisticCompanyId: number): Promise<LogisticCompaniesAdministrator[] | null> {
+	async getItemByLogisticCompany(logisticCompanyId: number): Promise<LogisticCompaniesAdministratorDto[] | null> {
 		try {
-			const response: AxiosResponse<LogisticCompaniesAdministrator[]> = await api.get<
-				LogisticCompaniesAdministrator[]
+			const response: AxiosResponse<LogisticCompaniesAdministratorDto[]> = await api.get<
+				LogisticCompaniesAdministratorDto[]
 			>(apiAddress + "/logisticCompanyId/" + logisticCompanyId, config);
 			if (response.status === 200) {
 				return response.data;
@@ -47,9 +56,9 @@ export class LogisticCompaniesAdministratorsService {
 		return null;
 	}
 
-	async create(item: LogisticCompaniesAdministrator): Promise<void> {
+	async create(item: LogisticCompaniesAdministratorDto): Promise<void> {
 		try {
-			const response: any = await api.post<LogisticCompaniesAdministrator>(apiAddress, item, config);
+			const response: any = await api.post<LogisticCompaniesAdministratorDto>(apiAddress, item, config);
 		} catch (err: any) {
 			if (err.response?.status === 400) {
 				throw new Error(err.response.data);

@@ -3,7 +3,7 @@ import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-boots
 import { AdminPanel } from "../../components/AdminPanel";
 import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import {
-	LogisticCompaniesAdministrator,
+	LogisticCompaniesAdministratorDto,
 	LogisticCompaniesAdministratorsService
 } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { LogisticCompanyPanel } from "../../components/LogisticCompanyPanel";
@@ -11,7 +11,7 @@ import { CreateLogisticCompaniesAdministrators } from "../../components/CreateLo
 
 // TODO Language
 export const LogisticCompanyChangeAdministrators: FC = () => {
-	const [items, setItems] = useState<LogisticCompaniesAdministrator[] | null>([]);
+	const [items, setItems] = useState<LogisticCompaniesAdministratorDto[] | null>([]);
 
 	// Create modal show
 	const [createItemModelShow, SetCreateItemModelShow] = useState(false);
@@ -38,7 +38,7 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 	const getItems = async (): Promise<void> => {
 		try {
 			const userId: number = parseInt(localStorage["userId"]);
-			const response: LogisticCompaniesAdministrator[] | null =
+			const response: LogisticCompaniesAdministratorDto[] | null =
 				await LogisticCompaniesAdministratorsService.prototype.getItemByLogisticCompany(userId);
 			if (response === null) return;
 
