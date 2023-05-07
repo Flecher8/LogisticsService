@@ -3,8 +3,8 @@ import { api } from "../axios/axios";
 import { config } from "../configuration/userConfig";
 import { LogisticCompany } from "./LogisticCompaniesService";
 
-export interface LogisticCompaniesAdministratorDto {
-	logisticCompaniesAdministratorId?: number;
+export interface LogisticCompaniesDriverDto {
+	id?: number;
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -12,22 +12,23 @@ export interface LogisticCompaniesAdministratorDto {
 	logisticCompanyId: number;
 }
 
-export interface LogisticCompaniesAdministrator {
-	logisticCompaniesAdministratorId: number;
+export interface LogisticCompaniesDriver {
+	logisticCompaniesDriverId: number;
 	firstName: string;
 	lastName: string;
 	email: string;
 	logisticCompany: LogisticCompany;
 }
 
-const apiAddress: string = "/LogisticCompaniesAdministrators";
+const apiAddress: string = "/LogisticCompaniesDrivers";
 
-export class LogisticCompaniesAdministratorsService {
-	async getItemsByLogisticCompany(logisticCompanyId: number): Promise<LogisticCompaniesAdministratorDto[] | null> {
+export class LogisticCompaniesDriversService {
+	async getItemsByLogisticCompany(logisticCompanyId: number): Promise<LogisticCompaniesDriver[] | null> {
 		try {
-			const response: AxiosResponse<LogisticCompaniesAdministratorDto[]> = await api.get<
-				LogisticCompaniesAdministratorDto[]
-			>(apiAddress + "/logisticCompanyId/" + logisticCompanyId, config);
+			const response: AxiosResponse<LogisticCompaniesDriver[]> = await api.get<LogisticCompaniesDriver[]>(
+				apiAddress + "/logisticCompanyId/" + logisticCompanyId,
+				config
+			);
 			if (response.status === 200) {
 				return response.data;
 			}
@@ -39,9 +40,9 @@ export class LogisticCompaniesAdministratorsService {
 		return null;
 	}
 
-	async getItem(userId: number): Promise<LogisticCompaniesAdministrator | null> {
+	async getItem(userId: number): Promise<LogisticCompaniesDriver | null> {
 		try {
-			const response: AxiosResponse<LogisticCompaniesAdministrator> = await api.get<LogisticCompaniesAdministrator>(
+			const response: AxiosResponse<LogisticCompaniesDriver> = await api.get<LogisticCompaniesDriver>(
 				apiAddress + "/id/" + userId,
 				config
 			);
@@ -56,9 +57,9 @@ export class LogisticCompaniesAdministratorsService {
 		return null;
 	}
 
-	async create(item: LogisticCompaniesAdministratorDto): Promise<void> {
+	async create(item: LogisticCompaniesDriverDto): Promise<void> {
 		try {
-			const response: any = await api.post<LogisticCompaniesAdministratorDto>(apiAddress, item, config);
+			const response: any = await api.post<any>(apiAddress, item, config);
 		} catch (err: any) {
 			if (err.response?.status === 400) {
 				throw new Error(err.response.data);

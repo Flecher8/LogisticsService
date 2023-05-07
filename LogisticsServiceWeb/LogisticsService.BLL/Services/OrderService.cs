@@ -27,6 +27,7 @@ namespace LogisticsService.BLL.Services
         private readonly IAddressService _addressService;
         private readonly IRateService _rateService;
         private readonly ISensorService _sensorService;
+        private readonly ISmartDeviceService _smartDeviceService;
 
         private readonly IGoogleMapsApiDirectionsService _googleMapsApiDirectionsService;
 
@@ -42,6 +43,7 @@ namespace LogisticsService.BLL.Services
             IAddressService addressService,
             IRateService rateService,
             ISensorService sensorService,
+            ISmartDeviceService smartDeviceService,
             IGoogleMapsApiDirectionsService googleMapsApiDirectionsService,
             ILogger<OrderService> logger
             )
@@ -54,6 +56,7 @@ namespace LogisticsService.BLL.Services
             _addressService = addressService;
             _rateService = rateService;
             _sensorService = sensorService;
+            _smartDeviceService = smartDeviceService;
             _googleMapsApiDirectionsService = googleMapsApiDirectionsService;
             _logger = logger;
         }
@@ -281,6 +284,8 @@ namespace LogisticsService.BLL.Services
                 order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId, order.LogisticCompany.LogisticCompanyId);
                 order.Sensor = TryGetSensor(orderDto.SensorId, order.LogisticCompany.LogisticCompanyId);
 
+                
+
                 UpdateOrder(order);
 
                 return order;
@@ -313,7 +318,7 @@ namespace LogisticsService.BLL.Services
 
             if(logisticCompaniesDriver.LogisticCompany.LogisticCompanyId != logisticCompanyId)
             {
-                throw new ArgumentException("Logistic company driver is connect to another logistic company");
+                throw new ArgumentException("Logistic company driver is connected to another logistic company");
             }
 
             return logisticCompaniesDriver;
@@ -328,9 +333,18 @@ namespace LogisticsService.BLL.Services
             {
                 throw new ArgumentException("Sensor id is not correct");
             }
-            // TODO Check if sensor is assigned to specific logistic company with id = logisticCompanyId
 
-            return sensor;
+            List<SmartDeviceDto> smartDeviceDtos = 
+                _smartDeviceService.GetSmartDevicesByLogisticCompanyId(logisticCompanyId);
+
+            foreach(var smartDeviceDto in smartDeviceDtos)
+            {
+                if(smartDeviceDto.SmartDeviceId == sensor.SmartDevice.SmartDeviceId)
+                {
+                    return sensor;
+                }
+            }
+            throw new ArgumentException("Sensor is connected to another logistic company");
         }
 
         public void UpdateOrderStatus(int orderId)

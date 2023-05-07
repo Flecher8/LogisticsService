@@ -23,6 +23,7 @@ import { LogisticCompanyStatistics } from "./pages/LogisticCompanyPages/Logistic
 import { LogisticCompanySmartDevices } from "./pages/LogisticCompanyPages/LogisticCompanySmartDevices";
 import { LogisticCompanyChangeAdministrators } from "./pages/LogisticCompanyPages/LogisticCompanyChangeAdministrators";
 import { LogisticCompaniesAdministratorProfile } from "./pages/LogisticCompanyAdministratorPages/LogisticCompaniesAdministratorProfile";
+import { LogisticCompanyAdministratorChangeDrivers } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorChangeDrivers";
 
 export const App: FC = () => {
 	return (
@@ -57,6 +58,10 @@ export const App: FC = () => {
 					<Route
 						path="/LogisticCompaniesAdministratorProfile"
 						element={<LogisticCompaniesAdministratorProfile />}
+					/>
+					<Route
+						path="/LogisticCompanyAdministratorChangeDrivers"
+						element={<LogisticCompanyAdministratorChangeDrivers />}
 					/>
 					{/* Default Router */}
 					<Route path="/" element={<Navigate to="/Home" />} />

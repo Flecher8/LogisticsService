@@ -3,15 +3,17 @@ import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-boots
 import { AdminPanel } from "../../components/AdminPanel";
 import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import {
-	LogisticCompaniesAdministratorDto,
-	LogisticCompaniesAdministratorsService
-} from "../../api/services/LogisticCompaniesAdministratorsService";
-import { LogisticCompanyPanel } from "../../components/LogisticCompanyPanel";
-import { CreateLogisticCompaniesAdministrators } from "../../components/CreateLogisticCompaniesAdministrators";
+	LogisticCompaniesDriver,
+	LogisticCompaniesDriversService
+} from "../../api/services/LogisticCompaniesDriversService";
+import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
+import { LogisticCompaniesAdministrator } from "../../api/services/LogisticCompaniesAdministratorsService";
+import { LogisticCompaniesAdministratorsService } from "../../api/services/LogisticCompaniesAdministratorsService";
+import { CreateLogisticCompaniesDriver } from "../../components/CreateLogisticCompaniesDriver";
 
 // TODO Language
-export const LogisticCompanyChangeAdministrators: FC = () => {
-	const [items, setItems] = useState<LogisticCompaniesAdministratorDto[] | null>([]);
+export const LogisticCompanyAdministratorChangeDrivers: FC = () => {
+	const [items, setItems] = useState<LogisticCompaniesDriver[] | null>([]);
 
 	// Create modal show
 	const [createItemModelShow, SetCreateItemModelShow] = useState(false);
@@ -26,7 +28,7 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 	async function handleDeleteItem(id: number | undefined) {
 		if (id !== undefined && window.confirm("Are you sure?")) {
 			try {
-				await LogisticCompaniesAdministratorsService.prototype.delete(id);
+				await LogisticCompaniesDriversService.prototype.delete(id);
 				window.location.reload();
 			} catch (err: any) {
 				// errors that expected from back
@@ -37,9 +39,11 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 
 	const getItems = async (): Promise<void> => {
 		try {
-			const userId: number = parseInt(localStorage["userId"]);
-			const response: LogisticCompaniesAdministratorDto[] | null =
-				await LogisticCompaniesAdministratorsService.prototype.getItemsByLogisticCompany(userId);
+			let logisticCompanyId: number = await getLogisticCompanyId();
+
+			const response: LogisticCompaniesDriver[] | null =
+				await LogisticCompaniesDriversService.prototype.getItemsByLogisticCompany(logisticCompanyId);
+
 			if (response === null) return;
 
 			setItems(response);
@@ -48,19 +52,31 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 		}
 	};
 
+	async function getLogisticCompanyId(): Promise<number> {
+		const userId: number = parseInt(localStorage["userId"]);
+
+		const admin: LogisticCompaniesAdministrator | null =
+			await LogisticCompaniesAdministratorsService.prototype.getItem(userId);
+
+		if (admin === null) return 0;
+
+		let logisticCompanyId: number = admin.logisticCompany.logisticCompanyId;
+		return logisticCompanyId;
+	}
+
 	useEffect(() => {
 		getItems();
 	}, []);
 	return (
-		<div className="LogisticCompanyChangeAdministrators container">
+		<div className="LogisticCompanyAdministratorChangeDrivers container">
 			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
-				<LogisticCompanyPanel />
+				<LogisticCompaniesAdministratorPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Administrators</h1>
+						<h1>Drivers</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
@@ -69,7 +85,7 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 					</Button>
 				</div>
 				<Modal size="lg" centered show={createItemModelShow} onHide={createItemModelHandleClose}>
-					<CreateLogisticCompaniesAdministrators close={createItemModelHandleClose} />
+					<CreateLogisticCompaniesDriver close={createItemModelHandleClose} />
 				</Modal>
 
 				<main>
@@ -77,6 +93,7 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
+									<th>Id</th>
 									<th>First name</th>
 									<th>Last name</th>
 									<th>Email</th>
@@ -86,13 +103,14 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 							<tbody>
 								{items ? (
 									items.map(e => (
-										<tr key={e.logisticCompaniesAdministratorId}>
+										<tr key={e.logisticCompaniesDriverId}>
+											<td>{e.logisticCompaniesDriverId}</td>
 											<td>{e.firstName}</td>
 											<td>{e.lastName}</td>
 											<td>{e.email}</td>
 											<td>
 												<Button
-													onClick={() => handleDeleteItem(e.logisticCompaniesAdministratorId)}
+													onClick={() => handleDeleteItem(e.logisticCompaniesDriverId)}
 													variant="outline-danger">
 													Delete
 												</Button>
