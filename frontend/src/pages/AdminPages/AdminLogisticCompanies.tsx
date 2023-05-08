@@ -3,9 +3,11 @@ import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-boots
 import { Link } from "react-router-dom";
 import { AdminPanel } from "../../components/AdminPanel";
 import { LogisticCompaniesService, LogisticCompany } from "../../api/services/LogisticCompaniesService";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const AdminLogisticCompanies: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<LogisticCompany[] | null>([]);
 
 	const getItems = async (): Promise<void> => {
@@ -22,14 +24,13 @@ export const AdminLogisticCompanies: FC = () => {
 	}, []);
 	return (
 		<div className="AdminLogisticCompanies container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<AdminPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Logistic Companies</h1>
+						<h1>{t("Logistic Companies")}</h1>
 					</div>
 				</header>
 
@@ -38,9 +39,9 @@ export const AdminLogisticCompanies: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>Company name</th>
-									<th>email</th>
+									<th>{t("Id")}</th>
+									<th>{t("Company name")}</th>
+									<th>{t("Email")}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -54,7 +55,7 @@ export const AdminLogisticCompanies: FC = () => {
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

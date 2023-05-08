@@ -5,7 +5,6 @@ import { RegistrationViewModel } from "../api/viewModels/RegistrationViewModel";
 import { registrationApi } from "../api/registrationApi";
 import { useTranslationHelper } from "../helpers/translation/translationService";
 
-// TODO Language
 export const Registration: FC = () => {
 	const { t, changeLanguage } = useTranslationHelper();
 
@@ -82,7 +81,7 @@ export const Registration: FC = () => {
 				</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h6>Email:</h6>
+						<h6>{t("Email")}:</h6>
 						<p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">
@@ -101,7 +100,7 @@ export const Registration: FC = () => {
 				</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h6>Password:</h6>
+						<h6>{t("Password")}:</h6>
 						<p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">
@@ -120,7 +119,7 @@ export const Registration: FC = () => {
 				</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h6>Repeat password:</h6>
+						<h6>{t("Repeat password")}:</h6>
 						<p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">
@@ -139,21 +138,20 @@ export const Registration: FC = () => {
 				</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h6>Select company type:</h6>
+						<h6>{t("Select company type")}:</h6>
 						<p className="ml-2 text-danger">*</p>
 					</div>
-					{/* // TODO Do this like a TypeScript code */}
 					<div className="w-75">
 						<Form.Select aria-label="Default" size="sm" onChange={e => setInputUserType(e.target.value)}>
-							<option value="PrivateCompany">Private company</option>
-							<option value="LogisticCompany">Logistic company</option>
+							<option value="PrivateCompany">{t("Private company")}</option>
+							<option value="LogisticCompany">{t("Logistic company")}</option>
 						</Form.Select>
 					</div>
 				</div>
 
 				<div className="w-100 text-center">
 					<Button onClick={register} className="w-100 text-center">
-						<h5>Register</h5>
+						<h5>{t("Register")}</h5>
 					</Button>
 				</div>
 			</div>

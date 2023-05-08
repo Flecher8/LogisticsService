@@ -15,22 +15,9 @@ export const GoogleMaps: FC<GoogleMapsProps> = ({ lat, lng }) => {
 		height: "300px"
 	};
 
-	const handleClick = (event: any) => {
-		const lat = event.latLng.lat();
-		const lng = event.latLng.lng();
-
-		console.log("Lat:", lat);
-		console.log("Lng:", lng);
-	};
-
 	const center = useMemo(() => ({ lat: lat, lng: lng }), []);
 
 	useEffect(() => {}, []);
-	const divStyle = {
-		background: `white`,
-		border: `1px solid #ccc`,
-		padding: 15
-	};
 
 	return (
 		<div className="GoogleMaps">

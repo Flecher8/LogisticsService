@@ -1,6 +1,7 @@
 import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { OrderDto, OrdersService } from "../api/services/OrdersService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 interface CancelOrderProps {
 	orderId: number;
@@ -8,6 +9,8 @@ interface CancelOrderProps {
 }
 
 export const UpdateOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [driverId, setDriverId] = useState<number>(0);
 	const [sensorId, setSensorId] = useState<number>(0);
 
@@ -42,14 +45,14 @@ export const UpdateOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Update order</h1>
+						<h1>{t("Update order")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Driver Id</Form.Label>
+								<Form.Label>{t("Driver Id")}</Form.Label>
 								<Form.Control
 									type="number"
 									placeholder=""
@@ -60,7 +63,7 @@ export const UpdateOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Description</Form.Label>
+								<Form.Label>{t("Description")}</Form.Label>
 								<Form.Control
 									type="number"
 									placeholder=""

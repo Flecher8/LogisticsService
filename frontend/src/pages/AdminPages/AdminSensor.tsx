@@ -5,9 +5,11 @@ import { AdminPanel } from "../../components/AdminPanel";
 import { SensorDto, SensorsService } from "../../api/services/SensorsService";
 import { CreateSensor } from "../../components/AdminSensorComponents/CreateSensor";
 import { UpdateSensor } from "../../components/AdminSensorComponents/UpdateSensor";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const AdminSensor: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<SensorDto[] | null>([]);
 	const [item, setItem] = useState<SensorDto | undefined>();
 
@@ -32,7 +34,8 @@ export const AdminSensor: FC = () => {
 	}
 
 	async function handleDeleteItem(id: number | undefined) {
-		if (window.confirm("Are you sure?") && id !== undefined) {
+		const confirmationText = t("Are you sure?") ?? "";
+		if (window.confirm(confirmationText) && id !== undefined) {
 			try {
 				await SensorsService.prototype.delete(id);
 				document.location.reload();
@@ -59,19 +62,18 @@ export const AdminSensor: FC = () => {
 	}, []);
 	return (
 		<div className="AdminSensor container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<AdminPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Sensors</h1>
+						<h1>{t("Sensors")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
 					<Button onClick={() => addModalShow()} variant="outline-primary">
-						Create
+						{t("Create")}
 					</Button>
 				</div>
 				<Modal size="lg" centered show={createItemModelShow} onHide={createItemModelHandleClose}>
@@ -86,8 +88,8 @@ export const AdminSensor: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>Smart device id</th>
+									<th>{t("Id")}</th>
+									<th>{t("Smart device id")}</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -99,17 +101,17 @@ export const AdminSensor: FC = () => {
 											<td>{e.smartDeviceId}</td>
 											<td>
 												<Button onClick={() => handleEditItem(e.sensorId)} variant="outline-dark">
-													Update
+													{t("Update")}
 												</Button>
 												<Button onClick={() => handleDeleteItem(e.sensorId)} variant="outline-danger">
-													Delete
+													{t("Delete")}
 												</Button>
 											</td>
 										</tr>
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

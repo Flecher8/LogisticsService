@@ -9,8 +9,11 @@ import { Cargo, CargoDto, CargosService } from "../../api/services/CargosService
 import { Address, AddressesService } from "../../api/services/AddressesService";
 import { OrderDto, OrdersService } from "../../api/services/OrdersService";
 import { DataTimeService } from "../../helpers/DataTimeService";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const PrivateCompanyCreateOrder: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [logisticCompanyRates, setLogisticCompanyRates] = useState<LogisticCompanyRates[] | null>(null);
 	const [selectedLogisticCompanyId, setSelectedLogisticCompanyId] = useState<number>(0);
 
@@ -32,8 +35,8 @@ export const PrivateCompanyCreateOrder: FC = () => {
 
 	const handleCreateItem = async (): Promise<void> => {
 		if (!verifyOrder()) {
-			// TODO Language
-			alert("Order data is not correct!");
+			const orderDataIsNotCorrectText = t("Order data is not correct!") ?? "";
+			alert(orderDataIsNotCorrectText);
 			return;
 		}
 		const cargoId: number | null = await createCargo();
@@ -68,8 +71,8 @@ export const PrivateCompanyCreateOrder: FC = () => {
 			const response: any = await OrdersService.prototype.create(orderDto);
 			console.log(response);
 		} catch (err: any) {
-			// TODO Language
-			alert("Order can't be created");
+			const orderCantBeCreatedText = t("Order can't be created") ?? "";
+			alert(orderCantBeCreatedText);
 			return;
 		}
 		window.location.href = "/PrivateCompanyActiveOrders";
@@ -92,7 +95,8 @@ export const PrivateCompanyCreateOrder: FC = () => {
 			if (response === null) return null;
 			return response;
 		} catch (error) {
-			alert("Can't create Cargo");
+			const cargoCantBeCreatedText = t("Can't create Cargo") ?? "";
+			alert(cargoCantBeCreatedText);
 		}
 		return null;
 	};
@@ -109,7 +113,8 @@ export const PrivateCompanyCreateOrder: FC = () => {
 			if (response === null) return null;
 			return response;
 		} catch (error) {
-			alert("Can't create Address");
+			const addressCantBeCreatedText = t("Can't create Address") ?? "";
+			alert(addressCantBeCreatedText);
 		}
 		return null;
 	};
@@ -170,19 +175,18 @@ export const PrivateCompanyCreateOrder: FC = () => {
 	}, []);
 	return (
 		<div className="PrivateCompanyCreateOrder container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<PrivateCompanyPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Create order</h1>
+						<h1>{t("Create order")}</h1>
 					</div>
 				</header>
 				<div>
 					<div>
-						<h3>Select logistic company</h3>
+						<h3>{t("Select logistic company")}</h3>
 					</div>
 					<div>
 						{logisticCompanyRates !== null ? (
@@ -192,7 +196,7 @@ export const PrivateCompanyCreateOrder: FC = () => {
 								onSelectItem={setSelectedLogisticCompanyId}
 							/>
 						) : (
-							<p>No data</p>
+							<p>{t("No data")}</p>
 						)}
 					</div>
 				</div>
@@ -200,7 +204,7 @@ export const PrivateCompanyCreateOrder: FC = () => {
 					<div className="mt-5 mb-5">
 						<Form>
 							<Form.Group>
-								<Form.Label>Choose estimated delivery date and time for this order</Form.Label>
+								<Form.Label>{t("Choose estimated delivery date and time for this order")}</Form.Label>
 								<Form.Control
 									type="datetime-local"
 									value={selectedEstimatedDate.toISOString().slice(0, -8)}
@@ -212,29 +216,31 @@ export const PrivateCompanyCreateOrder: FC = () => {
 						</Form>
 					</div>
 					<div className="mt-5 mb-5">
-						<h3>Fill in cargo information</h3>
+						<h3>{t("Fill in cargo information")}</h3>
 						<Form>
 							<Form.Group>
-								<Form.Label>Cargo name</Form.Label>
+								<Form.Label>{t("Cargo name")}</Form.Label>
 								<Form.Control type="text" value={name} onChange={e => setName(e.target.value)} />
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Description</Form.Label>
+								<Form.Label>{t("Description")}</Form.Label>
 								<Form.Control type="text" value={description} onChange={e => setDescription(e.target.value)} />
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Choose type of metric</Form.Label>
+								<Form.Label>{t("Choose type of metric")}</Form.Label>
 								<div className="mb-3 mt-3">
 									<select
 										value={isMetric ? "metric" : "imperial"}
 										onChange={e => setIsMetric(e.target.value === "metric")}>
-										<option value="metric">Metric</option>
-										<option value="imperial">Imperial</option>
+										<option value="metric">{t("Metric")}</option>
+										<option value="imperial">{t("Imperial")}</option>
 									</select>
 								</div>
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Weight, {`${getWeightMeasureUnit()}`}</Form.Label>
+								<Form.Label>
+									{t("Weight")}, {`${getWeightMeasureUnit()}`}
+								</Form.Label>
 								<Form.Control
 									type="number"
 									value={weight}
@@ -243,7 +249,9 @@ export const PrivateCompanyCreateOrder: FC = () => {
 								/>
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Length, {`${getSizeMeasureUnit()}`}</Form.Label>
+								<Form.Label>
+									{t("Length")}, {`${getSizeMeasureUnit()}`}
+								</Form.Label>
 								<Form.Control
 									type="number"
 									value={length}
@@ -252,11 +260,15 @@ export const PrivateCompanyCreateOrder: FC = () => {
 								/>
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Width, {`${getSizeMeasureUnit()}`}</Form.Label>
+								<Form.Label>
+									{t("Width")}, {`${getSizeMeasureUnit()}`}
+								</Form.Label>
 								<Form.Control type="number" value={width} onChange={e => setWidth(parseInt(e.target.value))} />
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Height, {`${getSizeMeasureUnit()}`}</Form.Label>
+								<Form.Label>
+									{t("Height")}, {`${getSizeMeasureUnit()}`}
+								</Form.Label>
 								<Form.Control
 									type="number"
 									value={height}
@@ -267,7 +279,7 @@ export const PrivateCompanyCreateOrder: FC = () => {
 						</Form>
 						<div className="mb-5 mt-5">
 							<div>
-								<h3>Choose start delivery address</h3>
+								<h3>{t("Choose start delivery address")}</h3>
 							</div>
 							<div>
 								<GoogleMapChoosePoint onTypeItem={setStartPoint} />
@@ -275,7 +287,7 @@ export const PrivateCompanyCreateOrder: FC = () => {
 						</div>
 						<div className="mb-5 mt-5">
 							<div>
-								<h3>Choose end delivery address</h3>
+								<h3>{t("Choose end delivery address")}</h3>
 							</div>
 							<div>
 								<GoogleMapChoosePoint onTypeItem={setEndPoint} />
@@ -283,7 +295,7 @@ export const PrivateCompanyCreateOrder: FC = () => {
 						</div>
 					</div>
 					<Button onClick={() => handleCreateItem()} variant="outline-primary">
-						Create
+						{t("Create")}
 					</Button>
 				</div>
 			</div>

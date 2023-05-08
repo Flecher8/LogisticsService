@@ -4,9 +4,11 @@ import { AdminPanel } from "../../components/AdminPanel";
 import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import { CreateSmartDevice } from "../../components/AdminSmartDeviceComponents/CreateSmartDevice";
 import { UpdateSmartDevice } from "../../components/AdminSmartDeviceComponents/UpdateSmartDevice";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const AdminSmartDevice: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<SmartDevice[] | null>([]);
 	const [item, setItem] = useState<SmartDevice | undefined>();
 
@@ -31,7 +33,8 @@ export const AdminSmartDevice: FC = () => {
 	}
 
 	async function handleDeleteItem(id: number | undefined) {
-		if (window.confirm("Are you sure?") && id !== undefined) {
+		const confirmationText = t("Are you sure?") ?? "";
+		if (window.confirm(confirmationText) && id !== undefined) {
 			try {
 				await SmartDevicesService.prototype.delete(id);
 				document.location.reload();
@@ -58,19 +61,18 @@ export const AdminSmartDevice: FC = () => {
 	}, []);
 	return (
 		<div className="AdminSensor container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<AdminPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Sensors</h1>
+						<h1>{t("Smart Devices")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
 					<Button onClick={() => addModalShow()} variant="outline-primary">
-						Create
+						{t("Create")}
 					</Button>
 				</div>
 				<Modal size="lg" centered show={createItemModelShow} onHide={createItemModelHandleClose}>
@@ -85,9 +87,9 @@ export const AdminSmartDevice: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>Logistic Company Id</th>
-									<th>Number Of Sensors</th>
+									<th>{t("Id")}</th>
+									<th>{t("Logistic Company Id")}</th>
+									<th>{t("Number of Sensors")}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -99,17 +101,17 @@ export const AdminSmartDevice: FC = () => {
 											<td>{e.numberOfSensors}</td>
 											<td>
 												<Button onClick={() => handleEditItem(e.smartDeviceId)} variant="outline-dark">
-													Update
+													{t("Update")}
 												</Button>
 												<Button onClick={() => handleDeleteItem(e.smartDeviceId)} variant="outline-danger">
-													Delete
+													{t("Delete")}
 												</Button>
 											</td>
 										</tr>
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

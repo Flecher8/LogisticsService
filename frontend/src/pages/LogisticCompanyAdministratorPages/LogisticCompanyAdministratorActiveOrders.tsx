@@ -5,8 +5,11 @@ import { ActiveOrders, Order, OrdersService } from "../../api/services/OrdersSer
 import { OrderCard } from "../../components/OrderCard";
 import { LogisticCompaniesAdministratorsService } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const LogisticCompanyAdministratorActiveOrders: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [orders, setOrders] = useState<ActiveOrders | null>();
 
 	const getOrders = async (): Promise<void> => {
@@ -25,18 +28,17 @@ export const LogisticCompanyAdministratorActiveOrders: FC = () => {
 	}, []);
 	return (
 		<div className="LogisticCompanyAdministratorActiveOrders container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompaniesAdministratorPanel />
 			</div>
 			<div className="d-flex flex-column flex-wrap">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Active orders</h1>
+						<h1>{t("Active orders")}</h1>
 					</div>
 				</header>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill ">
-					<h2>Waiting for your acceptance</h2>
+					<h2>{t("Waiting for your acceptance")}</h2>
 					<div className="d-flex flex-row align-items-start flex-fill">
 						{orders?.waitingForAcceptanceByLogisticCompanyOrders ? (
 							orders.waitingForAcceptanceByLogisticCompanyOrders.map(order => (
@@ -50,12 +52,12 @@ export const LogisticCompanyAdministratorActiveOrders: FC = () => {
 								</div>
 							))
 						) : (
-							<p>No data</p>
+							<p>{t("No data")}</p>
 						)}
 					</div>
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill">
-					<h2>Waiting for payment by private company</h2>
+					<h2>{t("Waiting for payment by private company")}</h2>
 					<div className="d-flex flex-row align-items-start flex-fill">
 						{orders?.waitingForPaymentByPrivateCompanyOrders ? (
 							orders.waitingForPaymentByPrivateCompanyOrders.map(order => (
@@ -69,12 +71,12 @@ export const LogisticCompanyAdministratorActiveOrders: FC = () => {
 								</div>
 							))
 						) : (
-							<p>No data</p>
+							<p>{t("No data")}</p>
 						)}
 					</div>
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill">
-					<h2>Accepted orders</h2>
+					<h2>{t("Accepted orders")}</h2>
 					<div className="d-flex flex-row align-items-start flex-fill">
 						{orders?.acceptedOrders ? (
 							orders.acceptedOrders.map(order => (
@@ -88,12 +90,12 @@ export const LogisticCompanyAdministratorActiveOrders: FC = () => {
 								</div>
 							))
 						) : (
-							<p>No data</p>
+							<p>{t("No data")}</p>
 						)}
 					</div>
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill">
-					<h2>In transit</h2>
+					<h2>{t("In transit")}</h2>
 					<div className="d-flex flex-row align-items-start flex-fill">
 						{orders?.inTransitOrders ? (
 							orders.inTransitOrders.map(order => (
@@ -107,7 +109,7 @@ export const LogisticCompanyAdministratorActiveOrders: FC = () => {
 								</div>
 							))
 						) : (
-							<p>No data</p>
+							<p>{t("No data")}</p>
 						)}
 					</div>
 				</div>

@@ -6,8 +6,11 @@ import { Order, OrderStatus, OrdersService } from "../../api/services/OrdersServ
 import { OrderInfoCard } from "../../components/OrderInfoCard";
 import { CancelOrder } from "../../components/CancelOrder";
 import { PaymentOrder } from "../../components/PaymentOrder";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const PrivateCompanyShowOrderInfo: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [order, setOrder] = useState<Order | null>(null);
 	const { id } = useParams<{ id: string }>();
 
@@ -44,7 +47,6 @@ export const PrivateCompanyShowOrderInfo: FC = () => {
 	}, []);
 	return (
 		<div className="PrivateCompanyShowOrderInfo container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<PrivateCompanyPanel />
 			</div>
@@ -63,11 +65,11 @@ export const PrivateCompanyShowOrderInfo: FC = () => {
 			{order !== null && order.orderStatus === OrderStatus.WaitingForAcceptanceByLogisticCompany ? (
 				<div className="mt-5">
 					<div>
-						<h4>Order management</h4>
+						<h4>{t("Order management")}</h4>
 					</div>
 					<div>
 						<Button onClick={() => handleCancelOrder()} variant="outline-danger">
-							Cancel order
+							{t("Cancel order")}
 						</Button>
 					</div>
 				</div>
@@ -75,23 +77,23 @@ export const PrivateCompanyShowOrderInfo: FC = () => {
 			{order !== null && order.orderStatus === OrderStatus.WaitingForPaymentByPrivateCompany ? (
 				<div className="m-5">
 					<div>
-						<h4>Order management</h4>
+						<h4>{t("Order management")}</h4>
 					</div>
 					<div className="d-flex flex-row">
 						<div className="mr-3 ">
 							<Button onClick={() => handlePaymentOrder()} variant="outline-primary">
-								Payment
+								{t("Payment")}
 							</Button>
 						</div>
 						<div className="mr-3">
 							<Button onClick={() => handleCancelOrder()} variant="outline-danger">
-								Cancel order
+								{t("Cancel order")}
 							</Button>
 						</div>
 					</div>
 				</div>
 			) : null}
-			<div>{order !== null ? <OrderInfoCard order={order} /> : <p>No data</p>}</div>
+			<div>{order !== null ? <OrderInfoCard order={order} /> : <p>{t("No data")}</p>}</div>
 		</div>
 	);
 };

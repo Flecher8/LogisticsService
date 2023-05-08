@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { SubscriptionType, SubscriptionTypesService } from "../../api/services/SubscriptionTypesService";
 import { UpdateModelProps } from "../../helpers/interfaces/UpdateModelProps";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const UpdateSubscriptionType: FC<UpdateModelProps<SubscriptionType>> = (
 	props: UpdateModelProps<SubscriptionType>
 ) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [subscriptionTypeId, setSubscriptionTypeId] = useState<number | undefined>(0);
 	const [subscriptionTypeName, setSubscriptionTypeName] = useState<string>("");
 	const [durationInDays, setDurationInDays] = useState<number>(0);
@@ -43,38 +46,38 @@ export const UpdateSubscriptionType: FC<UpdateModelProps<SubscriptionType>> = (
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Update</h1>
+						<h1>{t("Update")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Subscription Type Name</Form.Label>
+								<Form.Label>{t("Subscription Type Name")}</Form.Label>
 								<Form.Control
 									type="text"
-									placeholder="Enter subscription type name"
+									placeholder=""
 									value={subscriptionTypeName}
 									onChange={e => setSubscriptionTypeName(e.target.value)}
 								/>
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Duration In Days</Form.Label>
+								<Form.Label>{t("Duration in days")}</Form.Label>
 								<Form.Control
 									type="number"
-									placeholder="Enter duration in days"
+									placeholder="30"
 									value={durationInDays}
 									onChange={e => setDurationInDays(parseInt(e.target.value))}
 								/>
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Price</Form.Label>
+								<Form.Label>{t("Price")}</Form.Label>
 								<InputGroup>
 									<FormControl
 										type="number"
-										placeholder="Enter price"
+										placeholder="100"
 										value={price}
 										onChange={e => setPrice(parseInt(e.target.value))}
 									/>
@@ -83,7 +86,7 @@ export const UpdateSubscriptionType: FC<UpdateModelProps<SubscriptionType>> = (
 						</Form>
 						<div>
 							<Button className="mb-5" onClick={() => handle()}>
-								Update
+								{t("Update")}
 							</Button>
 						</div>
 					</div>

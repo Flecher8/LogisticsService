@@ -2,8 +2,11 @@ import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { UpdateModelProps } from "../helpers/interfaces/UpdateModelProps";
 import { Rate, RatesService } from "../api/services/RatesService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 export const UpdateRate: FC<UpdateModelProps<Rate>> = (props: UpdateModelProps<Rate>) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [priceForKmInDollar, setPriceForKmInDollar] = useState<number>(0);
 
 	async function handle() {
@@ -25,10 +28,10 @@ export const UpdateRate: FC<UpdateModelProps<Rate>> = (props: UpdateModelProps<R
 
 	function validated(): boolean {
 		if (priceForKmInDollar > 0) {
-			alert("Price must be greater than 0");
 			return true;
 		}
-		alert("Price must be greater than 0");
+		const priceMustBeGreaterThan0Text = t("Price must be greater than 0") ?? "";
+		alert(priceMustBeGreaterThan0Text);
 		return false;
 	}
 
@@ -44,14 +47,14 @@ export const UpdateRate: FC<UpdateModelProps<Rate>> = (props: UpdateModelProps<R
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Update</h1>
+						<h1>{t("Update")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Price for Km in Dollar</Form.Label>
+								<Form.Label>{t("Price for Km in Dollar")}</Form.Label>
 								<Form.Control
 									type="number"
 									placeholder="0"
@@ -62,7 +65,7 @@ export const UpdateRate: FC<UpdateModelProps<Rate>> = (props: UpdateModelProps<R
 						</Form>
 						<div>
 							<Button className="mb-5" onClick={() => handle()}>
-								Update
+								{t("Update")}
 							</Button>
 						</div>
 					</div>

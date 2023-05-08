@@ -19,14 +19,14 @@ export const Menu: FC = () => {
 			if (localStorage.getItem("userType") === "PrivateCompany") {
 				return (
 					<Link to="/PrivateCompanyProfile" className="text-decoration-none text-reset">
-						<Button className="btn btn-dark border border-white w-100">Profile</Button>
+						<Button className="btn btn-dark border border-white w-100">{t("Profile")}</Button>
 					</Link>
 				);
 			}
 			if (localStorage.getItem("userType") === "LogisticCompany") {
 				return (
 					<Link to="/LogisticCompanyProfile" className="text-decoration-none text-reset">
-						<Button className="btn btn-dark border border-white w-100">Profile</Button>
+						<Button className="btn btn-dark border border-white w-100">{t("Profile")}</Button>
 					</Link>
 				);
 			}
@@ -34,7 +34,7 @@ export const Menu: FC = () => {
 			if (localStorage.getItem("userType") === "LogisticCompanyAdministrator") {
 				return (
 					<Link to="/LogisticCompaniesAdministratorProfile" className="text-decoration-none text-reset">
-						<Button className="btn btn-dark border border-white w-100">Profile</Button>
+						<Button className="btn btn-dark border border-white w-100">{t("Profile")}</Button>
 					</Link>
 				);
 			}
@@ -42,14 +42,14 @@ export const Menu: FC = () => {
 			if (localStorage.getItem("userType") === "SystemAdmin") {
 				return (
 					<Link to="/SystemAdminProfile" className="text-decoration-none text-reset">
-						<Button className="btn btn-dark border border-white w-100">Admin Panel</Button>
+						<Button className="btn btn-dark border border-white w-100">{t("Admin Panel")}</Button>
 					</Link>
 				);
 			}
 		}
 		return (
 			<Link to="/Login" className="text-decoration-none text-reset">
-				<Button className="btn btn-dark border border-white w-100">Sign in</Button>
+				<Button className="btn btn-dark border border-white w-100">{t("Sign in")}</Button>
 			</Link>
 		);
 	}
@@ -59,12 +59,12 @@ export const Menu: FC = () => {
 				<div className="d-flex justify-content-start">
 					<div className="mr-2">
 						<Link to="/Home" className="text-decoration-none text-reset">
-							<Button className="btn btn-dark border border-white w-100">Home</Button>
+							<Button className="btn btn-dark border border-white w-100">{t("Home")}</Button>
 						</Link>
 					</div>
 					<div className="mr-2">
 						<Link to="/Contacts" className="text-decoration-none text-reset">
-							<Button className="btn btn-dark border border-white w-100">Contacts</Button>
+							<Button className="btn btn-dark border border-white w-100">{t("Contacts")}</Button>
 						</Link>
 					</div>
 				</div>

@@ -3,8 +3,11 @@ import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AdminPanel } from "../../components/AdminPanel";
 import { SystemAdmin, SystemAdminService } from "../../api/services/SystemAdminService";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const SystemAdminProfile: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [profile, setProfile] = useState<SystemAdmin | null>(null);
 
 	const getProfileData = async (): Promise<void> => {
@@ -22,22 +25,25 @@ export const SystemAdminProfile: FC = () => {
 	}, []);
 	return (
 		<div className="SystemAdminProfile container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<AdminPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Profile</h1>
+						<h1>{t("Profile")}</h1>
 					</div>
 				</header>
 				{profile && (
 					<Card className="my-5">
-						<Card.Header>Profile Information</Card.Header>
+						<Card.Header>{t("Profile Information")}</Card.Header>
 						<Card.Body>
-							<Card.Text>{`Name: ${profile.firstName} ${profile.lastName}`}</Card.Text>
-							<Card.Text>{`Email: ${profile.email}`}</Card.Text>
+							<Card.Text>
+								{t("Name")}: {`${profile.firstName} ${profile.lastName}`}
+							</Card.Text>
+							<Card.Text>
+								{t("Email")}: {`${profile.email}`}
+							</Card.Text>
 						</Card.Body>
 					</Card>
 				)}

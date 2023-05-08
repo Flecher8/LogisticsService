@@ -5,8 +5,11 @@ import { AdminPanel } from "../../components/AdminPanel";
 import { SubscriptionType, SubscriptionTypesService } from "../../api/services/SubscriptionTypesService";
 import { UpdateSubscriptionType } from "../../components/AdminSubscriptionTypeComponents/UpdateSubscriptionType";
 import { CreateSubscriptionType } from "../../components/AdminSubscriptionTypeComponents/CreateSubscriptionType";
-// TODO Language
+import { useTranslationHelper } from "../../helpers/translation/translationService";
+
 export const AdminSubscriptionTypes: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<SubscriptionType[] | null>([]);
 	const [item, setItem] = useState<SubscriptionType | undefined>();
 
@@ -31,7 +34,8 @@ export const AdminSubscriptionTypes: FC = () => {
 	}
 
 	async function handleDeleteItem(id: number | undefined) {
-		if (window.confirm("Are you sure?") && id !== undefined) {
+		const confirmationText = t("Are you sure?") ?? "";
+		if (window.confirm(confirmationText) && id !== undefined) {
 			try {
 				await SubscriptionTypesService.prototype.delete(id);
 				document.location.reload();
@@ -58,19 +62,18 @@ export const AdminSubscriptionTypes: FC = () => {
 	}, []);
 	return (
 		<div className="AdminSubscriptionTypes container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<AdminPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Subscription Types</h1>
+						<h1>{t("Subscription Types")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
 					<Button onClick={() => addModalShow()} variant="outline-primary">
-						Create
+						{t("Create")}
 					</Button>
 				</div>
 				<Modal size="lg" centered show={createItemModelShow} onHide={createItemModelHandleClose}>
@@ -85,9 +88,9 @@ export const AdminSubscriptionTypes: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>subscriptionTypeName</th>
-									<th>durationInDays</th>
-									<th>price</th>
+									<th>{t("Subscription Type Name")}</th>
+									<th>{t("Duration in days")}</th>
+									<th>{t("Price")}</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -100,19 +103,19 @@ export const AdminSubscriptionTypes: FC = () => {
 											<td>{e.price}</td>
 											<td>
 												<Button onClick={() => handleEditItem(e.subscriptionTypeId)} variant="outline-dark">
-													Update
+													{t("Update")}
 												</Button>
 												<Button
 													onClick={() => handleDeleteItem(e.subscriptionTypeId)}
 													variant="outline-danger">
-													Delete
+													{t("Delete")}
 												</Button>
 											</td>
 										</tr>
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

@@ -2,6 +2,7 @@ import { useState, useEffect, FC } from "react";
 import { Card } from "react-bootstrap";
 import { LogisticCompanyRates } from "../api/services/RatesService";
 import { RateCard } from "./RateCard";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 interface RatesListProps {
 	logisticCompanyRates: LogisticCompanyRates[];
@@ -10,6 +11,8 @@ interface RatesListProps {
 }
 
 export const RatesList: FC<RatesListProps> = ({ logisticCompanyRates, selectedItemId, onSelectItem }) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const handleSelectItem = (itemId: number) => {
 		onSelectItem(itemId);
 	};
@@ -33,7 +36,7 @@ export const RatesList: FC<RatesListProps> = ({ logisticCompanyRates, selectedIt
 						</div>
 					))
 				) : (
-					<p>No data</p>
+					<p>{t("No data")}</p>
 				)}
 			</div>
 		</div>

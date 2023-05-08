@@ -2,6 +2,7 @@ import { useState, useEffect, FC } from "react";
 import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { PaymentService } from "../api/services/PaymentService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 interface PaymentOrderProps {
 	orderId: number;
@@ -17,6 +18,8 @@ interface PaymentData {
 }
 
 export const PaymentOrder: FC<PaymentOrderProps> = ({ orderId, price, close }) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [paymentData, setPaymentData] = useState<PaymentData>({
 		cardNumber: "",
 		expirationDate: "",
@@ -49,17 +52,19 @@ export const PaymentOrder: FC<PaymentOrderProps> = ({ orderId, price, close }) =
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Payment</h1>
+						<h1>{t("Payment")}</h1>
 					</div>
 					<div className="text-center mt-5">
-						<h2>Price: {price} $</h2>
+						<h2>
+							{t("Price")}: {price} $
+						</h2>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group controlId="cardNumber">
-								<Form.Label>Card Number</Form.Label>
+								<Form.Label>{t("Card Number")}</Form.Label>
 								<Form.Control
 									type="text"
 									name="cardNumber"
@@ -69,7 +74,7 @@ export const PaymentOrder: FC<PaymentOrderProps> = ({ orderId, price, close }) =
 								/>
 							</Form.Group>
 							<Form.Group controlId="expirationDate">
-								<Form.Label>Expiration Date</Form.Label>
+								<Form.Label>{t("Expiration Date")}</Form.Label>
 								<Form.Control
 									type="text"
 									name="expirationDate"
@@ -89,18 +94,18 @@ export const PaymentOrder: FC<PaymentOrderProps> = ({ orderId, price, close }) =
 								/>
 							</Form.Group>
 							<Form.Group controlId="nameOnCard">
-								<Form.Label>Name on Card</Form.Label>
+								<Form.Label>{t("Name on Card")}</Form.Label>
 								<Form.Control
 									type="text"
 									name="nameOnCard"
 									value={paymentData.nameOnCard}
 									onChange={handleChange}
-									placeholder="Tom Tom"
+									placeholder="Tom Care"
 								/>
 							</Form.Group>
 						</Form>
 						<Button className="mt-3 mb-3" variant="primary" onClick={() => handle()}>
-							Submit
+							{t("Submit")}
 						</Button>
 					</div>
 				</div>

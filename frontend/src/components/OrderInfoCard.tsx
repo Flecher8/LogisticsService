@@ -6,12 +6,15 @@ import { CargoCard } from "./CargoCard";
 import { GoogleMaps } from "./GoogleMap";
 import { GeolocationService } from "../api/services/GeolocationService";
 import { Address } from "../api/services/AddressesService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 interface OrderCardProps {
 	order: Order;
 }
 
 export const OrderInfoCard: FC<OrderCardProps> = ({ order }) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [loaded, setLoaded] = useState<boolean>(false);
 	const [point, setPoint] = useState<Point>();
 	const [showMap, setShowMap] = useState<boolean>(false);
@@ -23,8 +26,8 @@ export const OrderInfoCard: FC<OrderCardProps> = ({ order }) => {
 		if (order?.orderStatus === OrderStatus.InTransit) {
 			await loadMap();
 		}
-		// TODO SHOW Address
-		//await loadAddresses(order);
+
+		await loadAddresses(order);
 
 		setLoaded(true);
 	};
@@ -75,45 +78,62 @@ export const OrderInfoCard: FC<OrderCardProps> = ({ order }) => {
 	}, []);
 	return (
 		<div className="PrivateCompanyShowOrderInfo container">
-			{/* // TODO Language */}
 			<Card>
 				<Card.Header>
-					<h1 className="text-center">Order Info</h1>
+					<h1 className="text-center">{t("Order Info")}</h1>
 				</Card.Header>
 				{order ? (
 					<Card.Body>
-						<Card.Title>Order Id: {order.orderId}</Card.Title>
-						<Card.Text>Private company name: {order.privateCompany.companyName}</Card.Text>
-						<Card.Text>Logistic company name: {order.logisticCompany.companyName}</Card.Text>
-						<Card.Text>Start delivery address: {startDeliveryAddress}</Card.Text>
-						<Card.Text>End delivery address: {endDeliveryAddress}</Card.Text>
-						<Card.Text>Creation data and time: {getLocalDataByUTCData(order.creationDateTime)}</Card.Text>
+						<Card.Title>
+							{t("Order Id")}: {order.orderId}
+						</Card.Title>
 						<Card.Text>
-							Estimated delivery date and time: {getLocalDataByUTCData(order.estimatedDeliveryDateTime)}
+							{t("Private company name")}: {order.privateCompany.companyName}
 						</Card.Text>
-						<Card.Text>Price: {order.price} $</Card.Text>
+						<Card.Text>
+							{t("Logistic company name")}: {order.logisticCompany.companyName}
+						</Card.Text>
+						<Card.Text>
+							{t("Start delivery address")}: {startDeliveryAddress}
+						</Card.Text>
+						<Card.Text>
+							{t("End delivery address")}: {endDeliveryAddress}
+						</Card.Text>
+						<Card.Text>
+							{t("Creation date and time")}: {getLocalDataByUTCData(order.creationDateTime)}
+						</Card.Text>
+						<Card.Text>
+							{t("Estimated delivery date and time")}: {getLocalDataByUTCData(order.estimatedDeliveryDateTime)}
+						</Card.Text>
+						<Card.Text>
+							{t("Price")}: {order.price} $
+						</Card.Text>
 						{order.logisticCompaniesDriver !== null && order.logisticCompaniesDriver !== undefined ? (
-							<Card.Text>{`Driver name: ${order.logisticCompaniesDriver?.firstName} ${order.logisticCompaniesDriver?.lastName}`}</Card.Text>
+							<Card.Text>
+								{t("Driver name")}:{" "}
+								{`${order.logisticCompaniesDriver?.firstName} ${order.logisticCompaniesDriver?.lastName}`}
+							</Card.Text>
 						) : null}
 						{localStorage["userType"] === "LogisticCompanyAdministrator" &&
 						order.sensor !== null &&
 						order.sensor !== undefined ? (
-							<Card.Text>Sensor id: {`${order.sensor?.sensorId}`}</Card.Text>
+							<Card.Text>
+								{t("Sensor id")}: {`${order.sensor?.sensorId}`}
+							</Card.Text>
 						) : null}
-						<Card.Text>{order.cargo ? <CargoCard cargo={order.cargo} /> : <p>No data</p>}</Card.Text>
+						<Card.Text>{order.cargo ? <CargoCard cargo={order.cargo} /> : <p>{t("No data")}</p>}</Card.Text>
 						<Card.Text>
-							{/* //TODO SHOW MAP  */}
-							{/* {showMap && point ? (
+							{showMap && point ? (
 								<div>
-									<p>Current location:</p>
+									<p>{t("Current location")}:</p>
 									<GoogleMaps lat={point.latitude} lng={point.longitude} />
 								</div>
-							) : null} */}
+							) : null}
 						</Card.Text>
 					</Card.Body>
 				) : (
 					<Card.Body>
-						<Card.Title>No data</Card.Title>
+						<Card.Title>{t("No data")}</Card.Title>
 					</Card.Body>
 				)}
 			</Card>

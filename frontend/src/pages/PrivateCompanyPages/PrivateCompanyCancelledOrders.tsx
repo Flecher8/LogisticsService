@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import { PrivateCompanyPanel } from "../../components/PrivateCompanyPanel";
 import { Order, OrdersService } from "../../api/services/OrdersService";
 import { OrderCard } from "../../components/OrderCard";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const PrivateCompanyCancelledOrders: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [orders, setOrders] = useState<Order[] | null>();
 
 	const getOrders = async (): Promise<void> => {
@@ -21,14 +24,13 @@ export const PrivateCompanyCancelledOrders: FC = () => {
 	}, []);
 	return (
 		<div className="PrivateCompanyCancelledOrders container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<PrivateCompanyPanel />
 			</div>
 			<div className="d-flex flex-column">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Cancelled orders</h1>
+						<h1>{t("Cancelled orders")}</h1>
 					</div>
 				</header>
 				<div className="d-flex flex-column align-items-start flex-fill flex-wrap">
@@ -44,7 +46,7 @@ export const PrivateCompanyCancelledOrders: FC = () => {
 							</div>
 						))
 					) : (
-						<p>No data</p>
+						<p>{t("No data")}</p>
 					)}
 				</div>
 			</div>

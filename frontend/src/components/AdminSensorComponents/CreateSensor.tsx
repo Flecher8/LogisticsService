@@ -2,8 +2,11 @@ import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Form } from "react-bootstrap";
 import { CreateModelProps } from "../../helpers/interfaces/ChangeModelProps";
 import { SensorDto, SensorsService } from "../../api/services/SensorsService";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const CreateSensor: FC<CreateModelProps> = (props: CreateModelProps) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [smartDeviceId, setSmartDeviceId] = useState<number>(0);
 
 	async function handle() {
@@ -26,18 +29,18 @@ export const CreateSensor: FC<CreateModelProps> = (props: CreateModelProps) => {
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Create</h1>
+						<h1>{t("Create")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Smart device id</Form.Label>
+								<Form.Label>{t("Smart device id")}</Form.Label>
 								<InputGroup>
 									<FormControl
 										type="number"
-										placeholder="Enter smart device id"
+										placeholder="123"
 										value={smartDeviceId}
 										onChange={e => setSmartDeviceId(parseInt(e.target.value))}
 									/>
@@ -46,7 +49,7 @@ export const CreateSensor: FC<CreateModelProps> = (props: CreateModelProps) => {
 						</Form>
 						<div>
 							<Button className="mb-5" onClick={() => handle()}>
-								Create
+								{t("Create")}
 							</Button>
 						</div>
 					</div>

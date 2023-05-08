@@ -1,16 +1,16 @@
 import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
-import { AdminPanel } from "../../components/AdminPanel";
-import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import {
 	LogisticCompaniesAdministratorDto,
 	LogisticCompaniesAdministratorsService
 } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { LogisticCompanyPanel } from "../../components/LogisticCompanyPanel";
 import { CreateLogisticCompaniesAdministrators } from "../../components/CreateLogisticCompaniesAdministrators";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const LogisticCompanyChangeAdministrators: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<LogisticCompaniesAdministratorDto[] | null>([]);
 
 	// Create modal show
@@ -24,7 +24,8 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 	}
 
 	async function handleDeleteItem(id: number | undefined) {
-		if (id !== undefined && window.confirm("Are you sure?")) {
+		const confirmationText = t("Are you sure?") ?? "";
+		if (id !== undefined && window.confirm(confirmationText)) {
 			try {
 				await LogisticCompaniesAdministratorsService.prototype.delete(id);
 				window.location.reload();
@@ -53,19 +54,18 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 	}, []);
 	return (
 		<div className="LogisticCompanyChangeAdministrators container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompanyPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Administrators</h1>
+						<h1>{t("Administrators")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
 					<Button onClick={() => addModalShow()} variant="outline-primary">
-						Create
+						{t("Create")}
 					</Button>
 				</div>
 				<Modal size="lg" centered show={createItemModelShow} onHide={createItemModelHandleClose}>
@@ -77,9 +77,9 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>First name</th>
-									<th>Last name</th>
-									<th>Email</th>
+									<th>{t("First name")}</th>
+									<th>{t("Last name")}</th>
+									<th>{t("Email")}</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -94,14 +94,14 @@ export const LogisticCompanyChangeAdministrators: FC = () => {
 												<Button
 													onClick={() => handleDeleteItem(e.logisticCompaniesAdministratorId)}
 													variant="outline-danger">
-													Delete
+													{t("Delete")}
 												</Button>
 											</td>
 										</tr>
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

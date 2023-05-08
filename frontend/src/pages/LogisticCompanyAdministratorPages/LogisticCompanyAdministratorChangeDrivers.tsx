@@ -8,9 +8,11 @@ import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCo
 import { LogisticCompaniesAdministrator } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { LogisticCompaniesAdministratorsService } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { CreateLogisticCompaniesDriver } from "../../components/CreateLogisticCompaniesDriver";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const LogisticCompanyAdministratorChangeDrivers: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<LogisticCompaniesDriver[] | null>([]);
 
 	// Create modal show
@@ -24,7 +26,8 @@ export const LogisticCompanyAdministratorChangeDrivers: FC = () => {
 	}
 
 	async function handleDeleteItem(id: number | undefined) {
-		if (id !== undefined && window.confirm("Are you sure?")) {
+		const confirmationText = t("Are you sure?") ?? "";
+		if (id !== undefined && window.confirm(confirmationText)) {
 			try {
 				await LogisticCompaniesDriversService.prototype.delete(id);
 				window.location.reload();
@@ -67,19 +70,18 @@ export const LogisticCompanyAdministratorChangeDrivers: FC = () => {
 	}, []);
 	return (
 		<div className="LogisticCompanyAdministratorChangeDrivers container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompaniesAdministratorPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Drivers</h1>
+						<h1>{t("Drivers")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
 					<Button onClick={() => addModalShow()} variant="outline-primary">
-						Create
+						{t("Create")}
 					</Button>
 				</div>
 				<Modal size="lg" centered show={createItemModelShow} onHide={createItemModelHandleClose}>
@@ -91,10 +93,10 @@ export const LogisticCompanyAdministratorChangeDrivers: FC = () => {
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>First name</th>
-									<th>Last name</th>
-									<th>Email</th>
+									<th>{t("Id")}</th>
+									<th>{t("First name")}</th>
+									<th>{t("Last name")}</th>
+									<th>{t("Email")}</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -110,14 +112,14 @@ export const LogisticCompanyAdministratorChangeDrivers: FC = () => {
 												<Button
 													onClick={() => handleDeleteItem(e.logisticCompaniesDriverId)}
 													variant="outline-danger">
-													Delete
+													{t("Delete")}
 												</Button>
 											</td>
 										</tr>
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

@@ -6,8 +6,11 @@ import { OrderInfoCard } from "../../components/OrderInfoCard";
 import { CancelOrder } from "../../components/CancelOrder";
 import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
 import { UpdateOrder } from "../../components/UpdateOrder";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [order, setOrder] = useState<Order | null>(null);
 	const { id } = useParams<{ id: string }>();
 
@@ -42,9 +45,9 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 	useEffect(() => {
 		getOrder();
 	}, []);
+
 	return (
 		<div className="LogisticCompanyAdministratorShowOrderInfo container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompaniesAdministratorPanel />
 			</div>
@@ -60,14 +63,14 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 			{order !== null && order.orderStatus === OrderStatus.WaitingForAcceptanceByLogisticCompany ? (
 				<div className="mt-5 container">
 					<div>
-						<h4>Order management</h4>
+						<h4>{t("Order management")}</h4>
 					</div>
 					<div>
 						<Button onClick={() => handleUpdateOrder()} variant="outline-success" className="mr-3">
-							Accept order
+							{t("Accept order")}
 						</Button>
 						<Button onClick={() => handleCancelOrder()} variant="outline-danger">
-							Cancel order
+							{t("Cancel order")}
 						</Button>
 					</div>
 				</div>
@@ -75,18 +78,18 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 			{order !== null && order.orderStatus === OrderStatus.WaitingForPaymentByPrivateCompany ? (
 				<div className="m-5">
 					<div>
-						<h4>Order management</h4>
+						<h4>{t("Order management")}</h4>
 					</div>
 					<div className="d-flex flex-row">
 						<div className="mr-3">
 							<Button onClick={() => handleCancelOrder()} variant="outline-danger">
-								Cancel order
+								{t("Cancel order")}
 							</Button>
 						</div>
 					</div>
 				</div>
 			) : null}
-			<div>{order !== null ? <OrderInfoCard order={order} /> : <p>No data</p>}</div>
+			<div>{order !== null ? <OrderInfoCard order={order} /> : <p>{t("No data")}</p>}</div>
 		</div>
 	);
 };

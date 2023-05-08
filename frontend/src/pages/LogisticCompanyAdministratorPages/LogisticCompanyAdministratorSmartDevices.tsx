@@ -3,9 +3,11 @@ import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-boots
 import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import { LogisticCompaniesAdministratorsService } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const LogisticCompanyAdministratorSmartDevices: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<SmartDevice[] | null>([]);
 
 	const getItems = async (): Promise<void> => {
@@ -28,26 +30,25 @@ export const LogisticCompanyAdministratorSmartDevices: FC = () => {
 	}, []);
 	return (
 		<div className="LogisticCompanyAdministratorSmartDevices container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompaniesAdministratorPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Your Logistic company Smart Devices</h1>
+						<h1>{t("Your Logistic company Smart Devices")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
-					<p>If you want to change some smart device, you can contact your logistic company</p>
+					<p>{t("If you want to change some smart device, you can contact your logistic company")}</p>
 				</div>
 				<main>
 					<div className="mt-5">
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>Number Of Sensors</th>
+									<th>{t("Id")}</th>
+									<th>{t("Number Of Sensors")}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -60,7 +61,7 @@ export const LogisticCompanyAdministratorSmartDevices: FC = () => {
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>

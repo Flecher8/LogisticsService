@@ -6,8 +6,11 @@ import {
 	LogisticCompaniesAdministratorDto,
 	LogisticCompaniesAdministratorsService
 } from "../api/services/LogisticCompaniesAdministratorsService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (props: CreateModelProps) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [firstName, setFirstName] = useState<string>("");
 	const [lastName, setLastName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
@@ -35,14 +38,14 @@ export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (prop
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Create</h1>
+						<h1>{t("Create")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>First name:</Form.Label>
+								<Form.Label>{t("First name")}:</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Tom"
@@ -52,7 +55,7 @@ export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (prop
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Last name:</Form.Label>
+								<Form.Label>{t("Last name")}:</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Care"
@@ -62,7 +65,7 @@ export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (prop
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Email:</Form.Label>
+								<Form.Label>{t("Email")}:</Form.Label>
 								<InputGroup>
 									<FormControl
 										type="text"
@@ -73,7 +76,7 @@ export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (prop
 								</InputGroup>
 							</Form.Group>
 							<Form.Group className="mb-3">
-								<Form.Label>Password:</Form.Label>
+								<Form.Label>{t("Password")}:</Form.Label>
 								<InputGroup>
 									<FormControl
 										type="password"
@@ -86,7 +89,7 @@ export const CreateLogisticCompaniesAdministrators: FC<CreateModelProps> = (prop
 						</Form>
 						<div>
 							<Button className="mb-5" onClick={() => handle()}>
-								Create
+								{t("Create")}
 							</Button>
 						</div>
 					</div>

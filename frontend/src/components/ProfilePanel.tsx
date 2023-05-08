@@ -19,7 +19,7 @@ export const ProfilePanel: FC<ProfilePanelProps> = ({ profilePanelElements }) =>
 		localStorage.clear();
 	}
 
-	const signOut = async (e: { preventDefault: () => void }) => {
+	const signOut = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		e.preventDefault();
 		clearUserInfo();
 		window.location.href = "/Home";
@@ -39,7 +39,7 @@ export const ProfilePanel: FC<ProfilePanelProps> = ({ profilePanelElements }) =>
 					<div className="">
 						<Link to="/" className="text-decoration-none text-reset">
 							<Button onClick={signOut} className="btn btn-dark border border-white">
-								Sign Out
+								{t("Sign Out")}
 							</Button>
 						</Link>
 					</div>

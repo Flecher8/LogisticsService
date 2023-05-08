@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { SubscriptionType, SubscriptionTypesService } from "../../api/services/SubscriptionTypesService";
 import { CreateModelProps } from "../../helpers/interfaces/ChangeModelProps";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const CreateSubscriptionType: FC<CreateModelProps> = (props: CreateModelProps) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [subscriptionTypeName, setSubscriptionTypeName] = useState<string>("");
 	const [durationInDays, setDurationInDays] = useState<number>(0);
 	const [price, setPrice] = useState<number>(0);
@@ -29,38 +32,38 @@ export const CreateSubscriptionType: FC<CreateModelProps> = (props: CreateModelP
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Create</h1>
+						<h1>{t("Create")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Subscription Type Name</Form.Label>
+								<Form.Label>{t("Subscription Type Name")}</Form.Label>
 								<Form.Control
 									type="text"
-									placeholder="Enter subscription type name"
+									placeholder=""
 									value={subscriptionTypeName}
 									onChange={e => setSubscriptionTypeName(e.target.value)}
 								/>
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Duration In Days</Form.Label>
+								<Form.Label>{t("Duration in days")}</Form.Label>
 								<Form.Control
 									type="number"
-									placeholder="Enter duration in days"
+									placeholder="30"
 									value={durationInDays}
 									onChange={e => setDurationInDays(parseInt(e.target.value))}
 								/>
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Price</Form.Label>
+								<Form.Label>{t("Price")}</Form.Label>
 								<InputGroup>
 									<FormControl
 										type="number"
-										placeholder="Enter price"
+										placeholder="100"
 										value={price}
 										onChange={e => setPrice(parseInt(e.target.value))}
 									/>
@@ -69,7 +72,7 @@ export const CreateSubscriptionType: FC<CreateModelProps> = (props: CreateModelP
 						</Form>
 						<div>
 							<Button className="mb-5" onClick={() => handle()}>
-								Create
+								{t("Create")}
 							</Button>
 						</div>
 					</div>

@@ -2,18 +2,21 @@ import { useState, useEffect, FC } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { PrivateCompanyPanel } from "../../components/PrivateCompanyPanel";
 import { PrivateCompanyStatisticsService } from "../../api/services/PrivateCompanyStatisticsService";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 interface Option {
 	value: string;
 	label: string;
 }
 
-const options: Option[] = [
-	{ value: "km", label: "km" },
-	{ value: "mi", label: "mi" }
-];
-
 export const PrivateCompanyStatistics: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
+	const options: Option[] = [
+		{ value: "km", label: t("km") },
+		{ value: "mi", label: t("mi") }
+	];
+
 	const [averageDeliveryTime, setAverageDeliveryTime] = useState<string>("");
 	const [averageDeliveryPathLength, setAverageDeliveryPathLength] = useState<number>(0);
 	const [numberOfDeliveredOrders, setNumberOfDeliveredOrders] = useState<number>(0);
@@ -75,28 +78,28 @@ export const PrivateCompanyStatistics: FC = () => {
 	useEffect(() => {
 		getStatistics();
 	}, []);
+
 	return (
 		<div className="PrivateCompanyStatistics container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<PrivateCompanyPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Statistics</h1>
+						<h1>{t("Statistics")}</h1>
 					</div>
 				</header>
 				<div>
 					<Card className="my-5">
-						<Card.Header>Average delivery time:</Card.Header>
+						<Card.Header>{t("Average delivery time")}:</Card.Header>
 						<Card.Body>
 							<Card.Text>{`${averageDeliveryTime}`}</Card.Text>
 						</Card.Body>
 					</Card>
 
 					<Card className="my-5">
-						<Card.Header>Average delivery path length</Card.Header>
+						<Card.Header>{t("Average delivery path length")}</Card.Header>
 						<Card.Body>
 							<Form.Group>
 								<Form.Control className="w-25" as="select" onChange={e => handleSelectChange(e)}>
@@ -113,21 +116,21 @@ export const PrivateCompanyStatistics: FC = () => {
 					</Card>
 
 					<Card className="my-5">
-						<Card.Header>Number of delivered orders:</Card.Header>
+						<Card.Header>{t("Number of delivered orders")}:</Card.Header>
 						<Card.Body>
 							<Card.Text>{`${numberOfDeliveredOrders}`}</Card.Text>
 						</Card.Body>
 					</Card>
 
 					<Card className="my-5">
-						<Card.Header>Number of not delivered orders:</Card.Header>
+						<Card.Header>{t("Number of not delivered orders")}:</Card.Header>
 						<Card.Body>
 							<Card.Text>{`${numberOfNotDeliveredOrders}`}</Card.Text>
 						</Card.Body>
 					</Card>
 
 					<Card className="my-5">
-						<Card.Header>Average order price:</Card.Header>
+						<Card.Header>{t("Average order price")}:</Card.Header>
 						<Card.Body>
 							<Card.Text>{`${averageOrderPrice} $`}</Card.Text>
 						</Card.Body>

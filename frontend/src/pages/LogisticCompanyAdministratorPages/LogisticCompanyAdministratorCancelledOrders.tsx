@@ -3,13 +3,13 @@ import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Order, OrdersService } from "../../api/services/OrdersService";
 import { OrderCard } from "../../components/OrderCard";
-import {
-	LogisticCompaniesAdministrator,
-	LogisticCompaniesAdministratorsService
-} from "../../api/services/LogisticCompaniesAdministratorsService";
+import { LogisticCompaniesAdministratorsService } from "../../api/services/LogisticCompaniesAdministratorsService";
 import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
 export const LogisticCompanyAdministratorCancelledOrders: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [orders, setOrders] = useState<Order[] | null>();
 
 	const getOrders = async (): Promise<void> => {
@@ -28,14 +28,13 @@ export const LogisticCompanyAdministratorCancelledOrders: FC = () => {
 	}, []);
 	return (
 		<div className="LogisticCompanyAdministratorCancelledOrders container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompaniesAdministratorPanel />
 			</div>
 			<div className="d-flex flex-column">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Cancelled orders</h1>
+						<h1>{t("Cancelled orders")}</h1>
 					</div>
 				</header>
 				<div className="d-flex flex-column align-items-start flex-fill flex-wrap">
@@ -51,7 +50,7 @@ export const LogisticCompanyAdministratorCancelledOrders: FC = () => {
 							</div>
 						))
 					) : (
-						<p>No data</p>
+						<p>{t("No data")}</p>
 					)}
 				</div>
 			</div>

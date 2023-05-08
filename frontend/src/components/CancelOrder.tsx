@@ -2,6 +2,7 @@ import { useState, useEffect, FC } from "react";
 import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { CancelledOrder, CancelledOrderService } from "../api/services/CancelledOrderService";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 interface CancelOrderProps {
 	orderId: number;
@@ -9,6 +10,8 @@ interface CancelOrderProps {
 }
 
 export const CancelOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [reason, setReason] = useState<string>("");
 	const [description, setDescription] = useState<string>("");
 
@@ -38,14 +41,14 @@ export const CancelOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Cancel order</h1>
+						<h1>{t("Cancel order")}</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Reason</Form.Label>
+								<Form.Label>{t("Reason")}</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder=""
@@ -55,7 +58,7 @@ export const CancelOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>Description</Form.Label>
+								<Form.Label>{t("Description")}</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder=""

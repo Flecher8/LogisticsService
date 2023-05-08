@@ -2,9 +2,11 @@ import { useState, useEffect, FC } from "react";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { SmartDevice, SmartDevicesService } from "../../api/services/SmartDevicesService";
 import { LogisticCompanyPanel } from "../../components/LogisticCompanyPanel";
+import { useTranslationHelper } from "../../helpers/translation/translationService";
 
-// TODO Language
 export const LogisticCompanySmartDevices: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const [items, setItems] = useState<SmartDevice[] | null>([]);
 
 	const getItems = async (): Promise<void> => {
@@ -24,26 +26,28 @@ export const LogisticCompanySmartDevices: FC = () => {
 	}, []);
 	return (
 		<div className="LogisticCompanySmartDevices container">
-			{/* // TODO Language */}
 			<div className="d-flex border border-dark w-100">
 				<LogisticCompanyPanel />
 			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
-						<h1>Your Smart Devices</h1>
+						<h1>{t("Your Smart Devices")}</h1>
 					</div>
 				</header>
 				<div className="container mt-5">
-					<p>If you want to change or buy some smart device, you can contact us by this email: email@gmail.com</p>
+					<p>
+						{t("If you want to change or buy some smart device, you can contact us by this email")}:
+						email@gmail.com
+					</p>
 				</div>
 				<main>
 					<div className="mt-5">
 						<Table className="table table-striped auto__table text-center" striped bordered hover size="lg">
 							<thead>
 								<tr>
-									<th>Id</th>
-									<th>Number Of Sensors</th>
+									<th>{t("Id")}</th>
+									<th>{t("Number Of Sensors")}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -56,7 +60,7 @@ export const LogisticCompanySmartDevices: FC = () => {
 									))
 								) : (
 									<tr>
-										<td colSpan={5}>No data</td>
+										<td colSpan={5}>{t("No data")}</td>
 									</tr>
 								)}
 							</tbody>
