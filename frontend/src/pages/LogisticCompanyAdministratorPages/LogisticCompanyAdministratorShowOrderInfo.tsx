@@ -5,6 +5,7 @@ import { Order, OrderStatus, OrdersService } from "../../api/services/OrdersServ
 import { OrderInfoCard } from "../../components/OrderInfoCard";
 import { CancelOrder } from "../../components/CancelOrder";
 import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
+import { UpdateOrder } from "../../components/UpdateOrder";
 
 export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 	const [order, setOrder] = useState<Order | null>(null);
@@ -14,6 +15,11 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 	const [cancelOrderModelShow, SetCancelOrderModelShow] = useState(false);
 	const cancelOrderModelHandleClose = () => SetCancelOrderModelShow(false);
 	const cancelOrderModelHandleShow = () => SetCancelOrderModelShow(true);
+
+	// Update order modal show
+	const [updateOrderModelShow, SetUpdateOrderModelShow] = useState(false);
+	const updateOrderModelHandleClose = () => SetUpdateOrderModelShow(false);
+	const updateOrderModelHandleShow = () => SetUpdateOrderModelShow(true);
 
 	const getOrder = async (): Promise<void> => {
 		try {
@@ -29,6 +35,10 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 		cancelOrderModelHandleShow();
 	}
 
+	function handleUpdateOrder() {
+		updateOrderModelHandleShow();
+	}
+
 	useEffect(() => {
 		getOrder();
 	}, []);
@@ -42,16 +52,23 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 			<Modal size="lg" centered show={cancelOrderModelShow} onHide={cancelOrderModelHandleClose}>
 				<CancelOrder close={cancelOrderModelHandleClose} orderId={order === null ? 0 : order.orderId} />
 			</Modal>
+
+			<Modal size="lg" centered show={updateOrderModelShow} onHide={updateOrderModelHandleClose}>
+				<UpdateOrder close={updateOrderModelHandleClose} orderId={order === null ? 0 : order.orderId} />
+			</Modal>
+
 			{order !== null && order.orderStatus === OrderStatus.WaitingForAcceptanceByLogisticCompany ? (
-				<div className="mt-5">
+				<div className="mt-5 container">
 					<div>
 						<h4>Order management</h4>
 					</div>
 					<div>
+						<Button onClick={() => handleUpdateOrder()} variant="outline-success" className="mr-3">
+							Accept order
+						</Button>
 						<Button onClick={() => handleCancelOrder()} variant="outline-danger">
 							Cancel order
 						</Button>
-						{/*//TODO Update order, write driver id and sensor id */}
 					</div>
 				</div>
 			) : null}

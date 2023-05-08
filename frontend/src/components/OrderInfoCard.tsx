@@ -93,7 +93,7 @@ export const OrderInfoCard: FC<OrderCardProps> = ({ order }) => {
 						</Card.Text>
 						<Card.Text>Price: {order.price} $</Card.Text>
 						{order.logisticCompaniesDriver !== null && order.logisticCompaniesDriver !== undefined ? (
-							<Card.Text>{`Driver name: ${order.logisticCompaniesDriver?.firstName} + " " + ${order.logisticCompaniesDriver?.lastName}`}</Card.Text>
+							<Card.Text>{`Driver name: ${order.logisticCompaniesDriver?.firstName} ${order.logisticCompaniesDriver?.lastName}`}</Card.Text>
 						) : null}
 						{localStorage["userType"] === "LogisticCompanyAdministrator" &&
 						order.sensor !== null &&

@@ -288,6 +288,8 @@ namespace LogisticsService.BLL.Services
 
                 UpdateOrder(order);
 
+                UpdateOrderStatus(order.OrderId);
+
                 return order;
             }
             catch (Exception e)
@@ -301,7 +303,7 @@ namespace LogisticsService.BLL.Services
         {
             if (order.OrderStatus != OrderStatus.WaitingForAcceptanceByLogisticCompany)
             {
-                throw new ArgumentException("Order status must be WaitingForAcceptanceByLogisticCompany");
+                throw new ArgumentException("Order can't be updated");
             }
             return true;
         }

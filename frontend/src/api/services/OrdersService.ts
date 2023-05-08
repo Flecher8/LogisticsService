@@ -263,4 +263,17 @@ export class OrdersService {
 			}
 		}
 	}
+
+	async update(orderDto: OrderDto): Promise<void> {
+		try {
+			const response: AxiosResponse<any> = await api.put<any>(apiAddress, orderDto, config);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+	}
 }

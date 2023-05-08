@@ -1,28 +1,32 @@
 import { useState, useEffect, FC } from "react";
-import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
-import { CancelledOrder, CancelledOrderService } from "../api/services/CancelledOrderService";
+import { OrderDto, OrdersService } from "../api/services/OrdersService";
 
 interface CancelOrderProps {
 	orderId: number;
 	close(): void;
 }
 
-export const CancelOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
-	const [reason, setReason] = useState<string>("");
-	const [description, setDescription] = useState<string>("");
+export const UpdateOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
+	const [driverId, setDriverId] = useState<number>(0);
+	const [sensorId, setSensorId] = useState<number>(0);
 
 	async function handle() {
 		try {
-			let cancelledOrder: CancelledOrder = {
+			let order: OrderDto = {
 				orderId: orderId,
-				reason: reason,
-				description: description,
-				cancelledBy: localStorage["userType"],
-				cancelledById: parseInt(localStorage["userId"])
+				privateCompanyId: 0,
+				logisticCompanyId: 0,
+				logisticCompaniesDriverId: driverId,
+				sensorId: sensorId,
+				cargoId: 0,
+				startDeliveryAddressId: 0,
+				endDeliveryAddressId: 0,
+				estimatedDeliveryDateTime: "2023-05-31T09:09:00.0000000"
 			};
-			await CancelledOrderService.prototype.cancelOrder(cancelledOrder);
+			await OrdersService.prototype.update(order);
 			close();
+			window.location.reload();
 		} catch (err) {
 			alert(err);
 		}
@@ -34,33 +38,35 @@ export const CancelOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 	}, []);
 
 	return (
-		<div className="CancelOrder">
+		<div className="UpdateOrder">
 			<div className="container">
 				<header>
 					<div className="text-center mt-5">
-						<h1>Cancel order</h1>
+						<h1>Update order</h1>
 					</div>
 				</header>
 				<div>
 					<div className="mt-5 ml-5 mr-5">
 						<Form>
 							<Form.Group className="mb-3">
-								<Form.Label>Reason</Form.Label>
+								<Form.Label>Driver Id</Form.Label>
 								<Form.Control
-									type="text"
+									type="number"
 									placeholder=""
-									value={reason}
-									onChange={e => setReason(e.target.value)}
+									value={driverId}
+									min={0}
+									onChange={e => setDriverId(parseInt(e.target.value))}
 								/>
 							</Form.Group>
 
 							<Form.Group className="mb-3">
 								<Form.Label>Description</Form.Label>
 								<Form.Control
-									type="text"
+									type="number"
 									placeholder=""
-									value={description}
-									onChange={e => setDescription(e.target.value)}
+									value={sensorId}
+									min={0}
+									onChange={e => setSensorId(parseInt(e.target.value))}
 								/>
 							</Form.Group>
 						</Form>

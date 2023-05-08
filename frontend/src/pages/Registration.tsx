@@ -3,9 +3,12 @@ import { Button, InputGroup, FormControl, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { RegistrationViewModel } from "../api/viewModels/RegistrationViewModel";
 import { registrationApi } from "../api/registrationApi";
+import { useTranslationHelper } from "../helpers/translation/translationService";
 
 // TODO Language
 export const Registration: FC = () => {
+	const { t, changeLanguage } = useTranslationHelper();
+
 	const inputPassword = useRef<HTMLInputElement>(null);
 	const inputPasswordRepeat = useRef<HTMLInputElement>(null);
 	const inputEmail = useRef<HTMLInputElement>(null);
@@ -33,11 +36,11 @@ export const Registration: FC = () => {
 
 	const register = async (): Promise<void> => {
 		if (!passworCorrect()) {
-			alert("Password is not the same");
+			alert(t("Password is not the same"));
 			return;
 		}
 		if (!isAllRequiredFieldsAreFilled()) {
-			alert("Not all required fields are filled");
+			alert(t("Not all required fields are filled"));
 			return;
 		}
 
@@ -57,10 +60,10 @@ export const Registration: FC = () => {
 	return (
 		<div className="d-flex justify-content-center mt-5">
 			<div className="border p-2 w-50">
-				<div className="display-3 text-center mb-5">Registration</div>
+				<div className="display-3 text-center mb-5">{t("Registration")}</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h6>Company name:</h6>
+						<h6>{t("Company name")}:</h6>
 						<p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">

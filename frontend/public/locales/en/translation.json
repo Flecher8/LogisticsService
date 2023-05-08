@@ -10,5 +10,13 @@
 	"Goods delivery reporting": "Goods delivery reporting",
 	"Login": "Login",
 	"Language": "Language",
-	"Error: This subscription type can't be deleted because subscriptions with such subscription type are still active": "Error: This subscription type can't be deleted because subscriptions with such subscription type are still active"
+	"Error: This subscription type can't be deleted because subscriptions with such subscription type are still active": "Error: This subscription type can't be deleted because subscriptions with such subscription type are still active",
+	"System made by Vladyslav Bocharov": "",
+	"Password": "",
+	"Sign in": "",
+	"Not registered yet": "",
+	"Registration": "",
+	"Password is not the same": "",
+	"Not all required fields are filled": "",
+	"Company name": ""
 }

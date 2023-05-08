@@ -6,7 +6,6 @@ export const Home: FC = () => {
 	const { t, changeLanguage } = useTranslationHelper();
 	return (
 		<div className="Home">
-			{/* // TODO Language */}
 			<Container>
 				<Card>
 					<h1>{t("Software system for monitoring the delivery of goods by logistics organizations")}</h1>

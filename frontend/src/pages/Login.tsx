@@ -19,8 +19,6 @@ export const Login: FC = () => {
 		} catch (err: any) {
 			alert(t(err));
 		}
-		console.log(localStorage);
-		//window.location.reload();
 	};
 
 	return (
@@ -29,7 +27,7 @@ export const Login: FC = () => {
 				<div className="display-3 text-center mb-5">Sign in</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h4>Login:</h4> <p className="ml-2 text-danger">*</p>
+						<h4>{t("Login")}:</h4> <p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">
 						<InputGroup className="mb-3">
@@ -47,7 +45,7 @@ export const Login: FC = () => {
 				</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h4>Password:</h4> <p className="ml-2 text-danger">*</p>
+						<h4>{t("Password")}:</h4> <p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">
 						<InputGroup className="mb-3">
@@ -65,14 +63,14 @@ export const Login: FC = () => {
 				</div>
 				<div className="w-100 text-center">
 					<Button onClick={login} className="w-100 text-center">
-						<h5>Sign in</h5>
+						<h5>{t("Sign in")}</h5>
 					</Button>
 				</div>
 				<div className="d-inline-flex justify-content-center w-100 m-2">
-					<div className="p-2">Not registered yet?</div>
+					<div className="p-2">{t("Not registered yet")}?</div>
 					<div className="p-2">
 						<Link to="/Registration" className="text-decoration-none">
-							Registration
+							{t("Registration")}
 						</Link>
 					</div>
 				</div>
