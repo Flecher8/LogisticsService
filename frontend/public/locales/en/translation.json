@@ -130,5 +130,9 @@
 	"Update order": "Update order",
 	"Driver Id": "Driver Id",
 	"Price must be greater than 0": "Price must be greater than 0",
-	"Price for Km in Dollar": "Price for Km in Dollar"
+	"Price for Km in Dollar": "Price for Km in Dollar",
+	"Subscription was not selected": "Subscription was not selected",
+	"You need to buy subscription in order to use this service": "You need to buy subscription in order to use this service",
+	"Select subscription type": "Select subscription type",
+	"Subscription type": "Subscription type"
 }

@@ -5,6 +5,7 @@ import { LogisticCompaniesService, LogisticCompany } from "../../api/services/Lo
 import { Rate, RatesService } from "../../api/services/RatesService";
 import { UpdateRate } from "../../components/UpdateRate";
 import { useTranslationHelper } from "../../helpers/translation/translationService";
+import { SubscriptionsService } from "../../api/services/SubscriptionsService";
 
 export const LogisticCompanyProfile: FC = () => {
 	const { t, changeLanguage } = useTranslationHelper();
@@ -37,7 +38,23 @@ export const LogisticCompanyProfile: FC = () => {
 		}
 	};
 
+	const hasSubscription = async (): Promise<void> => {
+		try {
+			const response: boolean | null = await SubscriptionsService.prototype.logisticCompanyHasActiveSubscription(
+				parseInt(localStorage["userId"])
+			);
+			if (response === null) {
+				return;
+			}
+
+			if (!response) {
+				window.location.href = "/LogisticCompanyBuySubscription";
+			}
+		} catch (err) {}
+	};
+
 	useEffect(() => {
+		hasSubscription();
 		getProfileData();
 	}, []);
 	return (

@@ -3,18 +3,12 @@ import { Link } from "react-router-dom";
 import { Button, InputGroup, FormControl, Table, Modal, Form } from "react-bootstrap";
 import { PaymentService } from "../api/services/PaymentService";
 import { useTranslationHelper } from "../helpers/translation/translationService";
+import { PaymentData } from "../helpers/interfaces/PaymentData";
 
 interface PaymentOrderProps {
 	orderId: number;
 	price: number;
 	close(): void;
-}
-
-interface PaymentData {
-	cardNumber: string;
-	expirationDate: string;
-	cvv: string;
-	nameOnCard: string;
 }
 
 export const PaymentOrder: FC<PaymentOrderProps> = ({ orderId, price, close }) => {

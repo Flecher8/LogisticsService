@@ -30,6 +30,7 @@ import { LogisticCompanyAdministratorShowOrderInfo } from "./pages/LogisticCompa
 import { LogisticCompanyAdministratorCancelledOrders } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorCancelledOrders";
 import { LogisticCompanyAdministratorDeliveredOrders } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorDeliveredOrders";
 import { LogisticCompanyAdministratorActiveOrders } from "./pages/LogisticCompanyAdministratorPages/LogisticCompanyAdministratorActiveOrders";
+import { LogisticCompanyBuySubscription } from "./pages/LogisticCompanyPages/LogisticCompanyBuySubscription";
 
 export const App: FC = () => {
 	return (
@@ -57,6 +58,7 @@ export const App: FC = () => {
 					<Route path="/PrivateCompanyCreateOrder" element={<PrivateCompanyCreateOrder />} />
 					{/* Logistic Company Pages */}
 					<Route path="/LogisticCompanyProfile" element={<LogisticCompanyProfile />} />
+					<Route path="/LogisticCompanyBuySubscription" element={<LogisticCompanyBuySubscription />} />
 					<Route path="/LogisticCompanyStatistics" element={<LogisticCompanyStatistics />} />
 					<Route path="/LogisticCompanySmartDevices" element={<LogisticCompanySmartDevices />} />
 					<Route path="/LogisticCompanyChangeAdministrators" element={<LogisticCompanyChangeAdministrators />} />

@@ -130,5 +130,9 @@
 	"Update order": "Оновити замовлення",
 	"Driver Id": "ID водія",
 	"Price must be greater than 0": "Ціна має бути більше 0",
-	"Price for Km in Dollar": "Ціна за кілометр в доларах"
+	"Price for Km in Dollar": "Ціна за кілометр в доларах",
+	"Subscription was not selected": "Підписка не була обрана",
+	"You need to buy subscription in order to use this service": "Щоб скористатися цією послугою, необхідно придбати підписку",
+	"Select subscription type": "Оберіть тип підписки",
+	"Subscription type": "Тип підписки"
 }
