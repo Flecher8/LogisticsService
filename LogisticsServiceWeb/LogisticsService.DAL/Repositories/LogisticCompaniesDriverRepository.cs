@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,20 +22,24 @@ namespace LogisticsService.DAL.Repositories
         public LogisticCompaniesDriver? GetItemById(int itemId)
         {
             return context.LogisticCompaniesDrivers
+                .Include(s => s.LogisticCompany)
                 .FirstOrDefault(s => s.LogisticCompaniesDriverId == itemId);
         }
 
         public List<LogisticCompaniesDriver> GetFilteredItems(Expression<Func<LogisticCompaniesDriver, bool>> filter)
         {
             return context.LogisticCompaniesDrivers
+                .Include(s => s.LogisticCompany)
                 .Where(filter)
                 .ToList();
         }
 
-        public void InsertItem(LogisticCompaniesDriver item)
+        public int InsertItem(LogisticCompaniesDriver item)
         {
             context.LogisticCompaniesDrivers.Add(item);
             context.SaveChanges();
+            int createdItemId = item.LogisticCompaniesDriverId;
+            return createdItemId;
         }
 
         public void UpdateItem(LogisticCompaniesDriver item)
@@ -66,7 +71,9 @@ namespace LogisticsService.DAL.Repositories
 
         public List<LogisticCompaniesDriver> GetAllItems()
         {
-            return context.LogisticCompaniesDrivers.ToList();
+            return context.LogisticCompaniesDrivers
+                .Include(s => s.LogisticCompany)
+                .ToList();
         }
     }
 }

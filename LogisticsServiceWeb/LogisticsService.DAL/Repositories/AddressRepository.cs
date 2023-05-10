@@ -47,10 +47,12 @@ namespace LogisticsService.DAL.Repositories
                 .FirstOrDefault(s => s.AddressId == itemId);
         }
 
-        public void InsertItem(Address item)
+        public int InsertItem(Address item)
         {
             context.Addresses.Add(item);
             context.SaveChanges();
+            int createdItemId = item.AddressId;
+            return createdItemId;
         }
 
         public void UpdateItem(Address item)

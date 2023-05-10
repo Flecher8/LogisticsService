@@ -12,9 +12,9 @@ namespace LogisticsService.BLL.Interfaces
     {
         SmartDevice? GetSmartDeviceById(int smartDeviceId);
 
-        List<SmartDevice> GetAllSmartDevices();
+        List<SmartDeviceDto> GetAllSmartDevices();
 
-        List<SmartDevice> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId);
+        List<SmartDeviceDto> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId);
 
         SmartDevice CreateSmartDevice(SmartDeviceDto smartDevice);
 

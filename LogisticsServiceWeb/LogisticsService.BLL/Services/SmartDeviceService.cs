@@ -1,6 +1,7 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
+using LogisticsService.Core.Enums;
 using LogisticsService.DAL.Interfaces;
 using LogisticsService.DAL.Repositories;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,7 @@ namespace LogisticsService.BLL.Services
         private readonly ILogger<SmartDeviceService> _logger;
 
         public SmartDeviceService(
-            IDataRepository<SmartDevice> smartDeviceRepository, 
+            IDataRepository<SmartDevice> smartDeviceRepository,
             ILogisticCompanyService logisticCompanyService,
             ILogger<SmartDeviceService> logger)
         {
@@ -63,6 +64,19 @@ namespace LogisticsService.BLL.Services
         {
             try
             {
+                SmartDevice? smartDevice = _smartDeviceRepository.GetItemById(smartDeviceId);
+                if(smartDevice == null)
+                {
+                    return;
+                }
+
+                foreach (var sensor in smartDevice.Sensors)
+                {
+                    if(sensor.Status == SensorStatus.Active)
+                    {
+                        throw new ArgumentException("Some of smart device sensors are still active.");
+                    }
+                }
                 _smartDeviceRepository.DeleteItem(smartDeviceId);
             }
             catch (Exception e)
@@ -71,19 +85,30 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        public List<SmartDevice> GetAllSmartDevices()
+        public List<SmartDeviceDto> GetAllSmartDevices()
         {
             var smartDevices = new List<SmartDevice>();
+            var SmartDeviceDtos = new List<SmartDeviceDto>();
             try
             {
                 smartDevices = _smartDeviceRepository.GetAllItems();
+                foreach(var smartDevice in smartDevices)
+                {
+                    SmartDeviceDto smartDeviceDto = new SmartDeviceDto();
+                    smartDeviceDto.SmartDeviceId = smartDevice.SmartDeviceId;
+                    smartDeviceDto.NumberOfSensors = smartDevice.NumberOfSensors;
+                    smartDeviceDto.LogisticCompanyId = 
+                        smartDevice.LogisticCompany == null ? 0: smartDevice.LogisticCompany.LogisticCompanyId;
+                    SmartDeviceDtos.Add(smartDeviceDto);
+                }
+
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
 
-            return smartDevices;
+            return SmartDeviceDtos;
         }
 
         public SmartDevice? GetSmartDeviceById(int smartDeviceId)
@@ -91,6 +116,8 @@ namespace LogisticsService.BLL.Services
             try
             {
                 SmartDevice? smartDevice = _smartDeviceRepository.GetItemById(smartDeviceId);
+
+                
                 return smartDevice;
             }
             catch (Exception e)
@@ -122,20 +149,30 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public List<SmartDevice> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)
+        public List<SmartDeviceDto> GetSmartDevicesByLogisticCompanyId(int logisticCompanyId)
         {
             var smartDevices = new List<SmartDevice>();
+            var SmartDeviceDtos = new List<SmartDeviceDto>();
             try
             {
                 smartDevices = _smartDeviceRepository
                     .GetFilteredItems(s => s.LogisticCompany.LogisticCompanyId == logisticCompanyId);
+
+                foreach (var smartDevice in smartDevices)
+                {
+                    SmartDeviceDto smartDeviceDto = new SmartDeviceDto();
+                    smartDeviceDto.SmartDeviceId = smartDevice.SmartDeviceId;
+                    smartDeviceDto.NumberOfSensors = smartDevice.NumberOfSensors;
+                    smartDeviceDto.LogisticCompanyId = smartDevice.LogisticCompany.LogisticCompanyId;
+                    SmartDeviceDtos.Add(smartDeviceDto);
+                }
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
 
-            return smartDevices;
+            return SmartDeviceDtos;
         }
     }
 }

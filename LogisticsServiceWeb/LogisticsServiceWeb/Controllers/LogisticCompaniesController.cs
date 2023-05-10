@@ -23,7 +23,6 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> GetAllLogisticCompanies()
         {
             try

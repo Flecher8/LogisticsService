@@ -111,5 +111,22 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
+
+        public SystemAdmin? GetSystemAdminByEmail(string email)
+        {
+            try
+            {
+                SystemAdmin? systemAdmin =
+                    _systemAdminRepository
+                    .GetFilteredItems(l => l.Email == email)
+                    .FirstOrDefault();
+                return systemAdmin;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return null;
+        }
     }
 }

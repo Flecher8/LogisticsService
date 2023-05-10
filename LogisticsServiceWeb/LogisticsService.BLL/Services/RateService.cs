@@ -1,5 +1,6 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
 using LogisticsService.DAL.Interfaces;
 using LogisticsService.DAL.Repositories;
 using Microsoft.Extensions.Logging;
@@ -63,8 +64,16 @@ namespace LogisticsService.BLL.Services
             return null;
         }
 
-        public void UpdateRate(Rate rate)
+        public void UpdateRate(RateDto rateDto)
         {
+            Rate? rate = GetRateById(rateDto.RateId);
+            if(rate == null)
+            {
+                return;
+            }
+
+            rate.PriceForKmInDollar = rateDto.PriceForKmInDollar;
+
             try
             {
                 _rateRepository.UpdateItem(rate);

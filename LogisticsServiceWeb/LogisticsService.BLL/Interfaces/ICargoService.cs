@@ -12,9 +12,11 @@ namespace LogisticsService.BLL.Interfaces
     {
         Cargo? GetCargoById(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg");
 
+        Cargo? GetCargoByIdForOrder(int cargoId, string cargoSizeType = "cm", string cargoWeightType = "kg");
+
         List<CargoDto> GetAllCargos(string cargoSizeType, string cargoWeightType);
 
-        Cargo CreateCargo(CargoDto cargo);
+        int CreateCargo(CargoDto cargo);
 
         Cargo UpdateCargo(CargoDto cargoDto);
 

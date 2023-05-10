@@ -31,10 +31,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(SystemAdmin item)
+        public int InsertItem(SystemAdmin item)
         {
             context.SystemAdmins.Add(item);
             context.SaveChanges();
+            int createdItemId = item.SystemAdminId;
+            return createdItemId;
         }
 
         public void UpdateItem(SystemAdmin item)

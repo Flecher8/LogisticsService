@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(Cargo item)
+        public int InsertItem(Cargo item)
         {
             context.Cargos.Add(item);
             context.SaveChanges();
+            int createdItemId = item.CargoId;
+            return createdItemId;
         }
 
         public void UpdateItem(Cargo item)

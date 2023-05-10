@@ -50,22 +50,22 @@ namespace LogisticsService.BLL.Services
                     averagePathLength *= milesInMeter;
                     break;
                 default:
-                    throw new ArgumentException("Неверное значение параметра metric");
+                    throw new ArgumentException("Incorrect metric");
             }
 
             return averagePathLength;
         }
 
-        public TimeSpan GetAverageDeliveryTimeByLogisticCompany(int logisticCompanyId)
+        public string GetAverageDeliveryTimeByLogisticCompany(int logisticCompanyId)
         {
             List<Order> orders = _orderService.GetAllOrdersByLogisticCompanyId(logisticCompanyId);
-            return CalculateAverageDeliveryTime(orders);
+            return GetTimeSpanStringOutput(CalculateAverageDeliveryTime(orders));
         }
 
-        public TimeSpan GetAverageDeliveryTimeByPrivateCompany(int privateCompanyId)
+        public string GetAverageDeliveryTimeByPrivateCompany(int privateCompanyId)
         {
             List<Order> orders = _orderService.GetAllOrdersByPrivateCompanyId(privateCompanyId);
-            return CalculateAverageDeliveryTime(orders);
+            return GetTimeSpanStringOutput(CalculateAverageDeliveryTime(orders));
         }
 
         private TimeSpan CalculateAverageDeliveryTime(List<Order> orders)
@@ -74,6 +74,11 @@ namespace LogisticsService.BLL.Services
                 .Where(order => order.OrderStatus.Equals(OrderStatus.Delivered))
                 .Count();
             TimeSpan totalDeliveryTime = TimeSpan.Zero;
+
+            if(count == 0)
+            {
+                return totalDeliveryTime;
+            }
 
             totalDeliveryTime = orders
                 .AsParallel()
@@ -92,6 +97,12 @@ namespace LogisticsService.BLL.Services
             return averageDeliveryTime;
         }
 
+        private string GetTimeSpanStringOutput(TimeSpan time)
+        {
+            string formattedTimeSpan = string.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
+                (int)time.TotalDays, time.Hours, time.Minutes, time.Seconds);
+            return formattedTimeSpan; 
+        }
 
         public double GetAverageOrderPriceByLogisticCompany(int logisticCompanyId)
         {

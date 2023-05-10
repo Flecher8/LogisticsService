@@ -1,5 +1,6 @@
 ﻿using LogisticsService.Core.DbModels;
 using LogisticsService.Core.Dtos;
+using LogisticsService.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace LogisticsService.BLL.Interfaces
 
         List<Sensor> GetAllSensorsBySmartDeviceId(int smartDeviceId);
 
-        List<Sensor> GetAllSensors();
+        List<SensorDto> GetAllSensors();
 
         void CreateSensor(SensorDto sensorDto);
 
-        void UpdateSensor(Sensor sensor);
+        void UpdateSensor(SensorDto sensor);
 
         void DeleteSensor(int sensorId);
+
+        void ChangeSensorStatus(int sensorId, SensorStatus sensorStatus);
     }
 }

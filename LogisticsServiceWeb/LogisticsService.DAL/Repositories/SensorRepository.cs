@@ -34,10 +34,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(Sensor item)
+        public int InsertItem(Sensor item)
         {
             context.Sensors.Add(item);
             context.SaveChanges();
+            int createdItemId = item.SensorId;
+            return createdItemId;
         }
 
         public void UpdateItem(Sensor item)
@@ -66,7 +68,9 @@ namespace LogisticsService.DAL.Repositories
 
         public List<Sensor> GetAllItems()
         {
-            return context.Sensors.ToList();
+            return context.Sensors
+                .Include(s => s.SmartDevice)
+                .ToList();
         }
     }
 }

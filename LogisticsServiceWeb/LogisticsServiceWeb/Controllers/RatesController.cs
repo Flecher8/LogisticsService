@@ -1,6 +1,7 @@
 ﻿using LogisticsService.BLL.Interfaces;
 using LogisticsService.BLL.Services;
 using LogisticsService.Core.DbModels;
+using LogisticsService.Core.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,12 +54,12 @@ namespace LogisticsServiceWeb.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutRate(Rate rate)
+        public async Task<IActionResult> PutRate(RateDto rateDto)
         {
             try
             {
-                _rateService.UpdateRate(rate);
-                return Ok(rate);
+                _rateService.UpdateRate(rateDto);
+                return Ok(rateDto);
             }
             catch (Exception e)
             {

@@ -27,6 +27,7 @@ namespace LogisticsService.BLL.Services
         private readonly IAddressService _addressService;
         private readonly IRateService _rateService;
         private readonly ISensorService _sensorService;
+        private readonly ISmartDeviceService _smartDeviceService;
 
         private readonly IGoogleMapsApiDirectionsService _googleMapsApiDirectionsService;
 
@@ -42,6 +43,7 @@ namespace LogisticsService.BLL.Services
             IAddressService addressService,
             IRateService rateService,
             ISensorService sensorService,
+            ISmartDeviceService smartDeviceService,
             IGoogleMapsApiDirectionsService googleMapsApiDirectionsService,
             ILogger<OrderService> logger
             )
@@ -54,6 +56,7 @@ namespace LogisticsService.BLL.Services
             _addressService = addressService;
             _rateService = rateService;
             _sensorService = sensorService;
+            _smartDeviceService = smartDeviceService;
             _googleMapsApiDirectionsService = googleMapsApiDirectionsService;
             _logger = logger;
         }
@@ -65,7 +68,7 @@ namespace LogisticsService.BLL.Services
             Order order = new Order();
             order.PrivateCompany = _privateCompanyService.GetPrivateCompanyById(orderDto.PrivateCompanyId);
             order.LogisticCompany = _logisticCompanyService.GetLogisticCompanyById(orderDto.LogisticCompanyId);
-            order.Cargo = _cargoService.GetCargoById(orderDto.CargoId);
+            order.Cargo = _cargoService.GetCargoByIdForOrder(orderDto.CargoId);
             order.StartDeliveryAddress = _addressService.GetAddressById(orderDto.StartDeliveryAddressId);
             order.EndDeliveryAddress = _addressService.GetAddressById(orderDto.EndDeliveryAddressId);
 
@@ -278,10 +281,14 @@ namespace LogisticsService.BLL.Services
 
                 IsOrderCanBeUpdated(order);
 
-                order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId);
-                order.Sensor = TryGetSensor(orderDto.SensorId);
+                order.LogisticCompaniesDriver = TryGetLogisticCompaniesDriver(orderDto.LogisticCompaniesDriverId, order.LogisticCompany.LogisticCompanyId);
+                order.Sensor = TryGetSensor(orderDto.SensorId, order.LogisticCompany.LogisticCompanyId);
+
+                
 
                 UpdateOrder(order);
+
+                UpdateOrderStatus(order.OrderId);
 
                 return order;
             }
@@ -296,23 +303,30 @@ namespace LogisticsService.BLL.Services
         {
             if (order.OrderStatus != OrderStatus.WaitingForAcceptanceByLogisticCompany)
             {
-                throw new ArgumentException("Order status must be WaitingForAcceptanceByLogisticCompany");
+                throw new ArgumentException("Order can't be updated");
             }
             return true;
         }
 
-        private LogisticCompaniesDriver? TryGetLogisticCompaniesDriver(int driverId)
+        private LogisticCompaniesDriver? TryGetLogisticCompaniesDriver(int driverId, int logisticCompanyId)
         {
             LogisticCompaniesDriver? logisticCompaniesDriver = _logisticCompaniesDriverService
                     .GetLogisticCompaniesDriverById(driverId);
+
             if (logisticCompaniesDriver == null)
             {
-                throw new ArgumentException("LogisticCompaniesDriver id is not correct");
+                throw new ArgumentException("Logistic company driver id is not correct");
             }
+
+            if(logisticCompaniesDriver.LogisticCompany.LogisticCompanyId != logisticCompanyId)
+            {
+                throw new ArgumentException("Logistic company driver is connected to another logistic company");
+            }
+
             return logisticCompaniesDriver;
         }
 
-        private Sensor? TryGetSensor(int sensorId)
+        private Sensor? TryGetSensor(int sensorId, int logisticCompanyId)
         {
             Sensor? sensor = _sensorService.GetSensorById(sensorId);
 
@@ -322,39 +336,117 @@ namespace LogisticsService.BLL.Services
                 throw new ArgumentException("Sensor id is not correct");
             }
 
-            return sensor;
+            List<SmartDeviceDto> smartDeviceDtos = 
+                _smartDeviceService.GetSmartDevicesByLogisticCompanyId(logisticCompanyId);
+
+            foreach(var smartDeviceDto in smartDeviceDtos)
+            {
+                if(smartDeviceDto.SmartDeviceId == sensor.SmartDevice.SmartDeviceId)
+                {
+                    return sensor;
+                }
+            }
+            throw new ArgumentException("Sensor is connected to another logistic company");
         }
 
         public void UpdateOrderStatus(int orderId)
         {
             Order order = GetOrderById(orderId);
-            if (order.OrderStatus == OrderStatus.Cancelled || 
-                order.OrderStatus == OrderStatus.Delivered || 
-                order.OrderStatus == OrderStatus.WaitingForPaymentByPrivateCompany)
+
+            if(order == null)
             {
                 return;
             }
 
-            order.OrderStatus = (OrderStatus)((int)order.OrderStatus + 1);
-
-            if(order.OrderStatus == OrderStatus.InTransit)
+            if(!OrderStatusCanBeUpdated(order))
             {
-                order.StartDeliveryDateTime = DateTime.UtcNow;
+                return;
             }
 
-            if (order.OrderStatus == OrderStatus.Delivered)
+            UpdateOrderStatus(order);
+        }
+
+        private bool OrderStatusCanBeUpdated(Order order)
+        {
+            if (order.OrderStatus == OrderStatus.Cancelled ||
+                order.OrderStatus == OrderStatus.Delivered ||
+                order.OrderStatus == OrderStatus.WaitingForPaymentByPrivateCompany)
             {
-                order.DeliveryDateTime = DateTime.UtcNow;
-                order.Sensor = null;
+                return false;
             }
+
+            if (order.OrderStatus == OrderStatus.WaitingForAcceptanceByLogisticCompany &&
+                (order.LogisticCompaniesDriver == null || order.Sensor == null))
+            {
+                throw new ArgumentException("You can't update order status because driver or/and sensor is/are not valid");
+            }
+            return true;
+        }
+
+        private void UpdateOrderStatus(Order order)
+        {
+            order.OrderStatus = GetNextOrderStatus(order.OrderStatus);
+
+            UpdateOrderDeliveryStatus(order);
 
             UpdateOrder(order);
+        }
+
+        private void UpdateOrderDeliveryStatus(Order order)
+        {
+            if (IsOrderInTransit(order))
+            {
+                order.StartDeliveryDateTime = DateTime.UtcNow;
+                _sensorService.ChangeSensorStatus(order.Sensor.SensorId, SensorStatus.Active);
+            }
+
+            if (IsOrderDelivered(order))
+            {
+                order.DeliveryDateTime = DateTime.UtcNow;
+                _sensorService.ChangeSensorStatus(order.Sensor.SensorId, SensorStatus.Inactive);
+                order.Sensor = null;
+            }
+        }
+
+        private bool IsOrderInTransit(Order order)
+        {
+            return order.OrderStatus == OrderStatus.InTransit ? true : false;
+        }
+
+        private bool IsOrderDelivered(Order order)
+        {
+            return order.OrderStatus == OrderStatus.Delivered ? true : false;
+        }
+
+
+        private OrderStatus GetNextOrderStatus(OrderStatus currentStatus)
+        {
+            switch (currentStatus)
+            {
+                case OrderStatus.WaitingForAcceptanceByLogisticCompany:
+                    return OrderStatus.WaitingForPaymentByPrivateCompany;
+                case OrderStatus.WaitingForPaymentByPrivateCompany:
+                    return OrderStatus.OrderAccepted;
+                case OrderStatus.OrderAccepted:
+                    return OrderStatus.PreparingForDispatch;
+                case OrderStatus.PreparingForDispatch:
+                    return OrderStatus.InTransit;
+                case OrderStatus.InTransit:
+                    return OrderStatus.Delivered;
+                case OrderStatus.Delivered:
+                    return OrderStatus.Delivered;
+                default:
+                    throw new InvalidOperationException("Invalid order status.");
+            }
         }
 
         public void MakeOrderStatusCancelled(int orderId)
         {
             Order? order = GetOrderById(orderId);
             order.OrderStatus = OrderStatus.Cancelled;
+
+            _sensorService.ChangeSensorStatus(order.Sensor == null ? 0 : order.Sensor.SensorId, SensorStatus.Inactive);
+            order.Sensor = null;
 
             UpdateOrder(order);
         }
@@ -370,6 +462,7 @@ namespace LogisticsService.BLL.Services
                 _logger.LogError(e.Message);
             }
         }
+
 
         public void UpdateOrderStatusPaid(int orderId)
         {

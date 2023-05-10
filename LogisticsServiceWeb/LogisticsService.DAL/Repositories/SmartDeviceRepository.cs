@@ -23,6 +23,7 @@ namespace LogisticsService.DAL.Repositories
         {
             return context.SmartDevices
                 .Include(s => s.Sensors)
+                .Include(s => s.LogisticCompany)
                 .FirstOrDefault(s => s.SmartDeviceId == itemId);
         }
 
@@ -31,13 +32,16 @@ namespace LogisticsService.DAL.Repositories
             return context.SmartDevices
                 .Where(filter)
                 .Include(s => s.Sensors)
+                .Include(s => s.LogisticCompany)
                 .ToList();
         }
 
-        public void InsertItem(SmartDevice item)
+        public int InsertItem(SmartDevice item)
         {
             context.SmartDevices.Add(item);
             context.SaveChanges();
+            int createdItemId = item.SmartDeviceId;
+            return createdItemId;
         }
 
         public void UpdateItem(SmartDevice item)
@@ -66,7 +70,10 @@ namespace LogisticsService.DAL.Repositories
 
         public List<SmartDevice> GetAllItems()
         {
-            return context.SmartDevices.ToList();
+            return context.SmartDevices
+                .Include(s => s.Sensors)
+                .Include(s => s.LogisticCompany)
+                .ToList();
         }
     }
 }

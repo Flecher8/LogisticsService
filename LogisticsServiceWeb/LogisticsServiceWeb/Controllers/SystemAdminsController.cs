@@ -44,6 +44,23 @@ namespace LogisticsServiceWeb.Controllers
             }
         }
 
+
+        [HttpGet("email/{systemAdminEmail}")]
+        public async Task<IActionResult> GetSystemAdminByEmail(string systemAdminEmail)
+        {
+            try
+            {
+                var result = _systemAdminService
+                    .GetSystemAdminByEmail(systemAdminEmail);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllSystemAdmins()
         {

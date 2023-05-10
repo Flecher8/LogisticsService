@@ -21,5 +21,7 @@ namespace LogisticsService.BLL.Interfaces
         LogisticCompaniesAdministrator UpdateLogisticCompaniesAdministrator(PersonDto person);
 
         void DeleteLogisticCompaniesAdministrator(int logisticCompaniesAdministratorId);
+
+        LogisticCompaniesAdministrator? GetLogisticCompaniesAdministratorByEmail(string email);
     }
 }

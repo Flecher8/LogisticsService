@@ -18,6 +18,8 @@ namespace LogisticsService.BLL.Services
         private const string answearType = "json?";
         private const string resultType = "premise";
 
+        private const string googleApiRequestStatusIsSuccessful = "OK";
+
         public GoogleMapsApiGeocodeService(
             IConfiguration configuration, 
             ILogger<GoogleMapsApiGeocodeService> logger,
@@ -38,9 +40,17 @@ namespace LogisticsService.BLL.Services
             {
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync(url);
+                
                 string responseString = await response.Content.ReadAsStringAsync();
                 GoogleMapsGeocodeResponse myDeserializedClass = JsonConvert.DeserializeObject<GoogleMapsGeocodeResponse>(responseString);
-                return myDeserializedClass.results.FirstOrDefault().formatted_address;
+                if(myDeserializedClass.status == googleApiRequestStatusIsSuccessful)
+                {
+                    return myDeserializedClass.results.FirstOrDefault().formatted_address;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             catch (Exception e)
             {

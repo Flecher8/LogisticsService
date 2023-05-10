@@ -46,10 +46,12 @@ namespace LogisticsService.DAL.Repositories
                 .ToList();
         }
 
-        public void InsertItem(Order item)
+        public int InsertItem(Order item)
         {
             context.Orders.Add(item);
             context.SaveChanges();
+            int createdItemId = item.OrderId;
+            return createdItemId;
         }
 
         public void UpdateItem(Order item)
@@ -66,6 +68,9 @@ namespace LogisticsService.DAL.Repositories
                 dbOrder.StartDeliveryAddress = item.StartDeliveryAddress;
                 dbOrder.EndDeliveryAddress = item.EndDeliveryAddress;
                 dbOrder.PathLength = item.PathLength;
+                // Added 
+                dbOrder.StartDeliveryDateTime = item.StartDeliveryDateTime;
+                dbOrder.DeliveryDateTime = item.DeliveryDateTime;
 
                 context.SaveChanges();
             }
