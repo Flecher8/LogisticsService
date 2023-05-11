@@ -56,6 +56,7 @@ namespace LogisticsServiceWeb.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                _logger.LogError(user.Email + " " + user.Password);
                 return BadRequest(e.Message);
             }
         }

@@ -8,7 +8,7 @@ namespace mobile.Services
 {
     public class ServerService : IServerService
     {
-        public const string ServerAddress = "https://funsagephone22.conveyor.cloud/api/";
+        public const string ServerAddress = "https://othertealbox27.conveyor.cloud/api/";
 
         protected const string UserTokenPath = "userToken";
         protected const string UserIdPath = "userId";
@@ -16,7 +16,7 @@ namespace mobile.Services
 
         protected const string AcceptRequestHeader = "Accept";
         protected const string AuthorizationRequestHeader = "Authorization";
-        protected const string SecurityTokenStartTemplate = "Bearer ";
+        protected const string SecurityTokenStartTemplate = "Bearer";
         protected const string RequestMediaType = "application/json";
 
         public PropertiesService PropertiesService { get; set; }
