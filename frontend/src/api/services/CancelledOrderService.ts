@@ -22,4 +22,21 @@ export class CancelledOrderService {
 			}
 		}
 	}
+
+	async cancelledOrderByOrderId(orderId: number): Promise<CancelledOrder | null> {
+		try {
+			const response: AxiosResponse<CancelledOrder | null> = await api.get<CancelledOrder | null>(
+				apiAddress + "/orderId/" + orderId,
+				config
+			);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (err: any) {
+			if (err.response?.status === 400) {
+				throw new Error(err.response.data);
+			}
+		}
+		return null;
+	}
 }

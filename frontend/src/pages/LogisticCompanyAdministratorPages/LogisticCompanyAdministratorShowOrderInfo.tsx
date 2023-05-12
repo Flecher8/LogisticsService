@@ -7,6 +7,7 @@ import { CancelOrder } from "../../components/CancelOrder";
 import { LogisticCompaniesAdministratorPanel } from "../../components/LogisticCompaniesAdministratorPanel";
 import { UpdateOrder } from "../../components/UpdateOrder";
 import { useTranslationHelper } from "../../helpers/translation/translationService";
+import { CancelledOrderInfo } from "../../components/CancelledOrderInfo";
 
 export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 	const { t, changeLanguage } = useTranslationHelper();
@@ -89,7 +90,12 @@ export const LogisticCompanyAdministratorShowOrderInfo: FC = () => {
 					</div>
 				</div>
 			) : null}
-			<div>{order !== null ? <OrderInfoCard order={order} /> : <p>{t("No data")}</p>}</div>
+			<div className="mb-3 mt-3">{order !== null ? <OrderInfoCard order={order} /> : <p>{t("No data")}</p>}</div>
+			<div className="mb-3">
+				{order !== null && order.orderStatus === OrderStatus.Cancelled ? (
+					<CancelledOrderInfo orderId={order.orderId} />
+				) : null}
+			</div>
 		</div>
 	);
 };

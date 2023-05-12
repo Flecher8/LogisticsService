@@ -137,5 +137,6 @@
 	"Subscription type": "Subscription type",
 	"Active Orders": "Active Orders",
 	"Delivered Orders": "Delivered Orders",
-	"Cancelled Orders": "Cancelled Orders"
+	"Cancelled Orders": "Cancelled Orders",
+	"Cancelled Order Info": "Cancelled Order Info"
 }
