@@ -134,5 +134,8 @@
 	"Subscription was not selected": "Підписка не була обрана",
 	"You need to buy subscription in order to use this service": "Щоб скористатися цією послугою, необхідно придбати підписку",
 	"Select subscription type": "Оберіть тип підписки",
-	"Subscription type": "Тип підписки"
+	"Subscription type": "Тип підписки",
+	"Active Orders": "Активні замовлення",
+	"Delivered Orders": "Доставлені замовлення",
+	"Cancelled Orders": "Відмінені замовлення"
 }

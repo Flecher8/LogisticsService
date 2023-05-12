@@ -11,7 +11,7 @@ export const Menu: FC = () => {
 		changeLanguage("en");
 	}
 	function localizationUA() {
-		changeLanguage("ua");
+		changeLanguage("uk");
 	}
 	function LastElementOfMenu() {
 		// console.log(localStorage);

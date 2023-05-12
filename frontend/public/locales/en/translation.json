@@ -134,5 +134,8 @@
 	"Subscription was not selected": "Subscription was not selected",
 	"You need to buy subscription in order to use this service": "You need to buy subscription in order to use this service",
 	"Select subscription type": "Select subscription type",
-	"Subscription type": "Subscription type"
+	"Subscription type": "Subscription type",
+	"Active Orders": "Active Orders",
+	"Delivered Orders": "Delivered Orders",
+	"Cancelled Orders": "Cancelled Orders"
 }

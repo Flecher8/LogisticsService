@@ -47,7 +47,7 @@ export class SubscriptionTypesService {
 
 	async delete(id: number): Promise<void> {
 		try {
-			const response: any = await api.delete<SubscriptionType>(apiAddress + id, config);
+			const response: any = await api.delete<SubscriptionType>(apiAddress + "/" + id, config);
 		} catch (err: any) {
 			if (err.response?.status === 400) {
 				throw new Error(err.response.data);

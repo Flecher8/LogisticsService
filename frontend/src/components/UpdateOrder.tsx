@@ -63,7 +63,7 @@ export const UpdateOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 							</Form.Group>
 
 							<Form.Group className="mb-3">
-								<Form.Label>{t("Description")}</Form.Label>
+								<Form.Label>{t("Sensor id")}</Form.Label>
 								<Form.Control
 									type="number"
 									placeholder=""

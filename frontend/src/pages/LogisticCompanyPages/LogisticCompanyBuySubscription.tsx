@@ -9,6 +9,7 @@ import { SubscriptionTypesService } from "../../api/services/SubscriptionTypesSe
 import { SubscriptionTypesList } from "../../components/SubscriptionTypesList";
 import { PaymentData } from "../../helpers/interfaces/PaymentData";
 import { SubscriptionDto, SubscriptionsService } from "../../api/services/SubscriptionsService";
+import { SubscriptionBuyPanel } from "../../components/SubscriptionBuyPanel";
 
 export const LogisticCompanyBuySubscription: FC = () => {
 	const { t, changeLanguage } = useTranslationHelper();
@@ -61,6 +62,9 @@ export const LogisticCompanyBuySubscription: FC = () => {
 
 	return (
 		<div className="LogisticCompanyBuySubscription container">
+			<div className="d-flex border border-dark w-100">
+				<SubscriptionBuyPanel />
+			</div>
 			<div>
 				<header>
 					<div className="text-center mt-5">
@@ -68,7 +72,10 @@ export const LogisticCompanyBuySubscription: FC = () => {
 					</div>
 				</header>
 				<div>
-					<div>
+					<div className="text-center mt-5">
+						<h2>{t("Payment")}</h2>
+					</div>
+					<div className="mt-5 ml-4">
 						<h3>{t("Select subscription type")}</h3>
 					</div>
 					<div>
