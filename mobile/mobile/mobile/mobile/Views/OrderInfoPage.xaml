@@ -1,12 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:mobile.ViewModels" x:DataType="viewmodels:OrderInfoViewModel"
              x:Class="mobile.Views.OrderInfoPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Order Info Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Order Info" Style="{DynamicResource TitleStyle}" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Order № " TextColor="Black"/>
+                <Label Text="{Binding OrderId}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Private company name: " TextColor="Black"/>
+                <Label Text="{Binding PrivateCompanyName}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Logistic company name: " TextColor="Black"/>
+                <Label Text="{Binding LogisticCompanyName}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Start delivery address: " TextColor="Black"/>
+                <Label Text="{Binding StartDeliveryAddress}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="End delivery address: " TextColor="Black"/>
+                <Label Text="{Binding EndDeliveryAddress}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Sensor Id: " TextColor="Black"/>
+                <Label Text="{Binding SensorId}" TextColor="Black"/>
+            </StackLayout>
+            
+            <StackLayout Padding="0,15,0,0">
+                <Label Text="Cargo Info: " TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Name: " TextColor="Black"/>
+                <Label Text="{Binding CargoName}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Weight: " TextColor="Black"/>
+                <Label Text="{Binding CargoWeight}" TextColor="Black"/>
+                <Label Text=" kg " TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Length: " TextColor="Black"/>
+                <Label Text="{Binding CargoLength}" TextColor="Black"/>
+                <Label Text=" cm " TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Width: " TextColor="Black"/>
+                <Label Text="{Binding CargoWidth}" TextColor="Black"/>
+                <Label Text=" cm " TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Height: " TextColor="Black"/>
+                <Label Text="{Binding CargoHeight}" TextColor="Black"/>
+                <Label Text=" cm " TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Description: " TextColor="Black"/>
+                <Label Text="{Binding CargoDescription}" TextColor="Black"/>
+            </StackLayout>
+
+            <StackLayout>
+                <Button Clicked="Button_Clicked" Text="Cancel order" TextColor="Black"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

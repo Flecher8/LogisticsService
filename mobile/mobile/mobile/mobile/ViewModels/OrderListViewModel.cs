@@ -1,4 +1,5 @@
-﻿using mobile.Models;
+﻿using mobile.Helpers;
+using mobile.Models;
 using mobile.Models.Enums;
 using mobile.Services;
 using mobile.Views;
@@ -12,7 +13,7 @@ using Xamarin.Forms;
 
 namespace mobile.ViewModels
 {
-    public class OrderListViewModel
+    public class OrderListViewModel : PropertyChangedImplementator
     {
         private List<Order> Orders { get; set; }
         public ObservableCollection<Order> AcceptedOrders { get; set; }

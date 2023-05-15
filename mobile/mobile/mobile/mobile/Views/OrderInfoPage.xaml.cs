@@ -17,7 +17,7 @@ namespace mobile.Views
         public OrderInfoPage(int orderId)
         {
             InitializeComponent();
-            ViewModel = new OrderInfoViewModel(orderId);
+            ViewModel = new OrderInfoViewModel(orderId, Navigation);
             BindingContext = ViewModel;
         }
 
@@ -25,6 +25,11 @@ namespace mobile.Views
         {
             ViewModel.LoadItemCommand.Execute(null);
             base.OnAppearing();
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            ViewModel.CancelOrder();
         }
     }
 }
