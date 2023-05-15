@@ -3,15 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:mobile.ViewModels"
              x:Class="mobile.Views.OrderList">
-    <RefreshView x:DataType="local:OrderListViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <ListView x:Name="AcceptedOrders"
-                  ItemsSource="{Binding AcceptedOrders}"
-                  SelectedItem="{Binding SelectedItem}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding OrderId}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </RefreshView>
+    <StackLayout>
+        <StackLayout Padding="5">
+            <Label Text="Waiting for driver" Style="{DynamicResource TitleStyle}" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large"/>
+            <ListView x:Name="AcceptedOrdersView"
+                          ItemsSource="{Binding AcceptedOrders}"
+                          SelectedItem="{Binding SelectedItem}"
+                          ItemSelected="ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Order №" TextColor="Black" FontSize="Medium"/>
+                                <Label Text="{Binding OrderId}" TextColor="Black" FontSize="Medium" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="In transit" Style="{DynamicResource TitleStyle}" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large"/>
+            <ListView x:Name="InTransitOrdersView"
+                          ItemsSource="{Binding InTransitOrders}"
+                          ItemSelected="ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Order №" TextColor="Black" FontSize="Medium"/>
+                                <Label Text="{Binding OrderId}" TextColor="Black" FontSize="Medium" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </StackLayout>
 </ContentPage>

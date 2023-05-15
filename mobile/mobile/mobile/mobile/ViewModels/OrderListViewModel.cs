@@ -1,4 +1,7 @@
 ﻿using mobile.Models;
+using mobile.Models.Enums;
+using mobile.Services;
+using mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,8 +14,12 @@ namespace mobile.ViewModels
 {
     public class OrderListViewModel
     {
+        private List<Order> Orders { get; set; }
         public ObservableCollection<Order> AcceptedOrders { get; set; }
+        public ObservableCollection<Order> InTransitOrders { get; set; }
         public Command LoadItemsCommand { get; set; }
+
+        public INavigation Navigation { get; set; }
 
         bool isBusy = false;
         public bool IsBusy
@@ -21,26 +28,39 @@ namespace mobile.ViewModels
             set { isBusy = value; }
         }
 
-        public OrderListViewModel()
+        public OrderListViewModel(INavigation navigation)
         {
+            Orders = new List<Order>();
             AcceptedOrders = new ObservableCollection<Order>();
+            InTransitOrders = new ObservableCollection<Order>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+
+            Navigation = navigation;
         }
+
+
 
         async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;
-
             try
             {
-                // TODO: здесь отправляем GET-запрос на сервер и получаем список элементов
-
+                Orders.Clear();
                 AcceptedOrders.Clear();
-                var apiItems = await ApiService.GetItems();
-                //foreach (var item in apiItems)
-                //{
-                //    Items.Add(item);
-                //}
+                InTransitOrders.Clear();
+                OrdersService ordersService = new OrdersService();
+                List<Order> apiItems = await ordersService.GetLogisticCompaniesDriverOrders();
+
+                foreach (var item in apiItems)
+                {
+                    Orders.Add(item);
+                }
+
+                List<Order> acceptedOrders = ordersService.GetOrdersByOrderStatus(Orders, OrderStatus.OrderAccepted);
+                SetAcceptedOrders(acceptedOrders);
+
+                List<Order> inTransitOrders = ordersService.GetOrdersByOrderStatus(Orders, OrderStatus.InTransit);
+                SetInTransitOrders(inTransitOrders);
             }
             catch (Exception ex)
             {
@@ -52,26 +72,38 @@ namespace mobile.ViewModels
             }
         }
 
+        private void SetAcceptedOrders(List<Order> acceptedOrders)
+        {
+            foreach (var item in acceptedOrders)
+            {
+                AcceptedOrders.Add(item);
+            }
+        }
+
+        private void SetInTransitOrders(List<Order> inTransitOrders)
+        {
+            foreach (var item in inTransitOrders)
+            {
+                InTransitOrders.Add(item);
+            }
+        }
+
         Order selectedItem;
         public Order SelectedItem
         {
             get => selectedItem;
             set
             {
-                SetProperty(ref selectedItem, value);
-                OnItemSelected(value);
+                selectedItem = value;
             }
         }
 
-        async void OnItemSelected(Item item)
+        public async void OnItemSelected(int itemId)
         {
-            if (item == null)
+            if (itemId == 0)
                 return;
-
-            // TODO: здесь переходим на страницу детального просмотра выбранного элемента
-
-            // Пример перехода на страницу детального просмотра выбранного элемента
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            Console.WriteLine("Item id: " + itemId);
+            await Navigation.PushAsync(new OrderInfoPage(itemId));
         }
     }
 }

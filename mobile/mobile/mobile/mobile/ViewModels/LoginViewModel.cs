@@ -1,5 +1,6 @@
 ﻿using mobile.Helpers;
 using mobile.Services;
+using mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,7 +53,7 @@ namespace mobile.ViewModels
                 return;
             }
             //PlacementService = new PlacementService();
-            //App.Current.MainPage = new NavigationPage(new PlacementsPage(await PlacementService.GetUserPlacements()));
+            App.Current.MainPage = new NavigationPage(new OrderList());
         }
     }
 }

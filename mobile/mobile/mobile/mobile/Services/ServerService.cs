@@ -8,7 +8,7 @@ namespace mobile.Services
 {
     public class ServerService : IServerService
     {
-        public const string ServerAddress = "https://othertealbox27.conveyor.cloud/api/";
+        public const string ServerAddress = "https://oldorangebike90.conveyor.cloud/api/";
 
         protected const string UserTokenPath = "userToken";
         protected const string UserIdPath = "userId";

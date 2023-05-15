@@ -1,4 +1,5 @@
-﻿using mobile.ViewModels;
+﻿using mobile.Models;
+using mobile.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,18 +14,29 @@ namespace mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OrderList : ContentPage
     {
-
+        public OrderListViewModel ViewModel { get; set; }
         public OrderList()
         {
             InitializeComponent();
-
-            BindingContext = new OrderListViewModel();
+            ViewModel = new OrderListViewModel(Navigation);
+            BindingContext = ViewModel;
         }
 
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        protected override void OnAppearing()
         {
-            if (e.Item == null)
+
+            ViewModel.LoadItemsCommand.Execute(null);
+            base.OnAppearing();
+        }
+
+
+        private void ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
                 return;
+
+            var order = e.SelectedItem as Order;
+            ViewModel.OnItemSelected(order.OrderId);
         }
     }
 }

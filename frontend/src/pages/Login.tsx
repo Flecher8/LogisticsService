@@ -27,13 +27,13 @@ export const Login: FC = () => {
 				<div className="display-3 text-center mb-5">Sign in</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
-						<h4>{t("Login")}:</h4> <p className="ml-2 text-danger">*</p>
+						<h4>{t("Email")}:</h4> <p className="ml-2 text-danger">*</p>
 					</div>
 					<div className="w-75">
 						<InputGroup className="mb-3">
 							<FormControl
 								aria-label="Default"
-								placeholder="login"
+								placeholder="email@gmail.com"
 								type="text"
 								size="sm"
 								maxLength={50}
