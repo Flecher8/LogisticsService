@@ -20,6 +20,21 @@ namespace mobile.Views
             InitializeComponent();
             ViewModel = new CancelOrderViewModel(orderId, Navigation);
             BindingContext = ViewModel;
+
+            ViewModel.DisplayCancelErorr = () =>
+            {
+                DisplayAlert("Cancel order error", "Can't cancel order", "OK");
+            };
+
+            ViewModel.DisplayCancelSuccess = () =>
+            {
+                DisplayAlert("Success", "", "OK");
+            };
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            ViewModel.CancelOrder();
         }
     }
 }

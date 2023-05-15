@@ -75,7 +75,7 @@
             </StackLayout>
 
             <StackLayout>
-                <Button Clicked="Button_Clicked" Text="Cancel order" TextColor="Black"/>
+                <Button Clicked="Button_Clicked" Text="Cancel order" TextColor="Black" IsVisible="{Binding IsButtonActive}"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

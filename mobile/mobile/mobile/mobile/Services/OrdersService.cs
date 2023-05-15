@@ -18,6 +18,9 @@ namespace mobile.Services
     {
         const string ordersApi = "Orders/logisticCompaniesDriverId/";
         const string orderByIdApi = "Orders/id/";
+
+        const string cancelOrderApi = "CancelledOrders";
+
         public List<Order> GetOrdersByOrderStatus(List<Order> orders, OrderStatus orderStatus)
         {
             List<Order> acceptedOrders = new List<Order>();
@@ -73,6 +76,30 @@ namespace mobile.Services
             Order order = JsonConvert.DeserializeObject<Order>(await responseContent.ReadAsStringAsync());
 
             return order;
+        }
+
+        public async Task<bool> CancelOrder(CancelledOrder cancelledOrder)
+        {
+            PropertiesService propertiesService = new PropertiesService();
+            cancelledOrder.CancelledBy = "LogisticsCompanyDriver";
+            cancelledOrder.CancelledById = (int)propertiesService.GetProperty(UserIdPath);
+
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(
+                    SecurityTokenStartTemplate,
+                propertiesService.GetProperty(UserTokenPath).ToString()
+                );
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(cancelledOrder), Encoding.UTF8, RequestMediaType);
+
+            HttpResponseMessage response = await HttpClient.PostAsync(cancelOrderApi, content);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

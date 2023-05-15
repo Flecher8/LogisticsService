@@ -17,6 +17,18 @@ namespace mobile.ViewModels
     {
         public int OrderId { get; set; }
 
+        private bool _isButtonActive;
+
+        public bool IsButtonActive
+        {
+            get => _isButtonActive;
+            set
+            {
+                _isButtonActive = value;
+                OnPropertyChanged(nameof(IsButtonActive));
+            }
+        }
+
         public Command LoadItemCommand { get; set; }
 
         private string privateCompanyName;
@@ -150,6 +162,8 @@ namespace mobile.ViewModels
             LoadItemCommand = new Command(async () => await ExecuteLoadItemCommand());
 
             Navigation = navigation;
+
+            IsButtonActive = true;
         }
 
         async Task ExecuteLoadItemCommand()
@@ -159,12 +173,19 @@ namespace mobile.ViewModels
                 OrdersService ordersService = new OrdersService();
                 Order order = await ordersService.GetOrderById(OrderId);
 
+                if (order.OrderStatus == OrderStatus.Cancelled)
+                {
+                    IsButtonActive = false;
+                }
+
                 SetOrderValues(order);
 
                 GeolocationService geolocationService = new GeolocationService();
 
                 StartDeliveryAddress = await geolocationService.GetOrderAddress(order.StartDeliveryAddress);
                 EndDeliveryAddress = await geolocationService.GetOrderAddress(order.EndDeliveryAddress);
+
+                
             }
             catch (Exception ex)
             {
@@ -196,9 +217,8 @@ namespace mobile.ViewModels
 
         public async Task CancelOrder()
         {
+            
             await Navigation.PushAsync(new CancelOrderPage(OrderId));
         }
-
-
     }
 }
