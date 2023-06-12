@@ -160,11 +160,11 @@ export const PrivateCompanyCreateOrder: FC = () => {
 	};
 
 	const getWeightMeasureUnit = (): string => {
-		return isMetric ? "kg" : "lb";
+		return isMetric ? t("kg") : t("lb");
 	};
 
 	const getSizeMeasureUnit = (): string => {
-		return isMetric ? "cm" : "inch";
+		return isMetric ? t("cm") : t("inch");
 	};
 
 	const timeZoneOffset = new Date().getTimezoneOffset() * 60000;

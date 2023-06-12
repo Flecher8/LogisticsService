@@ -151,7 +151,7 @@ namespace LogisticsService.BLL.Services
             }
         }
 
-        // TODO Move methods CreatePrivateCompany and CreateLogisticCompany in another class maybe...
+        // TODO Move methods CreatePrivateCompany and CreateLogisticCompany in another class
         private PrivateCompany CreatePrivateCompany(string email, string password, string companyName)
         {
             PrivateCompany privateCompany = new PrivateCompany();

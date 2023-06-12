@@ -24,7 +24,7 @@ export const Login: FC = () => {
 	return (
 		<div className="d-flex justify-content-center mt-5">
 			<div className="border p-2">
-				<div className="display-3 text-center mb-5">Sign in</div>
+				<div className="display-3 text-center mb-5">{t("Sign in")}</div>
 				<div className="d-inline-flex w-100 p-3">
 					<div className="w-25 d-inline-flex">
 						<h4>{t("Email")}:</h4> <p className="ml-2 text-danger">*</p>

@@ -48,7 +48,7 @@ export const LogisticCompanyAdministratorSmartDevices: FC = () => {
 							<thead>
 								<tr>
 									<th>{t("Id")}</th>
-									<th>{t("Number Of Sensors")}</th>
+									<th>{t("Number of Sensors")}</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -26,6 +26,7 @@ export const CancelOrder: FC<CancelOrderProps> = ({ orderId, close }) => {
 			};
 			await CancelledOrderService.prototype.cancelOrder(cancelledOrder);
 			close();
+			window.location.reload();
 		} catch (err) {
 			alert(err);
 		}

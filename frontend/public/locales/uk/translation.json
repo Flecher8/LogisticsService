@@ -138,5 +138,7 @@
 	"Active Orders": "Активні замовлення",
 	"Delivered Orders": "Доставлені замовлення",
 	"Cancelled Orders": "Відмінені замовлення",
-	"Cancelled Order Info": "Інформація про скасоване замовлення"
+	"Cancelled Order Info": "Інформація про скасоване замовлення",
+	"Error: User with this email does not exist.": "Помилка: Користувача з такою поштою не інсунує.",
+	"Error: Password is not correct.": "Помилка: Неправильний пароль."
 }

@@ -27,7 +27,6 @@ export const CancelledOrderInfo: FC<CancelledOrderInfoProps> = ({ orderId }) => 
 
 	useEffect(() => {
 		loadData();
-		console.log(123);
 	}, []);
 	return (
 		<div className="CancelledOrderInfo container">

@@ -36,7 +36,7 @@ export const LogisticCompanyAdministratorDeliveredOrders: FC = () => {
 						<h1>{t("Delivered orders")}</h1>
 					</div>
 				</header>
-				<div className="d-flex flex-column align-items-start flex-fill flex-wrap">
+				<div className="d-flex flex-row align-items-start flex-wrap">
 					{orders ? (
 						orders.map(order => (
 							<div key={order.orderId}>

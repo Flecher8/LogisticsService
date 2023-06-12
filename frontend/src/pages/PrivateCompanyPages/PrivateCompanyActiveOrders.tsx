@@ -40,10 +40,10 @@ export const PrivateCompanyActiveOrders: FC = () => {
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill ">
 					<h2>{t("Waiting for acceptance by logistic company")}</h2>
-					<div className="d-flex flex-row align-items-start flex-fill">
+					<div className="d-flex flex-row align-items-start flex-wrap">
 						{orders?.waitingForAcceptanceByLogisticCompanyOrders ? (
 							orders.waitingForAcceptanceByLogisticCompanyOrders.map(order => (
-								<div key={order.orderId} className="d-flex flex-fill flex-wrap">
+								<div key={order.orderId} className="d-flex">
 									<Link
 										key={order.orderId}
 										to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
@@ -59,10 +59,10 @@ export const PrivateCompanyActiveOrders: FC = () => {
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill">
 					<h2>{t("Waiting for payment")}</h2>
-					<div className="d-flex flex-row align-items-start flex-fill">
+					<div className="d-flex flex-row align-items-start flex-wrap">
 						{orders?.waitingForPaymentByPrivateCompanyOrders ? (
 							orders.waitingForPaymentByPrivateCompanyOrders.map(order => (
-								<div key={order.orderId} className="d-flex flex-fill flex-wrap">
+								<div key={order.orderId} className="d-flex">
 									<Link
 										key={order.orderId}
 										to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
@@ -78,10 +78,10 @@ export const PrivateCompanyActiveOrders: FC = () => {
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill">
 					<h2>{t("Accepted orders")}</h2>
-					<div className="d-flex flex-row align-items-start flex-fill">
+					<div className="d-flex flex-row align-items-start flex-wrap">
 						{orders?.acceptedOrders ? (
 							orders.acceptedOrders.map(order => (
-								<div key={order.orderId} className="d-flex flex-fill flex-wrap">
+								<div key={order.orderId} className="d-flex">
 									<Link
 										key={order.orderId}
 										to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
@@ -97,10 +97,10 @@ export const PrivateCompanyActiveOrders: FC = () => {
 				</div>
 				<div className="mt-5 d-flex flex-column align-items-start flex-fill">
 					<h2>{t("In transit")}</h2>
-					<div className="d-flex flex-row align-items-start flex-fill">
+					<div className="d-flex flex-row align-items-start flex-wrap">
 						{orders?.inTransitOrders ? (
 							orders.inTransitOrders.map(order => (
-								<div key={order.orderId} className="d-flex flex-fill flex-wrap">
+								<div key={order.orderId} className="d-flex">
 									<Link
 										key={order.orderId}
 										to={`/PrivateCompanyShowOrderInfo/${order.orderId}`}
