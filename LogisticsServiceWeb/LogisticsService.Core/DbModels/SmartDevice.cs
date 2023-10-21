@@ -11,5 +11,6 @@ namespace LogisticsService.Core.DbModels
         public int SmartDeviceId { get; set; }
         public int NumberOfSensors { get; set; }
         public LogisticCompany? LogisticCompany { get; set; }
+        public List<Sensor>? Sensors { get; set; }
     }
 }
